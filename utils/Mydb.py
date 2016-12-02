@@ -44,23 +44,14 @@ class Mydb:
         return field_names, self.cursor.fetchall()
 
     def insert(self, table, cols, values):
-        sql = "INSERT INTO %s (%s" % (table, cols[0])
-
-        for i in range(1, len(cols)):
-            sql += "," + cols[i]
-
-        sql += ") VALUES ("
-        for i in range(0, len(values)):
-            try:
-                sql += "'" + values[i] + "',"
-            except TypeError:
-                sql += "'" + str(values[i]) + "',"
-            except UnicodeDecodeError:
-                values[i] = values[i].decode('utf-8').encode('utf-8')
-                sql += "'" + values[i] + "',"
-
-        sql = sql[0:len(sql)-1] + ");"
-        self.exe_sql(sql)
+        s_str = '%s, '*len(cols)
+        sql = ("INSERT INTO {} ".format(table) +
+               "({}) ".format(', '.join(cols)) +
+               "VALUES ({})".format(s_str[:-2]))
+        try:
+            self.cursor.execute(sql, values)
+        except MySQLdb.Error as e:
+            logging.error(e)
 
     def close(self):
         self.db.commit()
