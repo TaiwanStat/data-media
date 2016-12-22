@@ -9,16 +9,18 @@
 //Based on https://github.com/jasondavies/d3-cloud/blob/master/examples/simple.html
 
 // Encapsulate the word cloud functionality
+var website =['聯合報','蘋果日報','自由時報','中央通訊社']
+
 function wordCloud(selector) {
 
     var fill = d3.scale.category20();
 
     //Construct the word cloud's SVG element
     var svg = d3.select(selector).append("svg")
-        .attr("width", 500)
+        .attr("width", 1280)
         .attr("height", 500)
         .append("g")
-        .attr("transform", "translate(250,250)");
+        .attr("transform", "translate(640,250)");
 
 
     //Draw the word cloud
@@ -30,7 +32,10 @@ function wordCloud(selector) {
         cloud.enter()
             .append("text")
             .style("font-family", "Impact")
-            .style("fill", function(d, i) { return fill(i); })
+            // .style("fill", function(d, i) { return fill(i); })
+            .style("fill", function(d, i) {
+                return (d.size > 16 ? 'hsl('+Math.random()*360+', 100%,35%)' : 'dimgrey')
+            })
             .attr("text-anchor", "middle")
             .attr('font-size', 1)
             .text(function(d) { return d.text; });
@@ -64,10 +69,11 @@ function wordCloud(selector) {
         //The outside world will need to call this function, so make it part
         // of the wordCloud return value.
         update: function(words) {
-            d3.layout.cloud().size([500, 500])
+            d3.layout.cloud()
+                .size([1280, 500])
                 .words(words)
-                .padding(5)
-                .rotate(function() { return 0; })
+                .padding(2)
+                .rotate(function() { return Math.random()*90-45; })
                 .font("Impact")
                 .fontSize(function(d) { return d.size; })
                 .on("end", draw)
@@ -87,9 +93,18 @@ function count (ary, classifier) {
 //Prepare one of the sample sentences by removing punctuation,
 // creating an array of words and computing a random size attribute.
 function getWords(i) {
-    word_counted = count(words[i].split(' '))
-    return Object.keys(word_counted).map(function(key, index) {
-               return {text: key, size: 10+index};
+    // word_counted = count(media_content[i].split(' '))
+    word_counted = words[i]
+    console.log(i)
+    max = 0
+    for(i in word_counted){
+        if(word_counted[i][1]>max)
+            max = word_counted[i][1]
+    }
+    scale = max/100
+    console.log(scale)
+    return word_counted.map(function(obj) {
+               return {text: obj[0], size: (10+obj[1]/scale)};
             });
 }
 
@@ -99,7 +114,7 @@ function getWords(i) {
 function showNewWords(vis, i) {
     i = i || 0;
 
-    vis.update(getWords(i ++ % words.length))
+    vis.update(getWords(i% words.length))
     setTimeout(function() { showNewWords(vis, i + 1)}, 2000)
 }
 
@@ -107,16 +122,16 @@ function showNewWords(vis, i) {
 function readFile(){
     $.get("data_seg.json",function(txt){
         words = txt
-        words = words.map(function(obj){
-            return obj.content
-        })
+
         //Start cycling through the demo data
         showNewWords(myWordCloud);
     })
 }
 
-readFile()
+
 //Create a new instance of the word cloud visualisation.
 var myWordCloud = wordCloud('body');
+readFile()
+
 
 </script>
