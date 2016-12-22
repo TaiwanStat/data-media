@@ -1,0 +1,30 @@
+{
+  "name": "data-media",
+  "version": "0.0.0",
+  "description": "視覺化新聞價值與媒體的品牌獨特性，打開媒體的黑盒子，做閱聽人的燈塔。",
+  "author": {
+    "name": " ",
+    "email": " ",
+    "url": " "
+  },
+  "main": "lib/index.js",
+  "keywords": [],
+  "type": "Gogo Frontend",
+  "templateType": "Gogo Frontend",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-clean-css": "^2.3.2",
+    "gulp-compass": "^2.1.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-imagemin": "^3.1.1",
+    "gulp-minify-css": "^1.2.4",
+    "gulp-plumber": "^1.1.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-uglify": "^2.0.0"
+  },
+  "dependencies": {
+    "canner-core": "^0.3.0",
+    "chalk": "^1.1.3",
+    "minimist": "^1.2.0"
+  }
+}
