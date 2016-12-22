@@ -3,6 +3,7 @@ var fs = require("fs");
 module.exports= function (hbs) {
   // register partials
   hbs.registerPartial('head', getPartials('head'));
+  hbs.registerPartial('cloud', getPartials('cloud'));
 };
 
 function getPartials(filename) {
