@@ -12,5 +12,5 @@ https://taiwanstat.github.io/data-media/word2vec/
 2. output the top 300 appeared-times words to 'stop_words_toadd'
 ```
 $python word2vec.py <path of data folder> <filename of output seg_data>
-# python word2vec.py . data_seg.json
+# python3 word2vector.py ../data/ ../website/dist/data/data_seg.json
 ```
