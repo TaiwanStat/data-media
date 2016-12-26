@@ -4,16 +4,33 @@
 // Encapsulate the word cloud functionality
 var website =['聯合報','蘋果日報','自由時報','中央通訊社']
 
+function getRootElementFontSize( ) {
+    // Returns a number
+    return parseFloat(
+        // of the computed font-size, so in px
+        getComputedStyle(
+            // for the root <html> element
+            document.documentElement
+        )
+        .fontSize
+    );
+}
+function convertRem(value) {
+    return value * getRootElementFontSize();
+}
+
 function wordCloud(selector) {
 
     var fill = d3.scale.category20();
-
+    var nav_width = 240
+    var width = $(window).width() - ( nav_width + 2 * convertRem(3) )
+    width = width > 960 ? 960 : width + nav_width
     //Construct the word cloud's SVG element
     var svg = d3.select(selector).append("svg")
-        .attr("width", 1280)
+        .attr("width", width)
         .attr("height", 500)
         .append("g")
-        .attr("transform", "translate(640,250)");
+        .attr("transform", "translate("+width/2+",250)");
 
 
     //Draw the word cloud
@@ -63,7 +80,7 @@ function wordCloud(selector) {
         // of the wordCloud return value.
         update: function(words) {
             d3.layout.cloud()
-                .size([1280, 500])
+                .size([width, 500])
                 .words(words)
                 .padding(2)
                 .rotate(function() { return Math.random()*90-45; })
@@ -108,7 +125,6 @@ function showNewWords(vis, i) {
     i = i || 0;
 
     vis.update(getWords(i% words.length))
-    setTimeout(function() { showNewWords(vis, i + 1)}, 2000)
 }
 
 
