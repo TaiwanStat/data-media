@@ -23,3 +23,17 @@ $('.nav li').on('click',function(event){
 		$('#page-2').addClass('load');​
 	}
 });
+//fake data
+barData = []
+media = ['蘋果日報', '聯合報','自由時報', '東森新聞雲','中國時報']
+for (var item in media){
+	barData.push({
+    title:   media[item],
+    newsCount: Math.round(Math.random()*80+20)
+});
+}
+
+setTimeout(function(){
+	createNewsBarChart('#num-news-bar',barData)
+}
+	, 100)

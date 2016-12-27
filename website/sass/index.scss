@@ -18,11 +18,11 @@ body {
     overflow-x: hidden;
 }
 
-
-/** {
+/*
+* {
     border: 1px solid black;
-}*/
-
+}
+*/
 .container {
     margin: 0 auto;
     max-width: $site-width;
@@ -188,7 +188,6 @@ body {
 .nav .nav-secondary:hover {
     opacity: 0.7;
 }
-
 .menu {
     display: none;
     position: fixed;
@@ -262,6 +261,21 @@ body {
     top: 8px;
     width: 16px;
     left: 0;
+}
+
+#num-news {
+    font-size: 100px;
+    font-weight: 100;
+}
+#num-scale {
+    font-weight: 500;
+    font-size: 30px;
+}
+div.bar-container{
+    display: inline-block;
+    height: 100%;
+    top: 0;
+    position: absolute;
 }
 
 @media screen and (max-width: 980px) {

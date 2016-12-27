@@ -4,6 +4,8 @@ module.exports= function (hbs) {
   // register partials
   hbs.registerPartial('head', getPartials('head'));
   hbs.registerPartial('cloud', getPartials('cloud'));
+  hbs.registerPartial('news_bar', getPartials('news_bar'));
+  
 };
 
 function getPartials(filename) {
