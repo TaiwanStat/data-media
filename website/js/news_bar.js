@@ -7,7 +7,7 @@ function createNewsBarChart(selector, data) {
         left: 50
     };
     var bandWidth = $('.band-inner').width() > 960 ? 960 : $('.band-inner').width()
-    var remainWidth = bandWidth - $('#num-news').outerWidth(true) - $('#num-scale').outerWidth()
+    var remainWidth = bandWidth - $('#num-news').outerWidth(true) - $('#num-scale').outerWidth() - 50
     var barWidth = remainWidth
     var barHeight = $('.bar-container').height()
 
@@ -64,7 +64,7 @@ function createNewsBarChart(selector, data) {
         .attr('rx', 5)
         .attr('ry', 5)
         .attr('fill', 'black')
-        .style('fill-opacity', 0.2);
+        .style('fill-opacity', 0.3);
 
     bars.append('text').text(function(d) {
             return d.newsCount + '件';
@@ -89,10 +89,10 @@ function createNewsBarChart(selector, data) {
 
     bar.transition()
         .delay(function (d, i) {
-          return i * 30;
+          return i * 60+100;
         })
-        .duration(800)
-        .ease('bounce')
+        .duration(300)
+        .ease('quad')
         .attr('width', function (d) {
           return x(d.newsCount) - x(0);
         });

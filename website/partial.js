@@ -5,7 +5,7 @@ module.exports= function (hbs) {
   hbs.registerPartial('head', getPartials('head'));
   hbs.registerPartial('cloud', getPartials('cloud'));
   hbs.registerPartial('news_bar', getPartials('news_bar'));
-  
+  hbs.registerPartial('timeline', getPartials('timeline'));
 };
 
 function getPartials(filename) {
