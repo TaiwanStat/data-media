@@ -26,6 +26,7 @@ $('.nav li').on('click', function(event) {
 /******fake data*****/
 var barData = []
 var media = ['蘋果日報', '聯合報', '自由時報', '東森新聞雲', '中國時報']
+var mediaEN = ['apple', 'udn', 'liberty', 'ettoday', 'china']
 var mediaColor = {
     "中國時報": '#FF4081',
     "蘋果日報": '#303F9F',

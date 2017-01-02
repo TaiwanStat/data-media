@@ -1,4 +1,6 @@
 @import "timeline";
+@import "wordCollection";
+
 @import url(http://fonts.googleapis.com/css?family=Open+Sans:700,300,600,800,400);
 $break-medium: 980px;
 $nav-width: 240px;
@@ -48,6 +50,7 @@ body {
 
 .page-container.load {
     opacity: 1;
+    z-index : 3;
 }
 
 .nav-container {
