@@ -48,13 +48,6 @@ function createTimeline(selector, data) {
     var dataNest = d3.nest()
         .key(function(d) {return d.website;})
         .entries(data);
-    var mediaColor ={
-    	"中國時報":'dimgrey',
-	    "蘋果日報":'blue',
-	    "東森新聞雲":'red',
-	    "自由時報":'pink',
-	    "聯合報":'green'
-	}
     // Loop through each symbol / key
     dataNest.forEach(function(d) {
         svg.append("path")

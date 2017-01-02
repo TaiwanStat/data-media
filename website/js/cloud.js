@@ -2,9 +2,9 @@
 //Based on https://github.com/jasondavies/d3-cloud/blob/master/examples/simple.html
 
 // Encapsulate the word cloud functionality
-var website =['聯合報','蘋果日報','自由時報','中央通訊社']
+var website = ['聯合報', '蘋果日報', '自由時報', '中央通訊社']
 
-function getRootElementFontSize( ) {
+function getRootElementFontSize() {
     // Returns a number
     return parseFloat(
         // of the computed font-size, so in px
@@ -15,6 +15,7 @@ function getRootElementFontSize( ) {
         .fontSize
     );
 }
+
 function convertRem(value) {
     return value * getRootElementFontSize();
 }
@@ -23,20 +24,35 @@ function wordCloud(selector) {
 
     var fill = d3.scale.category20();
     var nav_width = 240
-    var width = $(window).width() - ( nav_width + 2 * convertRem(3) )
-    width = width > 960 ? 960 : width + nav_width
-    //Construct the word cloud's SVG element
+    var width = $(window).width() - (nav_width + 80)
+    width = width > 960 ? 960 : width
+        //Construct the word cloud's SVG element
     var svg = d3.select(selector).append("svg")
         .attr("width", width)
         .attr("height", 500)
         .append("g")
-        .attr("transform", "translate("+width/2+",250)");
+        .attr("transform", "translate(" + width / 2 + ",250)");
 
 
     //Draw the word cloud
     function draw(words) {
         var cloud = svg.selectAll("g text")
-                        .data(words, function(d) { return d.text; })
+            .data(words, function(d) {
+                return d.text; })
+
+        var randomColor = function() {
+            var mColor = {
+                "中國時報": '#FF4081',
+                "蘋果日報": '#303F9F',
+                "東森新聞雲": '#FF5252',
+                "自由時報": '#4CAF50',
+                "聯合報": '#4CAF50'
+            }
+
+            var keys = Object.keys(mColor);
+            var key = keys[Math.floor(keys.length * Math.random())];
+            return mColor[key]
+        }
 
         //Entering words
         cloud.enter()
@@ -44,29 +60,34 @@ function wordCloud(selector) {
             .style("font-family", "Impact")
             // .style("fill", function(d, i) { return fill(i); })
             .style("fill", function(d, i) {
-                return (d.size > 16 ? 'hsl('+Math.random()*360+', 100%,35%)' : 'dimgrey')
+                return (d.size > 16 ? randomColor() : 'lightgrey')
+            })
+            .style("font-weight", function(d){
+                return (d.size > 16 ? 600 : 100)
             })
             .attr("text-anchor", "middle")
             .attr('font-size', 1)
-            .text(function(d) { return d.text; });
+            .text(function(d) {
+                return d.text; });
 
         //Entering and existing words
         cloud
             .transition()
-                .duration(600)
-                .style("font-size", function(d) { return d.size + "px"; })
-                .attr("transform", function(d) {
-                    return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
-                })
-                .style("fill-opacity", 1);
+            .duration(600)
+            .style("font-size", function(d) {
+                return d.size + "px"; })
+            .attr("transform", function(d) {
+                return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
+            })
+            .style("fill-opacity", 1);
 
         //Exiting words
         cloud.exit()
             .transition()
-                .duration(200)
-                .style('fill-opacity', 1e-6)
-                .attr('font-size', 1)
-                .remove();
+            .duration(200)
+            .style('fill-opacity', 1e-6)
+            .attr('font-size', 1)
+            .remove();
     }
 
 
@@ -83,16 +104,18 @@ function wordCloud(selector) {
                 .size([width, 500])
                 .words(words)
                 .padding(2)
-                .rotate(function() { return Math.random()*90-45; })
+                .rotate(function() {
+                    return Math.random() * 90 - 45; })
                 .font("Impact")
-                .fontSize(function(d) { return d.size; })
+                .fontSize(function(d) {
+                    return d.size; })
                 .on("end", draw)
                 .start();
         }
     }
 }
 
-function count (ary, classifier) {
+function count(ary, classifier) {
     return ary.reduce(function(counter, item) {
         var p = (classifier || String)(item);
         counter[p] = counter.hasOwnProperty(p) ? counter[p] + 1 : 1;
@@ -107,15 +130,15 @@ function getWords(i) {
     word_counted = words[i]
     console.log(i)
     max = 0
-    for(i in word_counted){
-        if(word_counted[i][1]>max)
+    for (i in word_counted) {
+        if (word_counted[i][1] > max)
             max = word_counted[i][1]
     }
-    scale = max/100
+    scale = max / 100
     console.log(scale)
     return word_counted.map(function(obj) {
-               return {text: obj[0], size: (10+obj[1]/scale)};
-            });
+        return { text: obj[0], size: (10 + obj[1] / scale) };
+    });
 }
 
 //This method tells the word cloud to redraw with a new set of words.
@@ -124,12 +147,12 @@ function getWords(i) {
 function showNewWords(vis, i) {
     i = i || 0;
 
-    vis.update(getWords(i% words.length))
+    vis.update(getWords(i % words.length))
 }
 
 
-function readFile(){
-    $.get("../../lib/data/data_seg.json",function(txt){
+function readFile() {
+    $.get("../../lib/data/data_seg.json", function(txt) {
         words = txt
 
         //Start cycling through the demo data
