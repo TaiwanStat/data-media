@@ -24,7 +24,14 @@ function wordCloud(selector) {
 
     var fill = d3.scale.category20();
     var nav_width = 240
-    var width = $(window).width() - (nav_width + 80)
+    var width
+
+    if ($(window).width() > 980) {
+        width = $(window).width() - (nav_width + 80)
+    }else{
+        width = $(window).width() - 80
+    }
+
     width = width > 960 ? 960 : width
         //Construct the word cloud's SVG element
     var svg = d3.select(selector).append("svg")
@@ -38,7 +45,8 @@ function wordCloud(selector) {
     function draw(words) {
         var cloud = svg.selectAll("g text")
             .data(words, function(d) {
-                return d.text; })
+                return d.text;
+            })
 
         var randomColor = function() {
             var mColor = {
@@ -62,20 +70,22 @@ function wordCloud(selector) {
             .style("fill", function(d, i) {
                 return (d.size > 16 ? randomColor() : 'lightgrey')
             })
-            .style("font-weight", function(d){
+            .style("font-weight", function(d) {
                 return (d.size > 16 ? 600 : 100)
             })
             .attr("text-anchor", "middle")
             .attr('font-size', 1)
             .text(function(d) {
-                return d.text; });
+                return d.text;
+            });
 
         //Entering and existing words
         cloud
             .transition()
             .duration(600)
             .style("font-size", function(d) {
-                return d.size + "px"; })
+                return d.size + "px";
+            })
             .attr("transform", function(d) {
                 return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
             })
@@ -105,10 +115,12 @@ function wordCloud(selector) {
                 .words(words)
                 .padding(2)
                 .rotate(function() {
-                    return Math.random() * 90 - 45; })
+                    return Math.random() * 90 - 45;
+                })
                 .font("Impact")
                 .fontSize(function(d) {
-                    return d.size; })
+                    return d.size;
+                })
                 .on("end", draw)
                 .start();
         }
