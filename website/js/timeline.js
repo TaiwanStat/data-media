@@ -7,8 +7,20 @@ function createTimeline(selector, data) {
         left: 50
     }
 
+    var nav_width = 240
+    var width
+    var marginTimeline = 80
+
+    if ($(window).width() > 980) {
+        width = $(window).width() - (nav_width + 2 * marginTimeline)
+    }else{
+        width = $(window).width() - 2 * marginTimeline
+    }
+
+    width = width > 960 ? 960 : width
+
     var svg = d3.select(selector).append('svg')
-        .attr('width', 960)
+        .attr('width', width)
         .attr('height', 200)
 
     var width = +svg.attr("width") - margin.left - margin.right,

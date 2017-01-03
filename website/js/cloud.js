@@ -25,11 +25,12 @@ function wordCloud(selector) {
     var fill = d3.scale.category20();
     var nav_width = 240
     var width
+    var marginCloud = 80
 
     if ($(window).width() > 980) {
-        width = $(window).width() - (nav_width + 80)
+        width = $(window).width() - (nav_width + 2 * marginCloud)
     }else{
-        width = $(window).width() - 80
+        width = $(window).width() - 2 * marginCloud
     }
 
     width = width > 960 ? 960 : width
