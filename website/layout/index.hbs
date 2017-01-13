@@ -95,7 +95,8 @@
 	      <div class="band-container">
 	        <div class="band-inner">
 	          <h1>Title</h1>
-	          <h2>資料基數</h2>
+	          <h2>平均新聞字數</h2>
+	          {{> averageWords}}
 	        </div>
 	      </div>
 	    </section>
@@ -104,14 +105,6 @@
 	        <div class="band-inner">
 	          <h1>Title</h1>
 	          <h2>標題特徵分析:挑撥性標題、鄉民說、網傳、未經證實</h2>
-	        </div>
-	      </div>
-	    </section>
-	    <section class="band">
-	      <div class="band-container">
-	        <div class="band-inner">
-	          <h1>Title</h1>
-	          <h2>關鍵字時間軸:比對各家 TF-IDF tag的報導時間 --> 導至新聞列表連結</h2>
 	        </div>
 	      </div>
 	    </section>
@@ -132,10 +125,10 @@
 	</div>
 
 </body>
-
+<script type="text/javascript" src = "./dist/js/index.js"></script>
 <script type="text/javascript" src = "./dist/js/cloud.js"></script>
 <script type="text/javascript" src = "./dist/js/news_bar.js"></script>
 <script type="text/javascript" src = "./dist/js/timeline.js"></script>
 <script type="text/javascript" src = "./dist/js/wordCollection.js"></script>
-<script type="text/javascript" src = "./dist/js/index.js"></script>
+<script type="text/javascript" src = "./dist/js/averageWords.js"></script>
 </html>

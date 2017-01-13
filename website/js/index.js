@@ -27,6 +27,13 @@ $('.nav li').on('click', function(event) {
 var barData = []
 var media = ['蘋果日報', '聯合報', '自由時報', '東森新聞雲', '中國時報']
 var mediaEN = ['apple', 'udn', 'liberty', 'ettoday', 'china']
+var mediaEN2C = {
+    "apple" : '蘋果日報',
+    "udn":'聯合報',
+    "liberty":'自由時報',
+    "ettoday":'東森新聞雲',
+    "china":'中國時報'
+}
 var mediaColor = {
     "中國時報": '#FF4081',
     "蘋果日報": '#303F9F',
@@ -34,26 +41,5 @@ var mediaColor = {
     "自由時報": '#4CAF50',
     "聯合報": '#4CAF50'
 }
-for (var item in media) {
-    barData.push({
-        title: media[item],
-        newsCount: Math.round(Math.random() * 80 + 20)
-    });
-}
-var timelineData = []
-for (var i = 23; i <= 30; i++) {
-    for (var item in media) {
-        timelineData.push({
-            website: media[item],
-            time: i,
-            count: Math.round(Math.random() * 80 + 20)
-        });
-    }
-}
 
-/********************/
 
-setTimeout(function() {
-    createNewsBarChart('#num-news-bar', barData)
-}, 100)
-createTimeline('#timeline', timelineData)

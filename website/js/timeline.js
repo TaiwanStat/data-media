@@ -162,3 +162,16 @@ function createTimeline(selector, data) {
     }*/
 
 }
+
+var timelineData = []
+for (var i = 23; i <= 30; i++) {
+    for (var item in media) {
+        timelineData.push({
+            website: media[item],
+            time: i,
+            count: Math.round(Math.random() * 80 + 20)
+        });
+    }
+}
+
+createTimeline('#timeline', timelineData)

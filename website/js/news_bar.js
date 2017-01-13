@@ -64,7 +64,7 @@ function createNewsBarChart(selector, data) {
         .attr('rx', 5)
         .attr('ry', 5)
         .attr('fill', function(d){
-            console.log(d)
+            // console.log(d)
             return mediaColor[d.title]
         })
 
@@ -100,3 +100,17 @@ function createNewsBarChart(selector, data) {
         });
 
 }
+
+for (var item in media) {
+    barData.push({
+        title: media[item],
+        newsCount: Math.round(Math.random() * 80 + 20)
+    });
+}
+
+
+/********************/
+
+setTimeout(function() {
+    createNewsBarChart('#num-news-bar', barData)
+}, 100)
