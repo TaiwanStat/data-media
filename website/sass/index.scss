@@ -25,6 +25,10 @@ body {
     border: 1px solid black;
 }*/
 
+* {
+    color: rgba(0, 0, 0, 0.75);
+}
+
 .container {
     margin: 0 auto;
     max-width: $site-width;
@@ -106,7 +110,7 @@ body {
 .nav {
     width: 180px;
     position: fixed;
-    top: 350;
+    top: 320px;
     bottom: 0;
     margin: 0;
     padding: 30px;
@@ -146,16 +150,15 @@ body {
 }
 
 .nav-logo {
-    top: 0px;
+    top: 30px;
 }
-
-.nav-time {
-    top: 60px;
-    font-size: 40px;
-    font-weight: 800;
-    color: #000;
-    text-decoration: none;
-    line-height: 40px;
+.logo-des{
+    margin-top: 12px;
+    letter-spacing: 5;
+    font-weight: 700;
+}
+.logo-container{
+    text-align: center;
 }
 
 .nav-about {
@@ -188,6 +191,16 @@ body {
 
 .nav .nav-secondary:hover {
     opacity: 0.7;
+}
+
+.nav-time {
+    position: relative;
+    top: 16px;
+    font-size: 15;
+    letter-spacing: 1px;
+    font-weight: 700;
+    opacity: .4;
+    padding: 0;
 }
 
 .menu {

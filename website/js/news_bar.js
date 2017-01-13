@@ -63,8 +63,10 @@ function createNewsBarChart(selector, data) {
         .attr('height', 15)
         .attr('rx', 5)
         .attr('ry', 5)
-        .attr('fill', 'black')
-        .style('fill-opacity', 0.3);
+        .attr('fill', function(d){
+            console.log(d)
+            return mediaColor[d.title]
+        })
 
     bars.append('text').text(function(d) {
             return d.newsCount + '件';
