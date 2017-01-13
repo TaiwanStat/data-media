@@ -8,8 +8,8 @@ function refreshCards() {
     });
 }
 
-function addNewsCard(media, header, detail) {
-    var selector = ".card-container #" + media;
+function p1AddNewsCard(media, header, detail) {
+    var selector = "#page-1 .card-container ." + media;
     var content = "<div class=\"card\">\
 			<h5>" + header + "</h3>\
 			<div class=\"detail\">" + detail + "</div>\
@@ -18,8 +18,8 @@ function addNewsCard(media, header, detail) {
     refreshCards()
 }
 
-function clearCards(media, header, detail) {
-    $(".card-container .list").each(function(index) {
+function p1ClearCards(media, header, detail) {
+    $("#page-1 .card-container .list").each(function(index) {
     	var header = $(this).find('h3').text()
         $(this).html('<h3>' + header + '<\/h3>')
     });
@@ -27,4 +27,4 @@ function clearCards(media, header, detail) {
 }
 
 
-addNewsCard('liberty', 'the first news', 'detail')
+p1AddNewsCard('liberty', 'the first news', 'detail')
