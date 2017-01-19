@@ -8,12 +8,12 @@ function refreshCards() {
     });
 }
 
-function p1AddNewsCard(media, header, detail) {
+function p1AddNewsCard(media, header, detail,link) {
     var selector = "#page-1 .card-container ." + media+"-container"
-    var content = "<div class=\"card\">\
-			<h5>" + header + "</h3>\
-			<div class=\"detail\">" + detail + "</div>\
-		</div>"
+    var content = "<a target=\"_blank\" class=\"card\" href=\""+link+"\">\
+			<h5>" + header + "<\/h5>\
+			<div class=\"detail\">" + detail + "<\/div>\
+		<\/a>"
     $(selector).append(content);
     refreshCards()
 }

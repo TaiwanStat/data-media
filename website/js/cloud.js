@@ -1,8 +1,7 @@
 //Simple animated example of d3-cloud - https://github.com/jasondavies/d3-cloud
 //Based on https://github.com/jasondavies/d3-cloud/blob/master/examples/simple.html
 
-// Encapsulate the word cloud functionality
-var website = ['聯合報', '蘋果日報', '自由時報', '中央通訊社']
+// Encapsulate the word cloud 
 
 function getRootElementFontSize() {
     // Returns a number
@@ -50,11 +49,17 @@ function wordCloud(selector) {
             })
 
         var getColor = function(d) {
-
-
-            // report['words_count'][d.index][]
-            // return mediaColor[key]
-            return 'lightgrey'
+            max = 0
+            dict = {}
+            for(var i in media){
+                tmp = report['words_count'][d.index][3][media[i]]['sum'] / report[media[i]]['news_count']
+                if(tmp > max)
+                {
+                    max = tmp
+                    key = media[i]
+                }
+            }
+            return mediaColor[key]
         }
         //Entering words
         cloud.enter()
@@ -62,17 +67,32 @@ function wordCloud(selector) {
             .style("font-family", "Impact")
             // .style("fill", function(d, i) { return fill(i); })
             .style("fill", function(d, i) {
-                return (d.size > 16 ? getColor(d) : 'lightgrey')
+                return (d.size > 21 ? getColor(d) : 'lightgrey')
             })
             .style("font-weight", function(d) {
                 return (d.size > 16 ? 600 : 100)
             })
             .attr("text-anchor", "middle")
             .attr('font-size', 1)
+            .attr('cursor','pointer')
             .text(function(d) {
                 return d.text;
             }).on("click", function(d) {
               // createTimeline('#timeline', data)
+              // add word collection
+              p1ClearCards()
+              news = report['words_count'][d.index][2]
+              dict = {}
+              for(i in mediaEN) {
+                dict[mediaEN[i]] = 0
+              }
+              for(var i in news){
+                media = mediaC2EN[news[i]['media']]
+                dict[media]++
+                console.log(news[i]['title']+" "+media)
+                if(dict[media] < 5)
+                    p1AddNewsCard(media,news[i]['title'],"",news[i]['url'])
+              }
             });
 
         //Entering and existing words

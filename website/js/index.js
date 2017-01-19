@@ -35,6 +35,7 @@ for(i in media){
     $('.legend-container').append(item)
     
 }
+refreshCards()
 
 var report
 
@@ -49,7 +50,7 @@ $.get("report.json", function(t) {
     for (var item in media) {
         barData.push({
             title: media[item],
-            newsCount: Math.round(Math.random() * 80 + 20)
+            newsCount: report[media[item]]['news_count']
         });
     }
 
@@ -62,5 +63,11 @@ $.get("report.json", function(t) {
 
     var myWordCloud = wordCloud('div.cloud');
     showNewWords(myWordCloud);
+
+    console.log(report)
+    for (var item in mediaEN) {
+        addVisWord(mediaEN[item], report[media[item]]['words_median'])
+}
+
 })
 

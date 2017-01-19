@@ -104,12 +104,14 @@ def cut_words_and_count(report, datas):
                 index = words_index.index(word)
                 item = words_count[index]
                 item[1] += 1
-                item[2].append({
+                tmp = {
                     'media': news['website'],
                     'title': news['title'],
                     'url': news['url'],
                     'date': news['date']
-                    })
+                    }
+                if tmp not in item[2]:
+                    item[2].append(tmp)
             else:
                 words_count.append([word,1,[],{}])
                 words_index.append(word)
@@ -138,7 +140,8 @@ def get_words_timeline(report, datas, qtime):
 
     for word in words_count:
         for media in medias:
-            word[3][media] = {} 
+            word[3][media] = {}
+            word[3][media]['sum'] = 0 
 
     for word in words_count:
         for news in word[2]:
@@ -167,6 +170,7 @@ def read_data(path):
 
 
 medias = ['蘋果日報', '聯合報', '自由時報', '東森新聞雲', '中央通訊社']
+
 report = {}
 
 datas = read_data(sys.argv[1])

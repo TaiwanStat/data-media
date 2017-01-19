@@ -5,7 +5,14 @@ var mediaEN2C = {
     "udn":'聯合報',
     "liberty":'自由時報',
     "ettoday":'東森新聞雲',
-    "china":'中央通訊社'
+    "cna":'中央通訊社'
+}
+var mediaC2EN = {
+    "蘋果日報" : 'apple',
+    "聯合報":'udn',
+    "自由時報":'liberty',
+    "東森新聞雲":'ettoday',
+    "中央通訊社":'cna'
 }
 var mediaColor = {
     "中央通訊社": '#26A69A',
