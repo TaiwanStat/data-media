@@ -9,7 +9,7 @@ function refreshCards() {
 }
 
 function p1AddNewsCard(media, header, detail) {
-    var selector = "#page-1 .card-container ." + media;
+    var selector = "#page-1 .card-container ." + media+"-container"
     var content = "<div class=\"card\">\
 			<h5>" + header + "</h3>\
 			<div class=\"detail\">" + detail + "</div>\
@@ -27,4 +27,4 @@ function p1ClearCards(media, header, detail) {
 }
 
 
-p1AddNewsCard('liberty', 'the first news', 'detail')
+// p1AddNewsCard('liberty', 'the first news', 'detail')

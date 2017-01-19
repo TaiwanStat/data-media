@@ -1,5 +1,5 @@
 function addVisWord(media, avgWords) {
-    var selector = ".avgWords-container ." + media;
+    var selector = ".avgWords-container ." + media+'-container';
     var header = '<h3>' + mediaEN2C[media] + '<\/h3><span>'+avgWords+'<\/span><span class="avgWords-scale">字<\/span>'
     var content = "<div class=\"visbar\"></div>".repeat(avgWords/10)
     $(selector).html(header+content);

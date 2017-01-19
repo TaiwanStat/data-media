@@ -17,4 +17,4 @@ function p2ClearCards(media, header, detail) {
 }
 
 
-p2AddNewsCard('udn', 'the special news', 'detail')
+// p2AddNewsCard('udn', 'the special news', 'detail')

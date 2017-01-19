@@ -137,7 +137,7 @@ function createTimeline(selector, data) {
     g.selectAll("dot")
         .data(data)
         .enter().append("circle")
-        .attr("r", 5)
+        .attr("r", 3.5)
         .attr("cx", function(d) {
             return x(d.time); })
         .attr("cy", function(d) {

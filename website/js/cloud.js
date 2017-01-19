@@ -62,7 +62,7 @@ function wordCloud(selector) {
             var key = keys[Math.floor(keys.length * Math.random())];
             return mColor[key]
         }
-
+        var testCLoud
         //Entering words
         cloud.enter()
             .append("text")
@@ -78,6 +78,8 @@ function wordCloud(selector) {
             .attr('font-size', 1)
             .text(function(d) {
                 return d.text;
+            }).on("click", function(d) {
+              // createTimeline('#timeline', data)
             });
 
         //Entering and existing words
