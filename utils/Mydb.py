@@ -5,20 +5,11 @@ This module supports helpful functions for MYSQL database
 """
 import sys
 import logging
-
-import MySQLdb
 import psycopg2
-
 
 class Mydb:
     def __init__(self, db_type, host, database, user, password, port):
-        if db_type == 'mysql':
-            self.db = MySQLdb.connect(host=host,
-                                      db=database,
-                                      user=user,
-                                      passwd=password,
-                                      port=port)
-        elif db_type == 'postgresql':
+        if db_type == 'postgresql':
             self.db = psycopg2.connect(host=host,
                                        database=database,
                                        user=user,
@@ -30,10 +21,7 @@ class Mydb:
         self.cursor = self.db.cursor()
 
     def exe_sql(self, sql):
-        try:
-            self.cursor.execute(sql)
-        except MySQLdb.Error as e:
-            logging.error(e)
+        self.cursor.execute(sql)
 
     def commit(self):
         self.db.commit()
@@ -50,7 +38,7 @@ class Mydb:
                "VALUES ({})".format(s_str[:-2]))
         try:
             self.cursor.execute(sql, values)
-        except MySQLdb.Error as e:
+        except psycopg2.Error as e:
             logging.error(e)
 
     def close(self):

@@ -88,3 +88,6 @@ ENV/
 # Rope project settings
 .ropeproject
 .DS_Store
+*.swp
+config.json
+tw-media-data
