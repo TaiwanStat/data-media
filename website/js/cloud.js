@@ -49,27 +49,20 @@ function wordCloud(selector) {
                 return d.text;
             })
 
-        var randomColor = function() {
-            var mColor = {
-                "中國時報": '#FF4081',
-                "蘋果日報": '#303F9F',
-                "東森新聞雲": '#FF5252',
-                "自由時報": '#4CAF50',
-                "聯合報": '#4CAF50'
-            }
+        var getColor = function(d) {
 
-            var keys = Object.keys(mColor);
-            var key = keys[Math.floor(keys.length * Math.random())];
-            return mColor[key]
+
+            // report['words_count'][d.index][]
+            // return mediaColor[key]
+            return 'lightgrey'
         }
-        var testCLoud
         //Entering words
         cloud.enter()
             .append("text")
             .style("font-family", "Impact")
             // .style("fill", function(d, i) { return fill(i); })
             .style("fill", function(d, i) {
-                return (d.size > 16 ? randomColor() : 'lightgrey')
+                return (d.size > 16 ? getColor(d) : 'lightgrey')
             })
             .style("font-weight", function(d) {
                 return (d.size > 16 ? 600 : 100)
@@ -130,52 +123,12 @@ function wordCloud(selector) {
     }
 }
 
-function count(ary, classifier) {
-    return ary.reduce(function(counter, item) {
-        var p = (classifier || String)(item);
-        counter[p] = counter.hasOwnProperty(p) ? counter[p] + 1 : 1;
-        return counter;
-    }, {})
-}
 
-//Prepare one of the sample sentences by removing punctuation,
-// creating an array of words and computing a random size attribute.
-function getWords(i) {
-    // word_counted = count(media_content[i].split(' '))
-    word_counted = words[i]
-    console.log(i)
-    max = 0
-    for (i in word_counted) {
-        if (word_counted[i][1] > max)
-            max = word_counted[i][1]
-    }
-    scale = max / 100
-    console.log(scale)
-    return word_counted.map(function(obj) {
-        return { text: obj[0], size: (10 + obj[1] / scale) };
-    });
-}
-
-//This method tells the word cloud to redraw with a new set of words.
-//In reality the new words would probably come from a server request,
-// user input or some other source.
 function showNewWords(vis, i) {
-    i = i || 0;
-
-    vis.update(getWords(i % words.length))
+    max = report['words_count'][0][1]
+    scale = max / 100
+    cloudConfig =  report['words_count'].map(function(obj,index) {
+        return { text: obj[0], size: (10 + obj[1] / scale),index:index};
+    });
+    vis.update(cloudConfig)
 }
-
-
-function readFile() {
-    $.get("../../lib/data/data_seg.json", function(txt) {
-        words = txt
-
-        //Start cycling through the demo data
-        showNewWords(myWordCloud);
-    })
-}
-
-
-//Create a new instance of the word cloud visualisation.
-var myWordCloud = wordCloud('div.cloud');
-readFile()

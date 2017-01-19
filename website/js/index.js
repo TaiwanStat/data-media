@@ -1,21 +1,3 @@
-var media = ['蘋果日報', '聯合報', '自由時報', '東森新聞雲', '中央社']
-var mediaEN = ['apple', 'udn', 'liberty', 'ettoday', 'cna']
-var mediaEN2C = {
-    "apple" : '蘋果日報',
-    "udn":'聯合報',
-    "liberty":'自由時報',
-    "ettoday":'東森新聞雲',
-    "china":'中央社'
-}
-var mediaColor = {
-    "中央社": '#FF4081',
-    "蘋果日報": '#303F9F',
-    "東森新聞雲": '#FF5252',
-    "自由時報": '#4CAF50',
-    "聯合報": '#4CAF50'
-}
-
-
 $('#page-1').addClass("load");​
 $('.menu').on('click', function() {
     if ($('.container').hasClass('is-open')) {
@@ -29,10 +11,10 @@ $('.menu').on('click', function() {
 
 $('body').scroll(function (event) {
     $('.legend-container').removeClass('hidden')
-    console.log('hi')
+    $('body').off()
 })
 
-barData = []
+
 
 $('.nav li').on('click', function(event) {
     var duration = 0;
@@ -54,4 +36,31 @@ for(i in media){
     
 }
 
+var report
+
+$.get("report.json", function(t) {
+    report = t
+    totoalNews = 0
+    for(i in media) {
+        totoalNews += report[media[i]]['news_count']
+    }
+    $('#num-news').text(totoalNews)
+    barData = []
+    for (var item in media) {
+        barData.push({
+            title: media[item],
+            newsCount: Math.round(Math.random() * 80 + 20)
+        });
+    }
+
+
+    /********************/
+
+    setTimeout(function() {
+        createNewsBarChart('#num-news-bar', barData)
+    }, 100)
+
+    var myWordCloud = wordCloud('div.cloud');
+    showNewWords(myWordCloud);
+})
 

@@ -100,17 +100,3 @@ function createNewsBarChart(selector, data) {
         });
 
 }
-
-for (var item in media) {
-    barData.push({
-        title: media[item],
-        newsCount: Math.round(Math.random() * 80 + 20)
-    });
-}
-
-
-/********************/
-
-setTimeout(function() {
-    createNewsBarChart('#num-news-bar', barData)
-}, 100)

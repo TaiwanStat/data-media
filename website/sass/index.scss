@@ -6,11 +6,12 @@
 $break-medium: 980px;
 $nav-width: 240px;
 $site-width: 1600px;
-$cna-color: #FF4081;
-$apple-color: #303F9F;
-$ettoday-color: #FF5252;
-$liberty-color: #4CAF50;
-$udn-color: #4CAF50;
+
+$cna-color: #26A69A;
+$apple-color: #ef5350;
+$ettoday-color: #5C6BC0;
+$liberty-color: #FFCA28;
+$udn-color: #8D6E63;
 
 html {
     overflow-y: hidden;
@@ -42,7 +43,7 @@ body {
     background-color: $apple-color
 }
 .udn{
-    background-color: $cna-color
+    background-color: $udn-color
 }
 .liberty{
     background-color: $liberty-color
