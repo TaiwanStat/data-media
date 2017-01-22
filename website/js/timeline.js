@@ -48,7 +48,7 @@ function createTimeline(selector, data) {
 
     // Define the line
     var line = d3.svg.line()
-    	.interpolate('monotone')
+      .interpolate('monotone')
         .x(function(d) {
             return x(d.time); })
         .y(function(d) {
@@ -66,7 +66,7 @@ function createTimeline(selector, data) {
             .attr("class", "line")
             .attr("d", line(d.values))
             .attr("stroke",function(){
-            	return mediaColor[d.key]
+              return mediaColor[d.key]
             })
     });
 
@@ -143,7 +143,7 @@ function createTimeline(selector, data) {
         .attr("cy", function(d) {
             return y(d.count); })
         .attr("fill",function(d){
-        	return mediaColor[d.website]
+          return mediaColor[d.website]
         })
 
         /*TODO: 
@@ -153,12 +153,12 @@ function createTimeline(selector, data) {
         4. scale
 
     for(var item in media){
-    	g.append("text")
-		.attr("transform", "translate(" + (width+3) + "," + y(data[0].open) + ")")
-		.attr("dy", ".35em")
-		.attr("text-anchor", "start")
-		.style("fill", "red")
-		.text("Open");
+      g.append("text")
+    .attr("transform", "translate(" + (width+3) + "," + y(data[0].open) + ")")
+    .attr("dy", ".35em")
+    .attr("text-anchor", "start")
+    .style("fill", "red")
+    .text("Open");
     }*/
 
 }
