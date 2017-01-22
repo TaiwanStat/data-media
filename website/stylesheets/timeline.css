@@ -1,0 +1,15 @@
+/* line 1, ../sass/timeline.scss */
+#timeline path {
+  stroke: steelblue;
+  stroke-width: 2;
+  fill: none;
+}
+
+/* line 7, ../sass/timeline.scss */
+#timeline .axis path,
+#timeline .axis line {
+  fill: none;
+  stroke: grey;
+  stroke-width: 1;
+  shape-rendering: crispEdges;
+}

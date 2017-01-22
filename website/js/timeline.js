@@ -7,8 +7,20 @@ function createTimeline(selector, data) {
         left: 50
     }
 
+    var nav_width = 240
+    var width
+    var marginTimeline = 80
+
+    if ($(window).width() > 980) {
+        width = $(window).width() - (nav_width + 2 * marginTimeline)
+    }else{
+        width = $(window).width() - 2 * marginTimeline
+    }
+
+    width = width > 960 ? 960 : width
+
     var svg = d3.select(selector).append('svg')
-        .attr('width', 960)
+        .attr('width', width)
         .attr('height', 200)
 
     var width = +svg.attr("width") - margin.left - margin.right,
@@ -36,7 +48,7 @@ function createTimeline(selector, data) {
 
     // Define the line
     var line = d3.svg.line()
-    	.interpolate('monotone')
+      .interpolate('monotone')
         .x(function(d) {
             return x(d.time); })
         .y(function(d) {
@@ -48,20 +60,13 @@ function createTimeline(selector, data) {
     var dataNest = d3.nest()
         .key(function(d) {return d.website;})
         .entries(data);
-    var mediaColor ={
-    	"中國時報":'dimgrey',
-	    "蘋果日報":'blue',
-	    "東森新聞雲":'red',
-	    "自由時報":'pink',
-	    "聯合報":'green'
-	}
     // Loop through each symbol / key
     dataNest.forEach(function(d) {
         svg.append("path")
             .attr("class", "line")
             .attr("d", line(d.values))
             .attr("stroke",function(){
-            	return mediaColor[d.key]
+              return mediaColor[d.key]
             })
     });
 
@@ -132,13 +137,13 @@ function createTimeline(selector, data) {
     g.selectAll("dot")
         .data(data)
         .enter().append("circle")
-        .attr("r", 5)
+        .attr("r", 3.5)
         .attr("cx", function(d) {
             return x(d.time); })
         .attr("cy", function(d) {
             return y(d.count); })
         .attr("fill",function(d){
-        	return mediaColor[d.website]
+          return mediaColor[d.website]
         })
 
         /*TODO: 
@@ -148,12 +153,25 @@ function createTimeline(selector, data) {
         4. scale
 
     for(var item in media){
-    	g.append("text")
-		.attr("transform", "translate(" + (width+3) + "," + y(data[0].open) + ")")
-		.attr("dy", ".35em")
-		.attr("text-anchor", "start")
-		.style("fill", "red")
-		.text("Open");
+      g.append("text")
+    .attr("transform", "translate(" + (width+3) + "," + y(data[0].open) + ")")
+    .attr("dy", ".35em")
+    .attr("text-anchor", "start")
+    .style("fill", "red")
+    .text("Open");
     }*/
 
 }
+
+var timelineData = []
+for (var i = 23; i <= 30; i++) {
+    for (var item in media) {
+        timelineData.push({
+            website: media[item],
+            time: i,
+            count: Math.round(Math.random() * 80 + 20)
+        });
+    }
+}
+
+createTimeline('#timeline', timelineData)

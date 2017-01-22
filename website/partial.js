@@ -6,6 +6,8 @@ module.exports= function (hbs) {
   hbs.registerPartial('cloud', getPartials('cloud'));
   hbs.registerPartial('news_bar', getPartials('news_bar'));
   hbs.registerPartial('timeline', getPartials('timeline'));
+  hbs.registerPartial('wordCollection', getPartials('wordCollection'));
+  hbs.registerPartial('averageWords', getPartials('averageWords'));
 };
 
 function getPartials(filename) {

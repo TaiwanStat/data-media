@@ -90,3 +90,5 @@ ENV/
 .DS_Store
 *.swp
 output
+config.json
+tw-media-data

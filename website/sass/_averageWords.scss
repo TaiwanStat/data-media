@@ -1,0 +1,47 @@
+.avgWords-container {
+    overflow: auto;
+    padding: 5px;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+}
+
+.visWords-container {
+    background-color: #efefef;
+    border-bottom: 2px solid #CCC;
+    border-radius: 3px;
+    margin: 8px;
+    padding: 10px;
+    width: 100%;
+}
+
+.visWords-container>h3 {
+    font-weight: bold;
+    font-size: 15px;
+    line-height: 18px;
+    display: inline-block;
+}
+.visWords-container>span{
+    position: relative;
+    left: 10px;
+    font-size: 20;
+}
+.visWords-container>span.avgWords-scale{
+    font-size: 15px;
+    left: 12px;
+}
+.visbar h5, .visbar .detail{
+  margin: 8px;
+}
+
+.visWords-container .visbar {
+    border-radius: 3px;
+    margin-top: 2px;
+    background-color: #d3d3d3;
+    padding: 1px;
+    cursor: pointer;
+}
+
+/*.avgWords-container .visWords-container .visbar:hover {
+    background-color: #F0F0F0;
+}*/
