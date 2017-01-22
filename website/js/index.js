@@ -1,5 +1,3 @@
-$('#page-1').addClass("load");
-
 $('.menu').on('click', function() {
   if ($('.container').hasClass('is-open')) {
     $('.menu').removeClass('is-active');
@@ -10,9 +8,9 @@ $('.menu').on('click', function() {
   }
 });
 
-$('body').scroll(function (event) {
+$(window).on('scroll', function (event) {
   $('.legend-container').removeClass('hidden');
-  $('body').off();
+  $(window).off('scroll');
 })
 
 $('.nav li').on('click', function(event) {
@@ -27,12 +25,10 @@ $('.nav li').on('click', function(event) {
     .addClass('nav-primary');
 
   if (event.target.id === 'button1') {
-    $('#page-2').removeClass('load');
-    $('#page-1').addClass('load');
-
+    $("html, body").animate({scrollTop:0}, 'slow');
   } else if (event.target.id === 'button2') {
-    $('#page-1').removeClass('load');
-    $('#page-2').addClass('load');
+    var offset = $('#report').offset()
+    $('body,html').animate({scrollTop: offset.top - 50});
   }
 });
 
