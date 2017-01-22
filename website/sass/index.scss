@@ -212,10 +212,12 @@ border: 1px solid black;
 
 .nav-logo {
   top: 30px;
+  margin: 59px 28px;
 }
 .logo-des{
-  margin-top: 12px;
-  letter-spacing: 5;
+  font-size: 16px;
+  margin-top: 6px;
+  letter-spacing: 5px;
   font-weight: 700;
 }
 .logo-container{
@@ -224,18 +226,16 @@ border: 1px solid black;
 
 .nav-about {
   text-align: center;
-  bottom: 0px;
+  bottom: 30px;
+  left: 25px;
   font-size: 20px;
+  position: fixed;
 }
 
 .nav-logo,
 .nav-time,
 .nav-about {
   width: 180px;
-  margin: 0;
-  padding: 30px;
-  overflow: auto;
-  position: fixed;
 }
 
 .nav .nav-primary {
@@ -255,9 +255,8 @@ border: 1px solid black;
 }
 
 .nav-time {
-  position: relative;
-  top: 16px;
-  font-size: 15;
+  margin-top: 12px;
+  font-size: 15px;
   letter-spacing: 1px;
   font-weight: 700;
   opacity: .4;
