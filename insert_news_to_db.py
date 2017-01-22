@@ -38,18 +38,26 @@ def main(directory, config_file):
     folder_dir = glob.glob("{}/*.json".format(directory))
     for json_file in folder_dir:
         search_date = get_search_time(json_file)
-        f = read_json(json_file)
-        for news_list in f:
-            url = news_list["url"]
-            column = list(news_list.keys())
-            news = list(news_list.values())
+        try:
+            news_data = read_json(json_file)
+        except:
+            print ('Cannot load file: '+json_file)
+            continue
+
+        for news in news_data:
+            url, date = news["url"], news['date']
+            if not url or not date:
+                continue
+
+            column = list(news.keys())
+            values = list(news.values())
             searched_column, searched_data = \
-                mydb.select("SELECT url FROM {} WHERE created_time >= '{}'\
-                             and url='{}'".format(table, search_date, url))
+                mydb.select("SELECT url FROM {} WHERE created_time >= %s\
+                             and url=%s".format(table), (search_date, url))
             if searched_data:
                 continue
             else:
-                mydb.insert(table, column, news)
+                mydb.insert(table, column, values)
     print('done.')
     mydb.close()
 
