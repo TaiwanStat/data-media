@@ -1,1 +1,0 @@
-function p2AddNewsCard(t,a,d){var r="#page-2 .card-container ."+t,e='<div class="card">\t\t\t<h5>'+a+'</h3>\t\t\t<div class="detail">'+d+"</div>\t\t</div>";$(r).append(e),refreshCards()}function p2ClearCards(t,a,d){$("#page-2 .card-container .list").each(function(t){var a=$(this).find("h3").text();$(this).html("<h3>"+a+"</h3>")}),refreshCards()}
