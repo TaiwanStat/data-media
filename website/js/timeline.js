@@ -174,4 +174,4 @@ for (var i = 23; i <= 30; i++) {
     }
 }
 
-createTimeline('#timeline', timelineData)
+createTimeline('#timeline-inner', timelineData)

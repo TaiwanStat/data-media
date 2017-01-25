@@ -50,6 +50,11 @@ border: 1px solid black;
 .cna{
   background-color: $cna-color
 }
+
+.big-title{
+  position: relative;
+  left: 80px;
+}
 .legend-container{
   border-bottom: 1.5px dotted rgba(128, 128, 128, 0.2);
   background: rgba(255, 255, 255, 0.95);
