@@ -1,0 +1,1 @@
+function p2AddNewsCard(a,d,i){var r="#2th-collection .card-container ."+a,t='<div class="card">      <h5>'+d+'</h3>      <div class="detail">'+i+"</div>    </div>";$(r).append(t),refreshCards()}function p2ClearCards(a,d,i){$("#2th-collection .card-container .list").each(function(a){var d=$(this).find("h3").text();$(this).html("<h3>"+d+"</h3>")}),refreshCards()}
