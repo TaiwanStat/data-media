@@ -80,6 +80,9 @@ function wordCloud(selector) {
             }).on("click", function(d) {
               // createTimeline('#timeline', data)
               // add word collection
+              var offset = $('#timeline').offset()
+              $('body,html').animate({ scrollTop: offset.top - 25}, 'slow');
+
               p1ClearCards()
               news = report['words_count'][d.index][2]
               dict = {}
