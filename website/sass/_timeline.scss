@@ -1,12 +1,14 @@
-#timeline path { 
+#timeline {
+  & path {
+    fill: none;
     stroke-width: 2;
-    fill: none;
-}
-
-#timeline .axis path,
-#timeline .axis line {
-    fill: none;
-    stroke: grey;
-    stroke-width: 1;
-    shape-rendering: crispEdges;
+  }
+  & .axis {
+    & path,
+    & line {
+      fill: none;
+      stroke: grey;
+      stroke-width: 1;
+    }
+  }
 }
