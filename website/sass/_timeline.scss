@@ -1,7 +1,13 @@
 #timeline {
   & path {
     fill: none;
-    stroke-width: 2;
+    stroke-width: 2.5;
+    opacity: .8;
+    transition: .25s;
+    &:hover {
+      stroke-width: 5;
+      opacity: 1;
+    }
   }
   & .axis {
     & path,
