@@ -11,7 +11,7 @@ function createTimeline(selector, data) {
   var width
   var marginTimeline = 80
 
-  if ($(window).width() > 980) {
+  if ($(window).width() > smallDesktopWidthSize) {
     width = $(window).width() - (nav_width + 2 * marginTimeline)
   } else {
     width = $(window).width() - 2 * marginTimeline

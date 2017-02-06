@@ -25,7 +25,7 @@ function wordCloud(selector) {
   var width
   var marginCloud = 80
 
-  if ($(window).width() > 980) {
+  if ($(window).width() > smallDesktopWidthSize) {
     width = $(window).width() - (nav_width + 2 * marginCloud)
   } else {
     width = $(window).width() - 2 * marginCloud
