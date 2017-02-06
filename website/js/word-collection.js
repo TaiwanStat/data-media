@@ -8,7 +8,7 @@ function refreshCards() {
   });
 }
 
-function p1AddNewsCard(media, header, detail, link) {
+function wordCollectionAddNewsCard(media, header, detail, link) {
   var selector = "#1th-collection .card-container ." + media + "-container"
   var content = "<a target=\"_blank\" class=\"card\" href=\"" + link + "\">\
       <h5>" + header + "<\/h5>\
@@ -18,13 +18,10 @@ function p1AddNewsCard(media, header, detail, link) {
   refreshCards()
 }
 
-function p1ClearCards(media, header, detail) {
+function wordCollectionClearCards(media, header, detail) {
   $("#1th-collection .card-container .list").each(function(index) {
     var header = $(this).find('h3').text()
     $(this).html('<h3>' + header + '<\/h3>')
   });
   refreshCards()
 }
-
-
-// p1AddNewsCard('liberty', 'the first news', 'detail')

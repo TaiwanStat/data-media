@@ -1,9 +1,9 @@
 function addVisWord(media, avgWords) {
-  var media_Chinese = mediaEN2C[media];
-  if (media_Chinese === '中央通訊社')
-    media_Chinese = '中央社'
+  var mediaChineseName = mediaNameTranslate(media);
+  if (mediaChineseName === '中央通訊社')
+    mediaChineseName = '中央社'
   var selector = ".avgWords-container ." + media + '-container';
-  var header = '<h3>' + media_Chinese + '<\/h3><span>' + avgWords +
+  var header = '<h3>' + mediaChineseName + '<\/h3><span>' + avgWords +
     '<\/span><span class="avgWords-scale">字<\/span>';
   var content = "<div class=\"visbar\"></div>".repeat(avgWords / 10);
   $(selector).html(header + content);

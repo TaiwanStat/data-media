@@ -1,4 +1,4 @@
-function p2AddNewsCard(media, header, detail) {
+function titleAnalysisAddNewsCard(media, header, detail) {
   var selector = "#2th-collection .card-container ." + media;
   var content = "<div class=\"card\">\
       <h5>" + header + "</h3>\
@@ -8,7 +8,7 @@ function p2AddNewsCard(media, header, detail) {
   refreshCards()
 }
 
-function p2ClearCards(media, header, detail) {
+function titleAnalysisClearCards(media, header, detail) {
   $("#2th-collection .card-container .list").each(function(index) {
     var header = $(this).find('h3').text()
     $(this).html('<h3>' + header + '<\/h3>')

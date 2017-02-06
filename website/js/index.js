@@ -1,4 +1,4 @@
-var smallDesktopWidthSize = 980
+
 
 $('.menu').on('click', function() {
   if ($('.container').hasClass('is-open')) {

@@ -50,10 +50,13 @@ function wordCloud(selector) {
     var getColor = function(d) {
         max = 0
         dict = {}
+        //find the media has greatest words_appear_ratio
         for (var i in media) {
-          tmp = report.words_count[d.index][3][media[i]].sum / report[media[i]].news_count
-          if (tmp > max) {
-            max = tmp
+          words_appear_count = report.words_count[d.index][3][media[i]].sum
+          totoal_news_count = report[media[i]].news_count
+          words_appear_ratio = words_appear_count / totoal_news_count
+          if (words_appear_ratio > max) {
+            max = words_appear_ratio
             key = media[i]
           }
         }
@@ -82,17 +85,19 @@ function wordCloud(selector) {
         var offset = $('#timeline').offset()
         $('body,html').animate({ scrollTop: offset.top - 25 }, 'slow');
 
-        p1ClearCards()
+        wordCollectionClearCards()
         news = report.words_count[d.index][2]
         dict = {}
         for (i in mediaEN) {
           dict[mediaEN[i]] = 0
         }
         for (var i in news) {
-          media = mediaC2EN[news[i].media]
+          console.log(news[i])
+          media = mediaNameTranslate(news[i].media)
+          console.log(media)
           dict[media]++
-          if (dict[media] < 5)
-            p1AddNewsCard(media, news[i].title, "", news[i].url)
+            if (dict[media] < 5)
+              wordCollectionAddNewsCard(media, news[i].title, "", news[i].url)
         }
       });
 
