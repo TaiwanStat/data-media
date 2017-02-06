@@ -53,7 +53,7 @@ $.get("report.json", function(t) {
   report = t;
   var totoalNews = 0;
   for (var i in media) {
-    totoalNews += report[media[i]]['news_count'];
+    totoalNews += report[media[i]].news_count;
   }
 
   $('#num-news').text(totoalNews);

@@ -1,7 +1,6 @@
-//Simple animated example of d3-cloud - https://github.com/jasondavies/d3-cloud
-//Based on https://github.com/jasondavies/d3-cloud/blob/master/examples/simple.html
-
-// Encapsulate the word cloud 
+//Based on 
+//1. https://github.com/jasondavies/d3-cloud
+//2. https://github.com/jasondavies/d3-cloud/blob/master/examples/simple.html
 
 function getRootElementFontSize() {
   // Returns a number
@@ -52,7 +51,7 @@ function wordCloud(selector) {
         max = 0
         dict = {}
         for (var i in media) {
-          tmp = report['words_count'][d.index][3][media[i]]['sum'] / report[media[i]]['news_count']
+          tmp = report.words_count[d.index][3][media[i]].sum / report[media[i]].news_count
           if (tmp > max) {
             max = tmp
             key = media[i]
@@ -83,7 +82,7 @@ function wordCloud(selector) {
         $('body,html').animate({ scrollTop: offset.top - 25 }, 'slow');
 
         p1ClearCards()
-        news = report['words_count'][d.index][2]
+        news = report.words_count[d.index][2]
         dict = {}
         for (i in mediaEN) {
           dict[mediaEN[i]] = 0
@@ -93,7 +92,7 @@ function wordCloud(selector) {
           dict[media]++
             console.log(news[i]['title'] + " " + media)
           if (dict[media] < 5)
-            p1AddNewsCard(media, news[i]['title'], "", news[i]['url'])
+            p1AddNewsCard(media, news[i].title, "", news[i].url)
         }
       });
 
@@ -147,9 +146,9 @@ function wordCloud(selector) {
 
 
 function showNewWords(vis, i) {
-  max = report['words_count'][0][1]
+  max = report.words_count[0][1]
   scale = max / 100
-  cloudConfig = report['words_count'].map(function(obj, index) {
+  cloudConfig = report.words_count.map(function(obj, index) {
     return { text: obj[0], size: (10 + obj[1] / scale), index: index };
   });
   vis.update(cloudConfig)

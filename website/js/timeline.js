@@ -67,7 +67,7 @@ function createTimeline(selector, data) {
   dataNest.forEach(function(d) {
     var group
     var lastIndex = d.values.length - 1
-    group = g.append("g")
+    group = g.append("g").attr("class","lineGroup")
     group.append("path")
       .attr("class", "line")
       .attr("d", line(d.values))
