@@ -72,7 +72,6 @@ $.get("report.json", function(t) {
   var myWordCloud = wordCloud('div.cloud');
   window.showNewWords(myWordCloud);
 
-  console.log(report)
   for (var item in mediaEN) {
     window.addVisWord(mediaEN[item], report[media[item]].words_median);
   }

@@ -15,5 +15,3 @@ function clearVisWord() {
     $(this).html('<h3>' + header + '<\/h3>')
   });
 }
-
-// addVisWord('liberty', 'the first news', 'detail')

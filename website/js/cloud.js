@@ -63,7 +63,6 @@ function wordCloud(selector) {
     cloud.enter()
       .append("text")
       .style("font-family", "Impact")
-      // .style("fill", function(d, i) { return fill(i); })
       .style("fill", function(d, i) {
         return (d.size > 21 ? getColor(d) : 'lightgrey')
       })
@@ -76,7 +75,9 @@ function wordCloud(selector) {
       .text(function(d) {
         return d.text;
       }).on("click", function(d) {
+        // TODO:update the timeline data 
         // createTimeline('#timeline', data)
+
         // add word collection
         var offset = $('#timeline').offset()
         $('body,html').animate({ scrollTop: offset.top - 25 }, 'slow');
@@ -88,9 +89,8 @@ function wordCloud(selector) {
           dict[mediaEN[i]] = 0
         }
         for (var i in news) {
-          media = mediaC2EN[news[i]['media']]
+          media = mediaC2EN[news[i].media]
           dict[media]++
-            console.log(news[i]['title'] + " " + media)
           if (dict[media] < 5)
             p1AddNewsCard(media, news[i].title, "", news[i].url)
         }

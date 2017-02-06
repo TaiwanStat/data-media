@@ -54,10 +54,7 @@ function createNewsBarChart(selector, data) {
 
   var bar = bars.append('rect')
     .attr('class', 'bar')
-    .attr('x', function(d) {
-      // return x(d.newsCount) + 4;
-      return 0;
-    })
+    .attr('x', 0)
     .attr('y', function(d) {
       return y(d.title);
     })
@@ -66,7 +63,6 @@ function createNewsBarChart(selector, data) {
     .attr('rx', 5)
     .attr('ry', 5)
     .attr('fill', function(d) {
-      // console.log(d)
       return mediaColor[d.title]
     })
 
