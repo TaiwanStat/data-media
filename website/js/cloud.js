@@ -99,6 +99,7 @@ function wordCloud(selector) {
             if (dict[media] < 5)
               wordCollectionAddNewsCard(media, news[i].title, "", news[i].url)
         }
+        $('.card-container').removeClass('show')
       });
 
     //Entering and existing words

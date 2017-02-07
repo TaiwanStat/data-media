@@ -27,6 +27,9 @@ $(window).on('scroll', function(event) {
     $('.nav a').removeClass('nav-primary')
     $('#button1').addClass('nav-primary');
   }
+  if (pos >= $('#timeline').offset().top){
+    $('.card-container').addClass('show')
+  }
 })
 
 $('.nav li').on('click', function(event) {

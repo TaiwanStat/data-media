@@ -1,9 +1,9 @@
 function createTimeline(selector, data) {
 
   var margin = {
-    top: 20,
+    top: 40,
     right: 100,
-    bottom: 20,
+    bottom: 25,
     left: 50
   }
 
@@ -67,7 +67,7 @@ function createTimeline(selector, data) {
   dataNest.forEach(function(d) {
     var group
     var lastIndex = d.values.length - 1
-    group = g.append("g").attr("class","lineGroup")
+    group = g.append("g").attr("class", "lineGroup")
     group.append("path")
       .attr("class", "line")
       .attr("d", line(d.values))
@@ -86,33 +86,57 @@ function createTimeline(selector, data) {
         .attr("fill", function() {
           return mediaColor[d.key]
         })
+        .transition(1000)
     }
     group.append("text")
-      .attr("x",x(d.values[lastIndex].time)+5)
-      .attr("y",y(d.values[lastIndex].count)+5)
+      .attr("x", x(d.values[lastIndex].time) + 5)
+      .attr("y", y(d.values[lastIndex].count) + 5)
       .attr("fill", mediaColor[d.key])
-      .style("font-size","12px")
-      .style("letter-spacing","2px")
-      .style("font-weight","300")
+      .style("font-size", "12px")
+      .style("letter-spacing", "2px")
+      .style("font-weight", "300")
       .text(d.key)
-      
+
   });
 
   g.append("g")
     .attr("class", "x axis")
     .attr("transform", "translate(0," + height + ")")
+    .style("opacity", .6)
     .call(xAxis);
 
   // Add the Y Axis
   g.append("g")
     .attr("class", "y axis")
+    .style("opacity", .6)
     .call(yAxis);
 
+
+  g.append("text")
+    .attr("x", -40)
+    .attr("y", -15)
+    .attr("fill", 'black')
+    .style("font-size", "12px")
+    .style("letter-spacing", "2px")
+    .style("font-weight", "300")
+    .style("opacity", .6)
+    .text('報導次數（次）')
+
+  // Because of the design purpose, temporily hide this
+  // g.append("text")
+  //   .attr("text-anchor", "end")
+  //   .attr("x", width + 12)
+  //   .attr("y", height - 8)
+  //   .attr("fill", 'black')
+  //   .style("font-size", "12px")
+  //   .style("letter-spacing", "2px")
+  //   .style("font-weight", "300")
+  //   .style("opacity", .6)
+  //   .text('報導時間（日期）')
+
+
   /*TODO: 
-        1. add label at the end of line
-        2. dot animation
-        3. legend
-        4. scale
+     * dot animation
   */
 
 }

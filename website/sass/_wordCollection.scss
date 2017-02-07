@@ -1,10 +1,24 @@
 .card-container {
+  position: relative;
   overflow: auto;
   padding: 5px;
   color: #393939;
   display: flex;
   flex-direction: row;
   align-items: flex-start;
+  opacity: 0;
+  top: 20px;
+  transition: 1s;
+  & * {
+    opacity: 0;
+  }
+  &.show {
+    & * {
+      opacity: 1;
+    }
+    opacity: 1;
+    top: 0;
+  }
   .list {
     background-color: #E3E3E3;
     border-radius: 3px;
@@ -12,6 +26,7 @@
     padding: 10px;
     width: 100%;
     & .card {
+      transition: 1s;
       border-radius: 3px;
       margin-top: 8px;
       background-color: #FFF;
@@ -21,8 +36,11 @@
       letter-spacing: 1.25px;
       display: block;
       text-decoration: none;
-      & h5,& .detail {
+      & h5,
+      & .detail {
         margin: 8px;
+        transition: 1s;
+        transition-delay: .2s;
       }
       & .detail {
         font-size: 12px;
