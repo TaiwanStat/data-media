@@ -37,7 +37,7 @@ while res :
     tmp = res.pop()
     report[tmp[col.index("website")]]['category'][tmp[col.index("category")]] = tmp[col.index("cate_count")]
 
-#pprint.pprint (report)
+pprint.pprint (report)
 
 with open('outfile.json', 'w') as outfile:
     json.dump(report, outfile)
