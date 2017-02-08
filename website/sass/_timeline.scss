@@ -1,12 +1,20 @@
-#timeline path { 
-    stroke-width: 2;
+#timeline {
+  & path {
     fill: none;
-}
-
-#timeline .axis path,
-#timeline .axis line {
-    fill: none;
-    stroke: grey;
-    stroke-width: 1;
-    shape-rendering: crispEdges;
+    stroke-width: 2.5;
+    opacity: .8;
+    transition: .25s;
+    &:hover {
+      stroke-width: 5;
+      opacity: 1;
+    }
+  }
+  & .axis {
+    & path,
+    & line {
+      fill: none;
+      stroke: grey;
+      stroke-width: 1;
+    }
+  }
 }
