@@ -6,19 +6,19 @@ function createNewsBarChart(selector, data) {
     bottom: 10,
     left: 50
   };
-  var bandWidth = $('.band-inner').width() > 960 ? 960 : $('.band-inner').width()
-  var remainWidth = bandWidth - $('#num-news').outerWidth(true) - $('#num-scale').outerWidth() - 50
-  var barWidth = remainWidth
-  var barHeight = $('.bar-container').height()
+  var bandWidth = $('.band-inner').width() > 960 ? 960 : $('.band-inner').width();
+  var remainWidth = bandWidth - $('#num-news').outerWidth(true) - $('#num-scale').outerWidth() - 50;
+  var barWidth = remainWidth;
+  var barHeight = $('.bar-container').height();
 
   var barSvg = d3.select(selector).append('svg')
     .attr('width', barWidth)
-    .attr('height', barHeight)
+    .attr('height', barHeight);
 
   barSvg = barSvg.append('g')
     .attr('width', barWidth)
     .attr('height', barHeight)
-    .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
+    .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
   var titles = data.map(function(d) {
     return d.title;
@@ -40,7 +40,7 @@ function createNewsBarChart(selector, data) {
     .tickSize(0)
     .ticks(0)
     .tickPadding(1)
-    .tickFormat(d3.format('d'));;
+    .tickFormat(d3.format('d'));
 
   var yAxis = d3.svg.axis()
     .scale(y)
@@ -50,7 +50,7 @@ function createNewsBarChart(selector, data) {
 
   var bars = barSvg.selectAll('.bar').data(data).enter()
     .append('g').attr('class', 'bar')
-    .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
+    .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
   var bar = bars.append('rect')
     .attr('class', 'bar')
@@ -63,7 +63,7 @@ function createNewsBarChart(selector, data) {
     .attr('rx', 5)
     .attr('ry', 5)
     .attr('fill', function(d) {
-      return mediaColor[d.title]
+      return mediaColor[d.title];
     })
 
   bars.append('text').text(function(d) {

@@ -11,8 +11,8 @@ function titleAnalysisAddNewsCard(media, header, detail) {
 
 function titleAnalysisClearCards(media, header, detail) {
   $('#2th-collection .card-container .list').each(function(index) {
-    var header = $(this).find('h3').text()
-    $(this).html('<h3>' + header + '</h3>')
+    var header = $(this).find('h3').text();
+    $(this).html('<h3>' + header + '</h3>');
   });
   window.refreshCards();
 }
