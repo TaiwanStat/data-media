@@ -5,16 +5,16 @@ function createTimeline(selector, data) {
     right: 100,
     bottom: 25,
     left: 50
-  }
+  };
 
   var nav_width = 240;
   var width;
   var marginTimeline = 80;
 
   if ($(window).width() > smallDesktopWidthSize) {
-    width = $(window).width() - (nav_width + 2 * marginTimeline)
+    width = $(window).width() - (nav_width + 2 * marginTimeline);
   } else {
-    width = $(window).width() - 2 * marginTimeline
+    width = $(window).width() - 2 * marginTimeline;
   }
 
   width = width > 960 ? 960 : width;
@@ -28,7 +28,7 @@ function createTimeline(selector, data) {
 
   var g = svg.append('g').attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
-  /********multiline*/
+  /* multiline */
 
   // Set the ranges
   var x = d3.scale.linear().range([0, width]);
@@ -67,12 +67,12 @@ function createTimeline(selector, data) {
   dataNest.forEach(function(d) {
     var group;
     var lastIndex = d.values.length - 1;
-    group = g.append('g').attr('class', 'lineGroup')
+    group = g.append('g').attr('class', 'lineGroup');
     group.append('path')
       .attr('class', 'line')
       .attr('d', line(d.values))
       .attr('stroke', function() {
-        return mediaColor[d.key]
+        return mediaColor[d.key];
       });
     for (var i in d.values) {
       group.append('circle')
@@ -84,7 +84,7 @@ function createTimeline(selector, data) {
           return y(d.values[i].count);
         })
         .attr('fill', function() {
-          return mediaColor[d.key]
+          return mediaColor[d.key];
         })
         .transition(1000);
     }
@@ -95,8 +95,7 @@ function createTimeline(selector, data) {
       .style('font-size', '12px')
       .style('letter-spacing', '2px')
       .style('font-weight', '300')
-      .text(d.key)
-
+      .text(d.key);
   });
 
   g.append('g')
@@ -135,13 +134,13 @@ function createTimeline(selector, data) {
   //   .text('報導時間（日期）')
 
 
-  /*TODO: 
+  /*TODO:
      * dot animation
   */
 
 }
 
-var timelineData = []
+var timelineData = [];
 for (var i = 23; i <= 30; i++) {
   for (var item in media) {
     timelineData.push({

@@ -1,4 +1,4 @@
-//Based on 
+//Based on
 //1. https://github.com/jasondavies/d3-cloud
 //2. https://github.com/jasondavies/d3-cloud/blob/master/examples/simple.html
 
@@ -21,17 +21,17 @@ function convertRem(value) {
 function wordCloud(selector) {
 
   var fill = d3.scale.category20();
-  var nav_width = 240
-  var width
-  var marginCloud = 80
+  var nav_width = 240;
+  var width;
+  var marginCloud = 80;
 
   if ($(window).width() > smallDesktopWidthSize) {
-    width = $(window).width() - (nav_width + 2 * marginCloud)
+    width = $(window).width() - (nav_width + 2 * marginCloud);
   } else {
-    width = $(window).width() - 2 * marginCloud
+    width = $(window).width() - 2 * marginCloud;
   }
 
-  width = width > 960 ? 960 : width
+  width = width > 960 ? 960 : width;
     //Construct the word cloud's SVG element
   var svg = d3.select(selector).append('svg')
     .attr('width', width)
@@ -42,14 +42,14 @@ function wordCloud(selector) {
 
   //Draw the word cloud
   function draw(words) {
-    var cloud = svg.selectAll('g text")
+    var cloud = svg.selectAll('g text')
       .data(words, function(d) {
         return d.text;
       })
 
       var getColor = function(d) {
-          max = 0
-          dict = {}
+          max = 0;
+          dict = {};
             //find the media has greatest words_appear_ratio
           for (var i in media) {
             words_appear_count = report.words_count[d.index][3][media[i]].sum;
@@ -60,7 +60,7 @@ function wordCloud(selector) {
               key = media[i];
             }
           }
-          return mediaColor[key]
+          return mediaColor[key];
         }
         //Entering words
       cloud.enter()
@@ -78,24 +78,24 @@ function wordCloud(selector) {
       .text(function(d) {
         return d.text;
       }).on('click', function(d) {
-        // TODO:update the timeline data 
+        // TODO:update the timeline data
         // createTimeline('#timeline', data)
 
         // add word collection
-        var offset = $('#timeline').offset()
+        var offset = $('#timeline').offset();
         $('body,html').animate({ scrollTop: offset.top - 25 }, 'slow');
 
-        window.wordCollectionClearCards()
-        news = report.words_count[d.index][2]
-        dict = {}
+        window.wordCollectionClearCards();
+        news = report.words_count[d.index][2];
+        dict = {};
         for (i in mediaEN) {
-          dict[mediaEN[i]] = 0
+          dict[mediaEN[i]] = 0;
         }
         for (var i in news) {
-          media = mediaNameTranslate(news[i].media)
+          media = mediaNameTranslate(news[i].media);
           dict[media]++;
           if (dict[media] < 5)
-            window.wordCollectionAddNewsCard(media, news[i].title, '', news[i].url)
+            window.wordCollectionAddNewsCard(media, news[i].title, '', news[i].url);
         }
         $('.card-container').removeClass('show');
       });
