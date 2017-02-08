@@ -7,9 +7,9 @@ function createTimeline(selector, data) {
     left: 50
   }
 
-  var nav_width = 240
-  var width
-  var marginTimeline = 80
+  var nav_width = 240;
+  var width;
+  var marginTimeline = 80;
 
   if ($(window).width() > smallDesktopWidthSize) {
     width = $(window).width() - (nav_width + 2 * marginTimeline)
@@ -17,14 +17,14 @@ function createTimeline(selector, data) {
     width = $(window).width() - 2 * marginTimeline
   }
 
-  width = width > 960 ? 960 : width
+  width = width > 960 ? 960 : width;
 
   var svg = d3.select(selector).append('svg')
     .attr('width', width)
-    .attr('height', 200)
+    .attr('height', 200);
 
   var width = +svg.attr('width') - margin.left - margin.right,
-    height = +svg.attr('height') - margin.top - margin.bottom
+    height = +svg.attr('height') - margin.top - margin.bottom;
 
   var g = svg.append('g').attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
@@ -65,15 +65,15 @@ function createTimeline(selector, data) {
     .entries(data);
   // Loop through each symbol / key
   dataNest.forEach(function(d) {
-    var group
-    var lastIndex = d.values.length - 1
+    var group;
+    var lastIndex = d.values.length - 1;
     group = g.append('g').attr('class', 'lineGroup')
     group.append('path')
       .attr('class', 'line')
       .attr('d', line(d.values))
       .attr('stroke', function() {
         return mediaColor[d.key]
-      })
+      });
     for (var i in d.values) {
       group.append('circle')
         .attr('r', 5)
@@ -86,7 +86,7 @@ function createTimeline(selector, data) {
         .attr('fill', function() {
           return mediaColor[d.key]
         })
-        .transition(1000)
+        .transition(1000);
     }
     group.append('text')
       .attr('x', x(d.values[lastIndex].time) + 5)
@@ -120,7 +120,7 @@ function createTimeline(selector, data) {
     .style('letter-spacing', '2px')
     .style('font-weight', '300')
     .style('opacity', .6)
-    .text('報導次數（次）')
+    .text('報導次數（次）');
 
   // Because of the design purpose, temporily hide this
   // g.append('text')
@@ -152,4 +152,4 @@ for (var i = 23; i <= 30; i++) {
   }
 }
 
-createTimeline('#timeline-inner', timelineData)
+createTimeline('#timeline-inner', timelineData);

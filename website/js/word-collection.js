@@ -15,7 +15,7 @@ function wordCollectionAddNewsCard(media, header, detail, link) {
     link + '"><h5>' + header + '</h5><div class="detail">' +
     detail + '</div></a>'
   $(selector).append(content);
-  refreshCards()
+  refreshCards();
 }
 
 function wordCollectionClearCards(media, header, detail) {
@@ -23,5 +23,5 @@ function wordCollectionClearCards(media, header, detail) {
     var header = $(this).find('h3').text()
     $(this).html('<h3>' + header + '<\/h3>')
   });
-  refreshCards()
+  refreshCards();
 }

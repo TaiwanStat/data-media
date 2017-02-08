@@ -37,11 +37,11 @@ $('.nav li').on('click', function(event) {
   if (event.target.id === 'button1') {
     $('html, body').animate({ scrollTop: 0 }, 'slow');
   } else if (event.target.id === 'button2') {
-    var offset = $('#report').offset()
+    var offset = $('#report').offset();
     $('body,html').animate({ scrollTop: offset.top - 50 }, 'slow');
     // $('#button2').addClass('nav-primary');
   } else if (event.target.id === 'button3') {
-    var offset = $('#discussion').offset()
+    var offset = $('#discussion').offset();
     $('body,html').animate({ scrollTop: offset.top - 50 }, 'slow');
   }
 });
