@@ -35,7 +35,7 @@ $(window).on('scroll', function(event) {
 $('.nav li').on('click', function(event) {
 
   if (event.target.id === 'button1') {
-    $("html, body").animate({ scrollTop: 0 }, 'slow');
+    $('html, body').animate({ scrollTop: 0 }, 'slow');
   } else if (event.target.id === 'button2') {
     var offset = $('#report').offset()
     $('body,html').animate({ scrollTop: offset.top - 50 }, 'slow');
@@ -54,7 +54,7 @@ for (var i in media) {
 window.refreshCards();
 
 var report
-$.get("report.json", function(t) {
+$.get('report.json', function(t) {
   report = t;
   var totoalNews = 0;
   for (var i in media) {

@@ -23,10 +23,10 @@ function createTimeline(selector, data) {
     .attr('width', width)
     .attr('height', 200)
 
-  var width = +svg.attr("width") - margin.left - margin.right,
-    height = +svg.attr("height") - margin.top - margin.bottom
+  var width = +svg.attr('width') - margin.left - margin.right,
+    height = +svg.attr('height') - margin.top - margin.bottom
 
-  var g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+  var g = svg.append('g').attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
   /********multiline*/
 
@@ -36,10 +36,10 @@ function createTimeline(selector, data) {
 
   // Define the axes
   var xAxis = d3.svg.axis().scale(x)
-    .orient("bottom").ticks(5);
+    .orient('bottom').ticks(5);
 
   var yAxis = d3.svg.axis().scale(y)
-    .orient("left").ticks(5);
+    .orient('left').ticks(5);
 
   // Define the line
   var line = d3.svg.line()
@@ -67,71 +67,71 @@ function createTimeline(selector, data) {
   dataNest.forEach(function(d) {
     var group
     var lastIndex = d.values.length - 1
-    group = g.append("g").attr("class", "lineGroup")
-    group.append("path")
-      .attr("class", "line")
-      .attr("d", line(d.values))
-      .attr("stroke", function() {
+    group = g.append('g').attr('class', 'lineGroup')
+    group.append('path')
+      .attr('class', 'line')
+      .attr('d', line(d.values))
+      .attr('stroke', function() {
         return mediaColor[d.key]
       })
     for (var i in d.values) {
-      group.append("circle")
-        .attr("r", 5)
-        .attr("cx", function() {
+      group.append('circle')
+        .attr('r', 5)
+        .attr('cx', function() {
           return x(d.values[i].time);
         })
-        .attr("cy", function() {
+        .attr('cy', function() {
           return y(d.values[i].count);
         })
-        .attr("fill", function() {
+        .attr('fill', function() {
           return mediaColor[d.key]
         })
         .transition(1000)
     }
-    group.append("text")
-      .attr("x", x(d.values[lastIndex].time) + 5)
-      .attr("y", y(d.values[lastIndex].count) + 5)
-      .attr("fill", mediaColor[d.key])
-      .style("font-size", "12px")
-      .style("letter-spacing", "2px")
-      .style("font-weight", "300")
+    group.append('text')
+      .attr('x', x(d.values[lastIndex].time) + 5)
+      .attr('y', y(d.values[lastIndex].count) + 5)
+      .attr('fill', mediaColor[d.key])
+      .style('font-size', '12px')
+      .style('letter-spacing', '2px')
+      .style('font-weight', '300')
       .text(d.key)
 
   });
 
-  g.append("g")
-    .attr("class", "x axis")
-    .attr("transform", "translate(0," + height + ")")
-    .style("opacity", .6)
+  g.append('g')
+    .attr('class', 'x axis')
+    .attr('transform', 'translate(0,' + height + ')')
+    .style('opacity', .6)
     .call(xAxis);
 
   // Add the Y Axis
-  g.append("g")
-    .attr("class", "y axis")
-    .style("opacity", .6)
+  g.append('g')
+    .attr('class', 'y axis')
+    .style('opacity', .6)
     .call(yAxis);
 
 
-  g.append("text")
-    .attr("x", -40)
-    .attr("y", -15)
-    .attr("fill", 'black')
-    .style("font-size", "12px")
-    .style("letter-spacing", "2px")
-    .style("font-weight", "300")
-    .style("opacity", .6)
+  g.append('text')
+    .attr('x', -40)
+    .attr('y', -15)
+    .attr('fill', 'black')
+    .style('font-size', '12px')
+    .style('letter-spacing', '2px')
+    .style('font-weight', '300')
+    .style('opacity', .6)
     .text('報導次數（次）')
 
   // Because of the design purpose, temporily hide this
-  // g.append("text")
-  //   .attr("text-anchor", "end")
-  //   .attr("x", width + 12)
-  //   .attr("y", height - 8)
-  //   .attr("fill", 'black')
-  //   .style("font-size", "12px")
-  //   .style("letter-spacing", "2px")
-  //   .style("font-weight", "300")
-  //   .style("opacity", .6)
+  // g.append('text')
+  //   .attr('text-anchor', 'end')
+  //   .attr('x', width + 12)
+  //   .attr('y', height - 8)
+  //   .attr('fill', 'black')
+  //   .style('font-size', '12px')
+  //   .style('letter-spacing', '2px')
+  //   .style('font-weight', '300')
+  //   .style('opacity', .6)
   //   .text('報導時間（日期）')
 
 

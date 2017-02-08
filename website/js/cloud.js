@@ -33,16 +33,16 @@ function wordCloud(selector) {
 
   width = width > 960 ? 960 : width
     //Construct the word cloud's SVG element
-  var svg = d3.select(selector).append("svg")
-    .attr("width", width)
-    .attr("height", 500)
-    .append("g")
-    .attr("transform", "translate(" + width / 2 + ",250)");
+  var svg = d3.select(selector).append('svg')
+    .attr('width', width)
+    .attr('height', 500)
+    .append('g')
+    .attr('transform', 'translate(' + width / 2 + ',250)');
 
 
   //Draw the word cloud
   function draw(words) {
-    var cloud = svg.selectAll("g text")
+    var cloud = svg.selectAll('g text")
       .data(words, function(d) {
         return d.text;
       })
@@ -64,20 +64,20 @@ function wordCloud(selector) {
       }
       //Entering words
     cloud.enter()
-      .append("text")
-      .style("font-family", "Impact")
-      .style("fill", function(d, i) {
+      .append('text')
+      .style('font-family', 'Impact')
+      .style('fill', function(d, i) {
         return (d.size > 21 ? getColor(d) : 'lightgrey')
       })
-      .style("font-weight", function(d) {
+      .style('font-weight', function(d) {
         return (d.size > 16 ? 600 : 100)
       })
-      .attr("text-anchor", "middle")
+      .attr('text-anchor', 'middle')
       .attr('font-size', 1)
       .attr('cursor', 'pointer')
       .text(function(d) {
         return d.text;
-      }).on("click", function(d) {
+      }).on('click', function(d) {
         // TODO:update the timeline data 
         // createTimeline('#timeline', data)
 
@@ -97,7 +97,7 @@ function wordCloud(selector) {
           console.log(media)
           dict[media]++
             if (dict[media] < 5)
-              wordCollectionAddNewsCard(media, news[i].title, "", news[i].url)
+              wordCollectionAddNewsCard(media, news[i].title, '', news[i].url)
         }
         $('.card-container').removeClass('show')
       });
@@ -106,13 +106,13 @@ function wordCloud(selector) {
     cloud
       .transition()
       .duration(600)
-      .style("font-size", function(d) {
-        return d.size + "px";
+      .style('font-size', function(d) {
+        return d.size + 'px';
       })
-      .attr("transform", function(d) {
-        return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
+      .attr('transform', function(d) {
+        return 'translate(' + [d.x, d.y] + ')rotate(' + d.rotate + ')';
       })
-      .style("fill-opacity", 1);
+      .style('fill-opacity', 1);
 
     //Exiting words
     cloud.exit()
@@ -140,11 +140,11 @@ function wordCloud(selector) {
         .rotate(function() {
           return Math.random() * 90 - 45;
         })
-        .font("Impact")
+        .font('Impact')
         .fontSize(function(d) {
           return d.size;
         })
-        .on("end", draw)
+        .on('end', draw)
         .start();
     }
   }
