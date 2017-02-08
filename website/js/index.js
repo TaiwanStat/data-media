@@ -1,5 +1,3 @@
-
-
 $('.menu').on('click', function() {
   if ($('.container').hasClass('is-open')) {
     $('.menu').removeClass('is-active');
@@ -27,7 +25,7 @@ $(window).on('scroll', function(event) {
     $('.nav a').removeClass('nav-primary')
     $('#button1').addClass('nav-primary');
   }
-  if (pos >= $('#timeline').offset().top){
+  if (pos >= $('#timeline').offset().top) {
     $('.card-container').addClass('show')
   }
 })
@@ -76,6 +74,13 @@ $.get('report.json', function(t) {
 
   var myWordCloud = wordCloud('div.cloud');
   window.showNewWords(myWordCloud);
+
+  var categoryData = {}
+  media.forEach(function(d) {
+    categoryData[d] = report[d]
+  })
+
+  window.createCategory(categoryData);
 
   for (var item in mediaEN) {
     window.addVisWord(mediaEN[item], report[media[item]].words_median);

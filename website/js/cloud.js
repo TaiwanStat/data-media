@@ -42,7 +42,7 @@ function wordCloud(selector) {
 
   //Draw the word cloud
   function draw(words) {
-    var cloud = svg.selectAll('g text")
+    var cloud = svg.selectAll('g text')
       .data(words, function(d) {
         return d.text;
       })
