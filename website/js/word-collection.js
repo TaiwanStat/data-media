@@ -21,7 +21,7 @@ function wordCollectionAddNewsCard(media, header, detail, link) {
 function wordCollectionClearCards(media, header, detail) {
   $('#1th-collection .card-container .list').each(function(index) {
     var header = $(this).find('h3').text()
-    $(this).html('<h3>' + header + '<\/h3>')
+    $(this).html('<h3>' + header + '</h3>')
   });
   refreshCards();
 }
