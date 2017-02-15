@@ -31,15 +31,19 @@
 	    <div class="nav-about"><a  href="#">ABOUT</a></div>
 	  </div>
 	  <div class="page-container">
-	  	<div class="legend-container hidden">
-	  	</div>
+	  	<ul class="legend-container hidden" id="legend">
+	  		<li v-for="(item, index) in items">
+	  			<a class="circle" v-bind:class="item.mediaEN"></a>
+		  		<a>${item.mediaCH}</a>
+	  		</li>
+	  	</ul>
 	    <div class="menu">
 	      <div class="menu-hamburger">
 	      </div>
 	    </div>
 	    <section class="band">
 	      <div class="band-container top-band">
-	        <div class="band-inner"><h1 id="num-news"></h1><h2 id="num-scale">篇新聞</h2>
+	        <div class="band-inner"><h1 id="num-news">${totoalNews}</h1><h2 id="num-scale">篇新聞</h2>
 	          {{> news_bar}}
 	        </div>
 	      </div>
@@ -62,7 +66,7 @@
 	      </div>
 	    </section>
 	    <section class="band">
-	      <div class="band-container" id="1th-collection">
+	      <div class="band-container" id="first-collection">
 	        <div class="band-inner">
 	          <h1>詞彙新聞集</h1><h2>單一詞彙於各家媒體的出現新聞集</h2>
 	          {{> wordCollection}}

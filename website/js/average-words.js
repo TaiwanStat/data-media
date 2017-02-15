@@ -1,14 +1,31 @@
+vms.averageWords = {}
+averageWordsData = {}
+averageWordsData.items = []
+mediaEN.forEach(function(d,i){
+  var classObj = {};
+  classObj[d+'-container'] = true;
+  averageWordsData.items.push({
+    class: classObj,
+    name: media[i],
+    avgWords: 'null',
+    vis: ''
+  })
+})
+vms.averageWords = new Vue({
+  delimiters: ['${', '}'],
+  el: '.avgWords-container',
+  data: averageWordsData
+})
+
 function addVisWord(media, avgWords) {
   var mediaChineseName = mediaNameTranslate(media);
   if (mediaChineseName === '中央通訊社')
     mediaChineseName = '中央社';
+  var mediaIndex = mediaEN.indexOf(media);
+  averageWordsData.items[mediaIndex].avgWords = avgWords.toString();
 
-  var selector = '.avgWords-container .' + media + '-container';
-  var header = '<h3>' + mediaChineseName + '</h3><span>' + avgWords +
-    '</span><span class="avgWords-scale">字</span>';
-
-  var content = '<div class="visbar"></div>'.repeat(avgWords / 10);
-  $(selector).html(header + content);
+  var vis = '<div class="visbar"></div>'.repeat(avgWords / 10);
+  averageWordsData.items[mediaIndex].vis = vis
 }
 
 function clearVisWord() {

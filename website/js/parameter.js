@@ -1,6 +1,7 @@
 var media = ['蘋果日報', '聯合報', '自由時報', '東森新聞雲', '中央通訊社'];
 var mediaEN = ['apple', 'udn', 'liberty', 'ettoday', 'cna'];
 var smallDesktopWidthSize = 980;
+var vms = {}
 var mediaColor = {
   '中央通訊社': '#26A69A',
   '蘋果日報': '#ef5350',

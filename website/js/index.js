@@ -2,14 +2,21 @@ var report;
 initLengend();
 window.refreshCards();
 
+
 $.get('report.json', function(t) {
   report = t;
+
   var totoalNews = 0;
   for (var i in media) {
     totoalNews += report[media[i]].news_count;
   }
+  vms.totoalNews =new Vue({
+    el:'#num-news',
+    data:{
+      totoalNews:totoalNews
+    }
+  })
 
-  $('#num-news').text(totoalNews);
   var barData = [];
   for (var item in media) {
     barData.push({
@@ -87,10 +94,20 @@ $('.nav li').on('click', function(event) {
 });
 
 function initLengend() {
-  for (var i in media) {
-    var item = $('<a class="circle ' + mediaEN[i] + '"></a><a>' + media[i] + '</a>');
-    $('.legend-container').append(item);
-  }
+  var data = {};
+  data.items = media.map(function(obj,i){
+    var item = {};
+    item.mediaCH = obj;
+    item.mediaEN = {};
+    item.mediaEN[mediaEN[i]] = true;
+    return item
+  });
+
+  vms.legned = new Vue({
+    delimiters: ['${', '}'],
+    el: '#legend',
+    data: data
+  })
 }
 
 function isPosBeyondIdTop(pos, id) {

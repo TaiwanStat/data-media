@@ -1,3 +1,24 @@
+var wordCollectionData = {}
+wordCollectionData.lists = []
+mediaEN.forEach(function(d) {
+  var className = {};
+  className[d + '-container'] = true;
+  var mediaName = mediaNameTranslate(d)
+
+  wordCollectionData.lists.push({
+    class: className,
+    name: mediaName,
+    cards: []
+  })
+
+})
+
+vms.wordCollection = new Vue({
+  delimiters: ['${', '}'],
+  el: '#first-collection',
+  data: wordCollectionData
+})
+
 function refreshCards() {
   $('.card-container .list').each(function() {
     if ($(this).find('.card').length == 0) {
@@ -8,22 +29,26 @@ function refreshCards() {
   });
 }
 
+function showCards() {
+  $('.card-container .list').each(function() {
+    $(this).removeClass('no-card');
+  });
+}
+
 function wordCollectionAddNewsCard(media, header, detail, link) {
-  var selector = '#1th-collection .card-container .' + media + '-container';
-    // TODO: rewrite by vue.js
-  var content = '<a target="_blank" class="card" href="' +
-    link + '"><h5>' + header + '</h5><div class="detail">' +
-    detail + '</div></a>';
-  $(selector).append(content);
-  refreshCards();
+  var mediaIndex = mediaEN.indexOf(media);
+  content = {
+    header: header,
+    detail: detail,
+    link: link
+  }
+  wordCollectionData.lists[mediaIndex].cards.push(content)
+  showCards();
 }
 
 function wordCollectionClearCards(media, header, detail) {
-  $('#1th-collection .card-container .list').each(function(index) {
-
-    var header = $(this).find('h3').text()
-    $(this).html('<h3>' + header + '</h3>')
-
-  });
+  wordCollectionData.lists.forEach(function(d) {
+    d.cards = []
+  })
   refreshCards();
 }

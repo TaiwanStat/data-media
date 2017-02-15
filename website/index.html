@@ -1,5 +1,5 @@
 <!doctype html><html><head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="MyWebsite" content="yes"><link rel="stylesheet" href="./src/normalize.css"><script async="true" src="https://pol.is/embed.js"></script><script src="./src/d3.v3.min.js"></script><script src="./src/d3.layout.cloud.js"></script><script src="./src/jquery.min.js"></script><script src="https://use.fontawesome.com/e9c11f428f.js"></script>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="MyWebsite" content="yes"><link rel="stylesheet" href="./src/normalize.css"><script async="true" src="https://pol.is/embed.js"></script><script src="./src/d3.v3.min.js"></script><script src="./src/d3.layout.cloud.js"></script><script src="./src/jquery.min.js"></script><!-- use non-minify version for full warning --><script src="./src/vue.js"></script><!--<script src="./src/vue.min.js"></script> --><script src="https://use.fontawesome.com/e9c11f428f.js"></script>
   <title>媒礦 Minedia</title>
   <link rel="stylesheet" href="./dist/css/index.css">
 </head>
@@ -28,15 +28,19 @@
 	    <div class="nav-about"><a href="#">ABOUT</a></div>
 	  </div>
 	  <div class="page-container">
-	  	<div class="legend-container hidden">
-	  	</div>
+	  	<ul class="legend-container hidden" id="legend">
+	  		<li v-for="(item, index) in items">
+	  			<a class="circle" v-bind:class="item.mediaEN"></a>
+		  		<a>${item.mediaCH}</a>
+	  		</li>
+	  	</ul>
 	    <div class="menu">
 	      <div class="menu-hamburger">
 	      </div>
 	    </div>
 	    <section class="band">
 	      <div class="band-container top-band">
-	        <div class="band-inner"><h1 id="num-news"></h1><h2 id="num-scale">篇新聞</h2>
+	        <div class="band-inner"><h1 id="num-news">${totoalNews}</h1><h2 id="num-scale">篇新聞</h2>
 	          <div class="bar-container"><div id="num-news-bar"></div></div>	        </div>
 	      </div>
 	    </section>
@@ -56,10 +60,10 @@
 	      </div>
 	    </section>
 	    <section class="band">
-	      <div class="band-container" id="1th-collection">
+	      <div class="band-container" id="first-collection">
 	        <div class="band-inner">
 	          <h1>詞彙新聞集</h1><h2>單一詞彙於各家媒體的出現新聞集</h2>
-	          <div class="card-container"><div class="list apple-container"><h3>蘋果日報</h3></div><div class="list udn-container"><h3>聯合報</h3></div><div class="list liberty-container"><h3>自由時報</h3></div><div class="list cna-container"><h3>中央社</h3></div><div class="list ettoday-container"><h3>東森新聞雲</h3></div></div>	        </div>
+	          <div class="card-container"><div class="list" v-bind:class="list.class" v-for="list in lists"><h3>${list.name}</h3><a target="_blank" class="card" v-bind:link="card.link" v-for="card in list.cards"><h5>${card.header}</h5><div class="detail">${card.detail}</div>    </a></div></div>	        </div>
 	      </div>
 	    </section>
 	    <h1 id="report" class="big-title"><i class="fa fa-cube" aria-hidden="true"></i>媒體分析報告</h1>
@@ -77,7 +81,7 @@
 	        <div class="band-inner">
 	          <h1>平均新聞字數</h1>
 	          <!-- <h2>平均新聞字數</h2> -->
-	          <div class="avgWords-container"><div class="visWords-container apple-container"><h3>蘋果日報</h3></div><div class="visWords-container udn-container"><h3>聯合報</h3></div><div class="visWords-container liberty-container"><h3>自由時報</h3></div><div class="visWords-container cna-container"><h3>中央社</h3></div><div class="visWords-container ettoday-container"><h3>東森新聞雲</h3></div></div>	        </div>
+	          <div class="avgWords-container"><div class="visWords-container" v-bind:class="item.class " v-for="item in items"><h3>${item.name}</h3><span>${item.avgWords}</span><span class="avgWords-scale">字</span><span v-html="item.vis" style=" left: initial;"></span></div></div>	        </div>
 	      </div>
 	    </section>
 	    <section class="band">
@@ -85,7 +89,7 @@
 	        <div class="band-inner">
 	          <h1>標題特徵分析</h1>
 	          <!-- <h2>挑撥性標題、鄉民說、網傳、未經證實</h2> -->
-	          <div class="card-container"><div class="list apple-container"><h3>蘋果日報</h3></div><div class="list udn-container"><h3>聯合報</h3></div><div class="list liberty-container"><h3>自由時報</h3></div><div class="list cna-container"><h3>中央社</h3></div><div class="list ettoday-container"><h3>東森新聞雲</h3></div></div>	        </div>
+	          <div class="card-container"><div class="list" v-bind:class="list.class" v-for="list in lists"><h3>${list.name}</h3><a target="_blank" class="card" v-bind:link="card.link" v-for="card in list.cards"><h5>${card.header}</h5><div class="detail">${card.detail}</div>    </a></div></div>	        </div>
 	      </div>
 	    </section>
 	    <h1 id="discussion" class="big-title"><i class="fa fa-cube" aria-hidden="true"></i>討論與分享</h1>
