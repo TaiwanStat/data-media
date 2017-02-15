@@ -1,5 +1,6 @@
 var report;
 initLengend();
+initWordCollection();
 window.refreshCards();
 
 $.get('report.json', function(t) {
@@ -91,6 +92,15 @@ function initLengend() {
     var item = $('<a class="circle ' + mediaEN[i] + '"></a><a>' + media[i] + '</a>');
     $('.legend-container').append(item);
   }
+}
+
+function initWordCollection() {
+  $('#word-collection .list').each(function(index) {
+    $(this).find('h3').on('click',window.ShowWordCollectionInModal);
+  });
+  $('#modal-closer').on('click',function(){
+    $('#modal-container').hide();
+  })
 }
 
 function isPosBeyondIdTop(pos, id) {

@@ -97,6 +97,7 @@ function wordCloud(selector) {
           if (dict[media] < 5)
             window.wordCollectionAddNewsCard(media, news[i].title, '', news[i].url);
         }
+        $('#qurey-word').text(d.text)
         $('.card-container').removeClass('show');
       });
 
