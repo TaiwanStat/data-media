@@ -9,7 +9,7 @@ function refreshCards() {
 }
 
 function wordCollectionAddNewsCard(media, header, detail, link) {
-  var selector = '#1th-collection .card-container .' + media + '-container';
+  var selector = '#word-collection .'+ media + '-container';
     // TODO: rewrite by vue.js
   var content = '<a target="_blank" class="card" href="' +
     link + '"><h5>' + header + '</h5><div class="detail">' +
@@ -19,7 +19,7 @@ function wordCollectionAddNewsCard(media, header, detail, link) {
 }
 
 function wordCollectionClearCards(media, header, detail) {
-  $('#1th-collection .card-container .list').each(function(index) {
+  $('#word-collection .list').each(function(index) {
 
     var header = $(this).find('h3').text()
     $(this).html('<h3>' + header + '</h3>')

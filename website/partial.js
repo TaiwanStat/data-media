@@ -8,6 +8,7 @@ module.exports= function (hbs) {
   hbs.registerPartial('timeline', getPartials('timeline'));
   hbs.registerPartial('wordCollection', getPartials('wordCollection'));
   hbs.registerPartial('averageWords', getPartials('averageWords'));
+  hbs.registerPartial('title_analysis', getPartials('title_analysis'));
 };
 
 function getPartials(filename) {
