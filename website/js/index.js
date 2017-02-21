@@ -38,6 +38,11 @@ $.get('report.json', function(t) {
   }
 });
 
+$('.nav-about').on('click', function(){
+  $('#about').toggleClass('show');
+})
+
+
 
 $('.menu').on('click', function() {
   if ($('.container').hasClass('is-open')) {

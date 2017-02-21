@@ -59,6 +59,23 @@ border: 1px solid black;
   margin-left: 80px;
 }
 
+#about {
+  position: fixed;
+  background-color: #E3E3E3;
+  border-bottom: 1px solid #CCC;
+  height: 95vh;
+  width: 980px;
+  top: -110%;
+  z-index: 7;
+  padding: 20px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  border-radius: 3px;
+  transition: 0.5s;
+  &.show {
+    top: 0px;
+  }
+}
+
 #modal-closer {
   width: 100px;
   height: 100px;
@@ -280,6 +297,7 @@ border: 1px solid black;
     bottom: 30px;
     font-size: 20px;
     position: fixed;
+    cursor: pointer;
   }
   & .nav {
     & .nav-primary {
