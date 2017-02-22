@@ -38,8 +38,21 @@ $.get('report.json', function(t) {
   }
 });
 
-$('.nav-about').on('click', function(){
-  $('#about').toggleClass('show');
+$('.nav-about').on('click', function() {
+  if($('.page-container').hasClass('show-about')){
+    $('.page-container').addClass('hide-about')
+                        .removeClass('show-about');
+    $('body,html').css('overflow','')
+  }else if($('.page-container').hasClass('hide-about')){
+    $('.page-container').addClass('show-about')
+                        .removeClass('hide-about');
+    $('body,html').css('overflow','')
+  }else{
+    $('.page-container').addClass('show-about');
+    $('body,html').css('overflow','hidden')
+  }
+  $('body,html').animate({ scrollTop: 0}, 'slow');
+
 })
 
 
@@ -75,7 +88,7 @@ $(window).on('scroll', function(event) {
   }
 
   if (isPosBeyondIdTop(pos, '#timeline')) {
-    $('.card-container').addClass('show')
+    $('#word-collection').addClass('show')
   }
 })
 
@@ -101,11 +114,13 @@ function initLengend() {
 
 function initWordCollection() {
   $('#word-collection .list').each(function(index) {
-    $(this).find('h3').on('click',window.ShowWordCollectionInModal);
+    $(this).find('h3').on('click', window.ShowWordCollectionInModal);
   });
-  $('#modal-closer').on('click',function(){
-    $('#modal-container').hide();
-  })
+  $('#modal-closer').on('click', function() {
+    $('#modal-container').removeClass('show');
+    $('#pop-content .card-container').removeClass('show');
+    $('body,html').css('overflow','');
+  });
 }
 
 function isPosBeyondIdTop(pos, id) {
