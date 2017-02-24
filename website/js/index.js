@@ -2,10 +2,25 @@ var report;
 initLengend();
 initWordCollection();
 window.refreshCards();
+$('.page-container').css('display', 'none');
+$('#logo').addClass('loading');
+$('#logo').addClass('small');
+var IsReportGot = false;
+$("#logo").one('animationiteration webkitAnimationIteration', function() {
+  if (IsReportGot) {
+    $("#logo").removeClass('loading');
+    setTimeout(function() {
+      $('#logo').removeClass('small');
+    }, 10)
+  }
+});
 
 $.get('report.json', function(t) {
   report = t;
+  IsReportGot = true;
   var totoalNews = 0;
+  var DELAY = 100;
+
   for (var i in media) {
     totoalNews += report[media[i]].news_count;
   }
@@ -18,44 +33,45 @@ $.get('report.json', function(t) {
       newsCount: report[media[item]].news_count
     });
   }
-
   setTimeout(function() {
     window.createNewsBarChart('#num-news-bar', barData);
-  }, 100);
+  }, DELAY);
 
   var categoryData = {}
   media.forEach(function(d) {
     categoryData[d] = report[d]
   })
-
   window.createCategory(categoryData);
-
 
   var myWordCloud = wordCloud('div.cloud');
   window.showNewWords(myWordCloud);
   for (var item in mediaEN) {
     window.addVisWord(mediaEN[item], report[media[item]].words_median);
   }
+
+  $('.page-container').css('display', '');
+  $('.page-container').addClass('show-page')
+  setTimeout(function() {
+    $('.page-container').removeClass('show-page')
+  }, 1000);
 });
 
 $('.nav-about').on('click', function() {
-  if($('.page-container').hasClass('show-about')){
+  if ($('.page-container').hasClass('show-about')) {
     $('.page-container').addClass('hide-about')
-                        .removeClass('show-about');
-    $('body,html').css('overflow','')
-  }else if($('.page-container').hasClass('hide-about')){
+      .removeClass('show-about');
+    $('body,html').css('overflow', '')
+  } else if ($('.page-container').hasClass('hide-about')) {
     $('.page-container').addClass('show-about')
-                        .removeClass('hide-about');
-    $('body,html').css('overflow','')
-  }else{
+      .removeClass('hide-about');
+    $('body,html').css('overflow', 'hidden')
+  } else {
     $('.page-container').addClass('show-about');
-    $('body,html').css('overflow','hidden')
+    $('body,html').css('overflow', 'hidden')
   }
-  $('body,html').animate({ scrollTop: 0}, 'slow');
+  $('body,html').animate({ scrollTop: 0 }, 'slow');
 
 })
-
-
 
 $('.menu').on('click', function() {
   if ($('.container').hasClass('is-open')) {
@@ -119,7 +135,7 @@ function initWordCollection() {
   $('#modal-closer').on('click', function() {
     $('#modal-container').removeClass('show');
     $('#pop-content .card-container').removeClass('show');
-    $('body,html').css('overflow','');
+    $('body,html').css('overflow', '');
   });
 }
 

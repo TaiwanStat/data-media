@@ -113,7 +113,7 @@ border: 1px solid black;
     visibility: visible;
     top: 0;
     justify-content: center;
-    & #pop-content{
+    & #pop-content {
       opacity: 1;
       top: 0;
     }
@@ -181,11 +181,25 @@ border: 1px solid black;
   z-index: 5;
   transition: all 0.2s ease-in, transform 2s;
   transform-origin: top;
+  &.show-page {
+    animation: show-page 1.25s 1 both;
+  }
   &.show-about {
     animation: show-about 1.25s 1 forwards;
   }
   &.hide-about {
     animation: hide-about 1.25s 1 forwards;
+  }
+}
+
+@keyframes show-page {
+  0% {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
   }
 }
 
@@ -227,7 +241,7 @@ border: 1px solid black;
   top: 0;
   bottom: 0;
   z-index: 4;
-  overflow-y: auto;
+  overflow-x: visible;
   height: 100%;
   background-color: white;
   border-right: 1.5px dotted rgba(128, 128, 128, 0.2);
@@ -335,6 +349,28 @@ border: 1px solid black;
       }
       & #logo {
         width: 100px;
+        transform: rotate(0deg) scale(1);
+        transition: 1s;
+        &.small {
+          transform: rotate(0deg) scale(0.8);
+        }
+        &.loading {
+          animation: loading 2s infinite backwards;
+          @keyframes loading {
+            0% {
+              transform: rotate(0deg) scale(0.8);
+              filter: grayscale(0%);
+            }
+            50% {
+              transform: rotate(360deg) scale(0.8);
+              filter: grayscale(95%);
+            }
+            100% {
+              transform: rotate(720deg) scale(0.8);
+              filter: grayscale(0%);
+            }
+          }
+        }
       }
     }
   }
