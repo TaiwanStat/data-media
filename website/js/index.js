@@ -60,17 +60,15 @@ $('.nav-about').on('click', function() {
   if ($('.page-container').hasClass('show-about')) {
     $('.page-container').addClass('hide-about')
       .removeClass('show-about');
-    $('body,html').css('overflow', '')
+    hideAbout();
   } else if ($('.page-container').hasClass('hide-about')) {
     $('.page-container').addClass('show-about')
       .removeClass('hide-about');
-    $('body,html').css('overflow', 'hidden')
+    showAbout();
   } else {
-    $('.page-container').addClass('show-about');
-    $('body,html').css('overflow', 'hidden')
+    $('.page-container').addClass('show-about')
+    showAbout();
   }
-  $('body,html').animate({ scrollTop: 0 }, 'slow');
-
 })
 
 $('.menu').on('click', function() {
@@ -137,6 +135,19 @@ function initWordCollection() {
     $('#pop-content .card-container').removeClass('show');
     $('body,html').css('overflow', '');
   });
+}
+
+function showAbout() {
+  $('.nav-about .fa-arrow-right').addClass('show-about');
+  $('body,html').css('overflow', 'hidden')
+
+  var windowOffset = $(window).scrollTop();
+  $('#about').css('top', windowOffset + 'px');
+}
+
+function hideAbout() {
+  $('.nav-about .fa-arrow-right').removeClass('show-about');
+  $('body,html').css('overflow', '')
 }
 
 function isPosBeyondIdTop(pos, id) {
