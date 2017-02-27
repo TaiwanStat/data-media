@@ -151,7 +151,7 @@ function hideAbout() {
 }
 
 function isPosBeyondIdTop(pos, id) {
-  return pos > $(id).offset().top;
+  return pos >= $(id).offset().top;
 }
 
 function animateToId(id) {
