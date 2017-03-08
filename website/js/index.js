@@ -127,9 +127,6 @@ function initLengend() {
 }
 
 function initWordCollection() {
-  $('#word-collection .list').each(function(index) {
-    $(this).find('h3').on('click', window.ShowWordCollectionInModal);
-  });
   $('#modal-closer').on('click', function() {
     $('#modal-container').removeClass('show');
     $('#pop-content .card-container').removeClass('show');

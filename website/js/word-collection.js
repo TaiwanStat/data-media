@@ -53,6 +53,15 @@ function wordCollectionAddNewsCard(media, header, detail, link) {
   refreshCards();
 }
 
+function wordCollectionAddNewsNum(media, num) {
+  var selector = '#word-collection .' + media + '-container .cards';
+  // TODO: rewrite by vue.js
+  var content = '<h5 class="remaining-news-num">與其他 ' +
+    num + ' 則新聞...</h5>';
+  $(selector).append(content).on('click', window.ShowWordCollectionInModal);
+  refreshCards();
+}
+
 function wordCollectionClearCards(media, header, detail) {
   $('#word-collection .list .cards').each(function(index) {
     $(this).html('')
