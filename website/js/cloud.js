@@ -107,7 +107,7 @@ function wordCloud(selector) {
             window.wordCollectionAddNewsNum(mediaEN[i], dict[mediaEN[i]].count - 4);
         }
         $('#qurey-word').text(d.text)
-        $('.card-container').removeClass('show');
+        $('#word-collection').removeClass('show');
       });
 
     //Entering and existing words

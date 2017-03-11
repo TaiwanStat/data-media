@@ -54,6 +54,8 @@ $.get('report.json', function(t) {
   setTimeout(function() {
     $('.page-container').removeClass('show-page')
   }, 1000);
+
+  initTitleAnalysis(t['title_analysis']);
 });
 
 $('.nav-about').on('click', function() {
@@ -132,6 +134,47 @@ function initWordCollection() {
     $('#pop-content .card-container').removeClass('show');
     $('body,html').css('overflow', '');
   });
+}
+
+function initTitleAnalysis(news) {
+  var analysis_keys = ['provocative', 'ptt_idiom'];
+  for (m in media) {
+    var m_key = media[m];
+    for (k in analysis_keys) {
+      var counter = 0;
+      for (i in news[m_key][analysis_keys[k]]) {
+
+        var listID = analysis_keys[k];
+        var title = news[m_key][analysis_keys[k]][i].title;
+        var url = news[m_key][analysis_keys[k]][i].url;
+        var word = news[m_key][analysis_keys[k]][i].word;
+
+        listID = listID.replace('_', '-');
+
+        if (counter >= 4) {
+          counter++;
+          continue;
+        }
+
+        var m_keyEN = window.mediaNameTranslate(m_key)
+        titleAnalysisAddNewsCard(m_keyEN, listID, title, word, url);
+        counter++;
+      }
+    }
+  }
+
+  for (m in media) {
+    var m_key = media[m];
+    for (k in analysis_keys) {
+      var listID = analysis_keys[k];
+      listID = listID.replace('_', '-');
+      count = news[m_key][analysis_keys[k]].length - 4
+      if (count >= 1) {
+        var m_keyEN = window.mediaNameTranslate(m_key)
+        titleAnalysisAddNewsNum(m_keyEN, listID, count);
+      }
+    }
+  }
 }
 
 function showAbout() {
