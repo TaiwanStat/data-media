@@ -1,4 +1,12 @@
 #timeline {
+  & svg {
+    opacity: 0;
+    top: 20px;
+  }
+  &.show svg {
+    opacity: 1;
+    transition: 1s;
+  }
   & path {
     fill: none;
     stroke-width: 2.5;

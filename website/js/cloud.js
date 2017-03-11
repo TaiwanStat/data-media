@@ -48,13 +48,18 @@ function wordCloud(selector) {
       })
 
     var getColor = function(d) {
-        max = 0;
-        dict = {};
+        var max = 0;
+        var key;
+        var word_data = report.words_count[d.index][3]
         //find the media has greatest words_appear_ratio
         for (var i in media) {
-          words_appear_count = report.words_count[d.index][3][media[i]].sum;
-          totoal_news_count = report[media[i]].news_count;
-          words_appear_ratio = words_appear_count / totoal_news_count;
+          var words_appear_count = 0;
+          for (var j in word_data){
+            if(word_data[j].website === media[i])
+              words_appear_count += word_data[j].count;
+          }
+          var totoal_news_count = report[media[i]].news_count;
+          var words_appear_ratio = words_appear_count / totoal_news_count;
           if (words_appear_ratio > max) {
             max = words_appear_ratio;
             key = media[i];
@@ -78,12 +83,10 @@ function wordCloud(selector) {
       .text(function(d) {
         return d.text;
       }).on('click', function(d) {
-        // TODO:update the timeline data
-        // createTimeline('#timeline', data)
-
         // add word collection
         var offset = $('#timeline').offset();
         $('body,html').animate({ scrollTop: offset.top - 25 }, 'slow');
+        createTimeline('#timeline-inner', report.words_count[d.index][3]);
 
         window.wordCollectionClearCards();
         news = report.words_count[d.index][2];
@@ -108,6 +111,7 @@ function wordCloud(selector) {
         }
         $('#qurey-word').text(d.text)
         $('#word-collection').removeClass('show');
+        $('#timeline').removeClass('show');
       });
 
     //Entering and existing words

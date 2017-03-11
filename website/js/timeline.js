@@ -18,7 +18,7 @@ function createTimeline(selector, data) {
   }
 
   width = width > 960 ? 960 : width;
-
+  $(selector).empty();
   var svg = d3.select(selector).append('svg')
     .attr('width', width)
     .attr('height', 200);
@@ -31,16 +31,24 @@ function createTimeline(selector, data) {
   /* multiline */
 
   // Set the ranges
-  var x = d3.scale.linear().range([0, width]);
+  var x = d3.time.scale().range([0, width]);
   var y = d3.scale.linear().range([height, 0]);
 
   // Define the axes
   var xAxis = d3.svg.axis().scale(x)
-    .orient('bottom').ticks(5);
+    .orient('bottom').ticks(7);
 
   var yAxis = d3.svg.axis().scale(y)
     .orient('left').ticks(5);
 
+  var parseTime = d3.time.format("%Y-%m-%d").parse;
+
+  data.map(function(i) {
+    if(!(i.time instanceof Date))
+      i.time = parseTime(i.time);
+    return i
+  })
+  
   // Define the line
   var line = d3.svg.line()
     .interpolate('monotone')
@@ -50,6 +58,7 @@ function createTimeline(selector, data) {
     .y(function(d) {
       return y(d.count);
     });
+
 
   x.domain(d3.extent(data, function(d) {
     return d.time;
@@ -66,7 +75,7 @@ function createTimeline(selector, data) {
   // Loop through each symbol / key
   dataNest.forEach(function(d) {
     var group;
-    var lastIndex = d.values.length - 1;
+    var lastIndex = 0;
     group = g.append('g').attr('class', 'lineGroup');
     group.append('path')
       .attr('class', 'line')
@@ -87,6 +96,9 @@ function createTimeline(selector, data) {
           return mediaColor[d.key];
         })
         .transition(1000);
+      if(d.values[i].time.getTime() == x.domain()[1].getTime()){
+        lastIndex =+ i;
+      }
     }
     group.append('text')
       .attr('x', x(d.values[lastIndex].time) + 5)
@@ -135,20 +147,7 @@ function createTimeline(selector, data) {
 
 
   /*TODO:
-     * dot animation
-  */
+   * dot animation
+   */
 
 }
-
-var timelineData = [];
-for (var i = 23; i <= 30; i++) {
-  for (var item in media) {
-    timelineData.push({
-      website: media[item],
-      time: i,
-      count: Math.round(Math.random() * 80 + 20)
-    });
-  }
-}
-
-createTimeline('#timeline-inner', timelineData);

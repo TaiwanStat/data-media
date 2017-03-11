@@ -84,7 +84,7 @@ $('.menu').on('click', function() {
 });
 
 $(window).on('scroll', function(event) {
-  var pos = $('body').scrollTop() + 50
+  var pos = $('html').scrollTop() + 50;
 
   if (isPosBeyondIdTop(pos, '#cloud')) {
     $('.legend-container').removeClass('hidden');
@@ -105,6 +105,7 @@ $(window).on('scroll', function(event) {
 
   if (isPosBeyondIdTop(pos, '#timeline')) {
     $('#word-collection').addClass('show')
+    $('#timeline').addClass('show')
   }
 })
 
