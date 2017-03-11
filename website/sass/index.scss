@@ -69,14 +69,22 @@ border: 1px solid black;
   left: 110vw;
   z-index: 7;
   padding: 20px;
+  & p {
+    line-height: 1.7em;
+    text-align: justify;
+  }
   & .band-container:nth-child(1) {
     margin-top: 0px;
+  }
+  & .band .band-container {
+    margin: 0px 80px;
   }
   & .values {}
   & .inf-card-container {
     display: flex;
     justify-content: space-between;
     margin-top: 20px;
+    align-items: flex-start;
     & .inf-card {
       padding: 10px;
       display: flex;
@@ -91,10 +99,15 @@ border: 1px solid black;
         opacity: 0.4;
         font-size: 12px;
       }
-      & .photo {
-        border-radius: 100%;
-        width: 120px;
-        margin-bottom: 20px;
+      & .links .fa {
+        font-size: 25px;
+        padding: 2px;
+        opacity: 0.4;
+        transition: 0.2s;
+        cursor: pointer;
+        &:hover {
+          opacity: 0.7;
+        }
       }
     }
   }
@@ -416,7 +429,7 @@ border: 1px solid black;
     & .fa-arrow-right {
       visibility: hidden;
       padding: 10px;
-      transition:  all 0.5s, visibility 0s;
+      transition: all 0.5s, visibility 0s;
       transform: rotate(0deg);
       opacity: 0;
       &.show-about {

@@ -9,6 +9,8 @@ module.exports= function (hbs) {
   hbs.registerPartial('wordCollection', getPartials('wordCollection'));
   hbs.registerPartial('averageWords', getPartials('averageWords'));
   hbs.registerPartial('title_analysis', getPartials('title_analysis'));
+  hbs.registerPartial('about_reason', getPartials('about_reason'));
+  hbs.registerPartial('about_staff', getPartials('about_staff'));
 };
 
 function getPartials(filename) {
