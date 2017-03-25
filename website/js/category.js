@@ -19,14 +19,18 @@ function createCategory(data) {
 
   var nodes = []
   var counter;
+  console.log(data)
   var numOfCategory = Object.keys(data).map(function(d) {
-      return Object.keys(data[d].category).length
+      console.log(d);
+      return Object.keys(data[d].category).length;
     })
     // var maxOfCategoryNum = Math.max.apply(null, numOfCategory);
 
   var i = 0;
   var TitleHeight = 2;
-  var CategoryToDisplay = 12
+  var CategoryToDisplay = 12;
+  var SIZEDIVIDER = 20;
+
   for (var d in data) {
     var dataNode = [];
     var y = d3.scale.ordinal()
@@ -38,7 +42,7 @@ function createCategory(data) {
 
     /*Title node*/
     nodes.push({
-      radius: Math.sqrt(data[d].news_count) * maxRadius / 7,
+      radius: Math.sqrt(data[d].news_count) * maxRadius / SIZEDIVIDER,
       color: color(d),
       cx: i * 180 + 90,
       x: i * 180 + 90,
@@ -54,7 +58,7 @@ function createCategory(data) {
       if (counter > 12)
         break;
       dataNode.push({
-        radius: Math.sqrt(data[d].category[o]) * maxRadius / 7,
+        radius: Math.sqrt(data[d].category[o]) * maxRadius / SIZEDIVIDER,
         color: color(d),
         cx: i * 180 + 90,
         x: i * 180 + 90,
