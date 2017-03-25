@@ -84,7 +84,7 @@ $('.menu').on('click', function() {
 });
 
 $(window).on('scroll', function(event) {
-  var pos = $('html').scrollTop() + 50;
+  var pos = $(window).scrollTop() + 50;
 
   if (isPosBeyondIdTop(pos, '#cloud')) {
     $('.legend-container').removeClass('hidden');
