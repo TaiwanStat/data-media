@@ -58,7 +58,8 @@ function wordCollectionAddNewsNum(media, num) {
   // TODO: rewrite by vue.js
   var content = '<h5 class="remaining-news-num">與其他 ' +
     num + ' 則新聞...</h5>';
-  $(selector).append(content).on('click', window.ShowWordCollectionInModal);
+  $(selector).append(content);
+  $(selector).find('.remaining-news-num').on('click', window.ShowWordCollectionInModal);
   refreshCards();
 }
 

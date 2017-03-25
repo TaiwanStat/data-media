@@ -57,6 +57,7 @@ function titleAnalysisAddNewsNum(media, listID, num) {
   listID = listID.replace('-','_');
   var content = '<h5 class="remaining-news-num" data-media="' + media + '" data-list="' + listID + '">與其他 ' +
     num + ' 則新聞...</h5>';
-  $(selector).append(content).on('click', window.ShowTitleAnalysisInModal);
+  $(selector).append(content);
+  $(selector).find('.remaining-news-num').on('click', window.ShowTitleAnalysisInModal);
   refreshCards();
 }
