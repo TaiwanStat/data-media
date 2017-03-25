@@ -27,9 +27,9 @@ body {
 
 //FOR DEBUG
 
-/** {
+* {
 border: 1px solid black;
-}*/
+}
 
 * {
   color: $default_font_color;
@@ -307,12 +307,14 @@ border: 1px solid black;
   & .band-container {
     left: 0;
     right: 0;
-    margin: 80px;
+    margin-bottom: 120px;
+    margin-left: 80px;
     max-width: 960px;
     display: table;
     position: relative;
     &.top-band {
       min-height: 100px;
+      margin-top: 80px;
     }
     & .band-inner {
       display: table-cell;
