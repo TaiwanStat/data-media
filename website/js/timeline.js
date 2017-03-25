@@ -46,9 +46,9 @@ function createTimeline(selector, data) {
   data.map(function(i) {
     if(!(i.time instanceof Date))
       i.time = parseTime(i.time);
-    return i
+    return i;
   })
-  
+  data.sort(sortByDateAscending);
   // Define the line
   var line = d3.svg.line()
     .interpolate('monotone')
@@ -150,4 +150,9 @@ function createTimeline(selector, data) {
    * dot animation
    */
 
+}
+
+function sortByDateAscending(a, b) {
+    // Dates will be cast to numbers automagically:
+    return a.time - b.time;
 }
