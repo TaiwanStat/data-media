@@ -160,6 +160,9 @@ body {
     & #pop-content {
       opacity: 1;
       top: 0;
+      & .card{
+        min-width: 400px;
+      }
     }
     opacity: 1;
     top: 0;
