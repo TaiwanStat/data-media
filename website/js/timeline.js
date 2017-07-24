@@ -42,12 +42,22 @@ function createTimeline(selector, data) {
     .orient('left').ticks(5);
 
   var parseTime = d3.time.format("%Y-%m-%d").parse;
+  var parseTime_slash = d3.time.format("%Y/%m/%d").parse;
 
   data.map(function(i) {
-    if(!(i.time instanceof Date))
-      i.time = parseTime(i.time);
+    var formated_date = i.time;
+    if (!(formated_date instanceof Date))
+      formated_date = parseTime(i.time);
+    if (!(formated_date instanceof Date)){
+      console.log(i,formated_date)
+      formated_date = parseTime_slash(i.time);
+    }
+      
+    i.time = formated_date
     return i;
   })
+
+  console.log(data)
   data.sort(sortByDateAscending);
   // Define the line
   var line = d3.svg.line()
@@ -96,9 +106,11 @@ function createTimeline(selector, data) {
           return mediaColor[d.key];
         })
         .transition(1000);
+      console.log(d)
       if(d.values[i].time.getTime() == x.domain()[1].getTime()){
         lastIndex =+ i;
       }
+      
     }
     group.append('text')
       .attr('x', x(d.values[lastIndex].time) + 5)
