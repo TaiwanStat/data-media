@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+#!/usr/bin/env python
 
 import glob
 import json
@@ -8,12 +9,10 @@ import time
 import statistics
 import re
 import datetime
-from gensim.models import word2vec
 from operator import itemgetter
 
 
 medias = ['蘋果日報', '聯合報', '自由時報', '東森新聞雲', '中央通訊社']
-model = word2vec.Word2Vec.load("med250.model.bin")
 
 
 def read_json(filename):
@@ -33,6 +32,7 @@ def read_data(directory):
         file_date = datetime.datetime.strptime(date_str, '%Y-%m-%d')
 
         for news in news_data:
+            # some news may have key error due to json load in strict=False
             try:
                 url, date = news["url"], news['date'][:10].replace('/', '-')
             except Exception as e:
@@ -115,6 +115,11 @@ def cut_words_and_count(report, datas):
     jieba.load_userdict('dicts/dict_from_moe.txt')
     jieba.load_userdict('dicts/dict_from_tags.txt')
 
+    word_clusters = read_json('cluster.json')
+
+    PROVOCATIVE_REF = '爽'
+    PROVOCATIVE_WORDS = get_clutsr_words(PROVOCATIVE_REF, word_clusters)
+
     start_time = time.time()
     stopwords = set()
     with open('stop_words.txt', 'r') as f:
@@ -143,6 +148,18 @@ def cut_words_and_count(report, datas):
         words_filtered = [word for word in words_filtered if not word.isdigit()]
         for word in words_filtered:
             if word in words_index:
+                is_provocative = False 
+                provocative_words = []
+                try:
+                    seg_title = jieba.lcut(news['title'], cut_all=False)
+                except Exception as e:
+                    print(repr(e))
+                    continue
+
+                provocative_set = compare_lists(seg_title, PROVOCATIVE_WORDS)
+                if len(provocative_set) != 0:
+                    is_provocative = True
+                    provocative_words = list(provocative_set)
                 index = words_index.index(word)
                 item = words_count[index]
                 item[1] += 1
@@ -150,7 +167,9 @@ def cut_words_and_count(report, datas):
                     'media': news['website'],
                     'title': news['title'],
                     'url': news['url'],
-                    'date': news['date']
+                    'date': news['date'],
+                    'isProvocative': is_provocative,
+                    'provocativeWords': provocative_words
                     }
                 if tmp not in item[2]:
                     item[2].append(tmp)
@@ -176,6 +195,7 @@ def cut_words_and_count(report, datas):
 
 def get_words_timeline(report):
     words_count = report['words_count']
+    dates = []
 
     for word in words_count:
         d = {}
@@ -189,13 +209,24 @@ def get_words_timeline(report):
                 d[m][date] += 1
             else:
                 d[m][date] = 1
-        for m, dates in d.items():
-            for date, count in dates.items():
+        for m, media_date_count in d.items():
+            for date, count in media_date_count.items():
+                dates.append(date)
                 word[3].append({
                     'website': m,
                     'time': date,
                     'count': count
                 })
+        for m in media:
+            media_has_date = [d.date for d in word[3] if d['website'] == m]
+            for date in dates:
+                if date not in media_has_date:
+                    word[3].append({
+                        'website': m,
+                        'time': date,
+                        'count': 0,
+                    })
+
     return report
 
 def index_of_word_in_nested_list(word, cluster_list):
@@ -209,6 +240,12 @@ def compare_lists(list1, list2):
     return set(list1) & set(list2)
 
 
+def get_clutsr_words(word, cluster_list):
+    index = index_of_word_in_nested_list(word, cluster_list)
+    if index == -1:
+        print('title analysis failed: not found key word in cluster.')
+    return cluster_list[index]
+
 def get_title_analysis(report, datas):
 
     word_clusters = read_json('cluster.json')
@@ -219,15 +256,8 @@ def get_title_analysis(report, datas):
     PROVOCATIVE_REF = '爽'
     PTT_IDIOM_REF = '鄉民'
 
-    index_of_provocative = index_of_word_in_nested_list(PROVOCATIVE_REF, word_clusters)
-    index_of_ptt = index_of_word_in_nested_list(PTT_IDIOM_REF, word_clusters)
-
-    if index_of_provocative == -1 or index_of_ptt == -1:
-        print('title analysis failed: not found key word in cluster.')
-        return report
-
-    PROVOCATIVE_WORDS = word_clusters[index_of_provocative]
-    PTT_IDIOM_WORDS = word_clusters[index_of_ptt]
+    PROVOCATIVE_WORDS = get_clutsr_words(PROVOCATIVE_REF, word_clusters)
+    PTT_IDIOM_WORDS = get_clutsr_words(PTT_IDIOM_REF, word_clusters)
 
     report['title_analysis'] = {}
     root = report['title_analysis']
