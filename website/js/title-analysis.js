@@ -1,7 +1,9 @@
 function titleAnalysisAddNewsCard(media, listID, header, word, link) {
   var selector = '#title-analysis #' + listID + ' .' + media + '-container .cards';
   // TODO: rewrite by vue.js
-  header = header.replace(word, '<em>' + word + '</em>');
+  word.forEach(function(w) {
+    header = header.replace(w, '<em>' + w + '</em>');
+  });
   var content = '<a target="_blank" class="card" href="' +
     link + '"><h5>' + header + '</h5></a>';
 

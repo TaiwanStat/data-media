@@ -43,49 +43,85 @@ function wordCloud(selector) {
   //Draw the word cloud
   function draw(words) {
     var cloud = svg.selectAll('g text')
-      .data(words, function(d) {
+      .data(words, function (d) {
         return d.text;
       })
 
-    var getColor = function(d) {
-        var max = 0;
-        var key;
-        var word_data = report.words_count[d.index][3]
-        //find the media has greatest words_appear_ratio
-        for (var i in media) {
-          var words_appear_count = 0;
-          for (var j in word_data){
-            if(word_data[j].website === media[i])
-              words_appear_count += word_data[j].count;
-          }
-          var totoal_news_count = report[media[i]].news_count;
-          var words_appear_ratio = words_appear_count / totoal_news_count;
-          if (words_appear_ratio > max) {
-            max = words_appear_ratio;
-            key = media[i];
-          }
+    var isExistOutliers = function (timelineData) {
+
+      var result = false
+      var STANDARD = 5
+      var numOfReached = 0
+
+      timelineData.forEach(function(d){
+        if (d.count < STANDARD){
+          result = true
+          numOfReached++
         }
-        return mediaColor[key];
+      })
+
+      return (numOfReached < 7) && result ? true : false
+    }
+
+    var getColor = function (d) {
+      var isHightlight = isExistOutliers(report.words_count[d.index][3]);
+      var key;
+      var word_data = report.words_count[d.index][2]
+      var news_amount = word_data.length
+      //find the media has greatest words_appear_ratio
+      dict = {};
+      for (i in mediaEN) {
+        dict[mediaEN[i]] = {};
+        dict[mediaEN[i]].count = 0;
+        dict[mediaEN[i]].provocativeNum = 0;
       }
-      //Entering words
+      for (var news in word_data) {
+        var media = mediaNameTranslate(word_data[news].media);
+        dict[media].count++
+        if (word_data[news].isProvocative == true)
+          dict[media].provocativeNum++
+      }
+      var isProvocative = false;
+      for (var media in dict) {
+        var provocativeRatio = dict[media].provocativeNum / dict[media].count
+        if (provocativeRatio > 0.1 && dict[media].count > 20)
+          isProvocative = true
+      }
+      var color;
+      if ( isProvocative && isHightlight){
+        color = 'purple'
+      } else if (isProvocative){
+        color = 'red'
+      } else if (isHightlight){
+        color = 'blue'
+      } else {
+        color = 'lightgrey'
+      }
+      return color
+    }
+    //Entering words
     cloud.enter()
       .append('text')
       .style('font-family', 'Impact')
-      .style('fill', function(d, i) {
+      .style('fill', function (d, i) {
         return (d.size > 21 ? getColor(d) : 'lightgrey')
       })
-      .style('font-weight', function(d) {
-        return (d.size > 16 ? 600 : 100)
+      .style('font-weight', function (d) {
+        return (d.size > 21 ? 600 : 100)
       })
       .attr('text-anchor', 'middle')
       .attr('font-size', 1)
       .attr('cursor', 'pointer')
-      .text(function(d) {
+      .text(function (d) {
         return d.text;
-      }).on('click', function(d) {
+      }).on('click', function (d) {
         // add word collection
         var offset = $('#timeline').offset();
-        $('body,html').animate({ scrollTop: offset.top - 25 }, 'slow');
+        var NUM_OF_SHOWED_NEWS = 6
+        var nonProvocativeNewses = []
+        $('body,html').animate({
+          scrollTop: offset.top - 25
+        }, 'slow');
         createTimeline('#timeline-inner', report.words_count[d.index][3]);
 
         window.wordCollectionClearCards();
@@ -94,21 +130,46 @@ function wordCloud(selector) {
         for (i in mediaEN) {
           dict[mediaEN[i]] = {};
           dict[mediaEN[i]].count = 0;
+          dict[mediaEN[i]].provocativeNum = 0;
           dict[mediaEN[i]].IsMoreThanFive = false;
         }
         for (var i in news) {
           media = mediaNameTranslate(news[i].media);
-          dict[media].count++;
-          if (dict[media].count < 5) {
-            window.wordCollectionAddNewsCard(media, news[i].title, '', news[i].url);
-          } else if (dict[media].count == 5) {
+          if (news[i].isProvocative === true)
+            dict[media].provocativeNum++
+            if (dict[media].count < NUM_OF_SHOWED_NEWS && news[i].isProvocative === true) {
+              window.wordCollectionAddNewsCard(media, news[i].title, '', news[i].url, true);
+              dict[media].count++;
+            } else if (dict[media].count < NUM_OF_SHOWED_NEWS && news[i].isProvocative === false) {
+            nonProvocativeNewses.push(news[i])
+          } else if (dict[media].count >= NUM_OF_SHOWED_NEWS) {
             dict[media].IsMoreThanFive = true;
+            dict[media].count++;
           }
         }
-        for (i in mediaEN) {
-          if (dict[mediaEN[i]].IsMoreThanFive)
-            window.wordCollectionAddNewsNum(mediaEN[i], dict[mediaEN[i]].count - 4);
+
+        for (var i in nonProvocativeNewses) {
+          var news = nonProvocativeNewses[i]
+          media = mediaNameTranslate(news.media);
+          if (dict[media].count < NUM_OF_SHOWED_NEWS) {
+            window.wordCollectionAddNewsCard(mediaNameTranslate(news.media), news.title, '', news.url, false);
+            dict[media].count++;
+          } else if (dict[media].count >= NUM_OF_SHOWED_NEWS) {
+            dict[media].IsMoreThanFive = true;
+            dict[media].count++;
+          }
         }
+
+        for (i in mediaEN) {
+          var newsItem = dict[mediaEN[i]]
+          if (newsItem.IsMoreThanFive) {
+            window.wordCollectionAddNewsNum(mediaEN[i], newsItem.count - NUM_OF_SHOWED_NEWS + 1);
+          }
+          if (newsItem.provocativeNum >= 1) {
+            wordCollectionAddProvocativeNum(mediaEN[i], parseFloat(newsItem.provocativeNum * 100 / newsItem.count).toFixed(1))
+          }
+        }
+
         $('#qurey-word').text(d.text)
         $('#word-collection').removeClass('show');
         $('#timeline').removeClass('show');
@@ -118,10 +179,10 @@ function wordCloud(selector) {
     cloud
       .transition()
       .duration(600)
-      .style('font-size', function(d) {
+      .style('font-size', function (d) {
         return d.size + 'px';
       })
-      .attr('transform', function(d) {
+      .attr('transform', function (d) {
         return 'translate(' + [d.x, d.y] + ')rotate(' + d.rotate + ')';
       })
       .style('fill-opacity', 1);
@@ -144,16 +205,16 @@ function wordCloud(selector) {
     // asycnhronously call draw when the layout has been computed.
     //The outside world will need to call this function, so make it part
     // of the wordCloud return value.
-    update: function(words) {
+    update: function (words) {
       d3.layout.cloud()
         .size([width, 500])
         .words(words)
         .padding(2)
-        .rotate(function() {
+        .rotate(function () {
           return Math.random() * 90 - 45;
         })
         .font('Impact')
-        .fontSize(function(d) {
+        .fontSize(function (d) {
           return d.size;
         })
         .on('end', draw)
@@ -166,8 +227,12 @@ function wordCloud(selector) {
 function showNewWords(vis, i) {
   max = report.words_count[0][1];
   scale = max / 100;
-  cloudConfig = report.words_count.map(function(obj, index) {
-    return { text: obj[0], size: (10 + obj[1] / scale), index: index };
+  cloudConfig = report.words_count.map(function (obj, index) {
+    return {
+      text: obj[0],
+      size: (10 + obj[1] / scale),
+      index: index
+    };
   });
   vis.update(cloudConfig);
 }

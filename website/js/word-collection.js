@@ -23,7 +23,8 @@ function ShowWordCollectionInModal(event) {
       var header = news[i].title;
       var detail = '';
       var link = news[i].url;
-      var content = '<a target="_blank" class="card" href="' +
+      var style = news[i].isProvocative ? 'background-color:#ffc7b3' : ''
+      var content = '<a target="_blank" class="card" style =' + style + ' href="' +
         link + '"><h5>' + header + '</h5><div class="detail">' +
         detail + '</div></a>';
       $(selector).append(content);
@@ -43,10 +44,10 @@ function refreshCards() {
   });
 }
 
-function wordCollectionAddNewsCard(media, header, detail, link) {
+function wordCollectionAddNewsCard(media, header, detail, link, isProvocative) {
   var selector = '#word-collection .' + media + '-container .cards';
-  // TODO: rewrite by vue.js
-  var content = '<a target="_blank" class="card" href="' +
+  var style = isProvocative ? 'background-color:#ffc7b3' : ''
+  var content = '<a target="_blank" class="card" style =' + style + ' href="' +
     link + '"><h5>' + header + '</h5><div class="detail">' +
     detail + '</div></a>';
   $(selector).append(content);
@@ -60,6 +61,16 @@ function wordCollectionAddNewsNum(media, num) {
     num + ' 則新聞...</h5>';
   $(selector).append(content);
   $(selector).find('.remaining-news-num').on('click', window.ShowWordCollectionInModal);
+  refreshCards();
+}
+
+function wordCollectionAddProvocativeNum(media, num) {
+  console.log(num)
+  $('#word-collection .' + media + '-container .provative-num').remove()
+  var style = num > 10 ? 'color:coral' : 'opacity:0.6' 
+  var selector = '#word-collection .' + media + '-container h3';
+  var content = '<h5 class="provative-num" style=' + style + '> ' + num + ' % 標題含情緒字眼</h5>';
+  $(selector).after(content);
   refreshCards();
 }
 

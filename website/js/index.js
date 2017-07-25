@@ -15,7 +15,7 @@ $("#logo").one('animationiteration webkitAnimationIteration', function() {
   }
 });
 
-$.get('report.json', function(t) {
+$.getJSON('report.json', function(t) {
   report = t;
   IsReportGot = true;
   var totoalNews = 0;
