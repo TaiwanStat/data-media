@@ -1,0 +1,40 @@
+.buzzword-container{
+  text-align: center;
+  padding: 40px;
+}
+ 
+#buzzword {
+  font-size: 1.5em;
+  letter-spacing: 3px;
+  font-weight: 900;
+}
+
+.two-column-list {
+  display: flex;
+  justify-content: center;
+  h5 {
+    text-align: center;
+  }
+  ul {
+    padding: 0;
+    margin: 32px;
+  }
+  li {
+    &.hightlight{
+      opacity: 1;
+      >.provocative-num, >.news-num{
+        color: red;
+      }
+    }
+    list-style-type: none;
+    text-align: left;
+    margin: 0;
+    padding: 0 12px;
+    opacity: 0.75;
+    display: flex;
+    justify-content: space-between;
+    >span {
+      padding:8px 16px;
+    }
+  }
+}

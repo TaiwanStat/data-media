@@ -104,7 +104,7 @@ function wordCloud(selector) {
       .append('text')
       .style('font-family', 'Impact')
       .style('fill', function (d, i) {
-        return (d.size > 21 ? getColor(d) : 'lightgrey')
+        return (getColor(d))
       })
       .style('font-weight', function (d) {
         return (d.size > 21 ? 600 : 100)
@@ -171,8 +171,6 @@ function wordCloud(selector) {
         }
 
         $('#qurey-word').text(d.text)
-        $('#word-collection').removeClass('show');
-        $('#timeline').removeClass('show');
       });
 
     //Entering and existing words
@@ -226,7 +224,7 @@ function wordCloud(selector) {
 
 function showNewWords(vis, i) {
   max = report.words_count[0][1];
-  scale = max / 100;
+  scale = max / 70;
   cloudConfig = report.words_count.map(function (obj, index) {
     return {
       text: obj[0],

@@ -2,7 +2,7 @@ var report;
 initLengend();
 initWordCollection();
 window.refreshCards();
-$('.page-container').css('display', 'none');
+// $('.page-container').css('display', 'none');
 $('#logo').addClass('loading');
 $('#logo').addClass('small');
 var IsReportGot = false;
@@ -55,7 +55,8 @@ $.getJSON('report.json', function(t) {
     $('.page-container').removeClass('show-page')
   }, 1000);
 
-  initTitleAnalysis(t['title_analysis']);
+  initBuzzword(t['buzzword'])
+  initWordAnalysis(t['word_analysis'])
 });
 
 $('.nav-about').on('click', function() {
@@ -86,27 +87,12 @@ $('.menu').on('click', function() {
 $(window).on('scroll', function(event) {
   var pos = $(window).scrollTop() + 50;
 
-  if (isPosBeyondIdTop(pos, '#cloud')) {
+  if (isPosBeyondIdTop(pos, '.page-container')) {
     $('.legend-container').removeClass('hidden');
   } else {
     $('.legend-container').addClass('hidden');
   }
 
-  if (isPosBeyondIdTop(pos, '#discussion')) {
-    $('.nav a').removeClass('nav-primary')
-    $('#button3').addClass('nav-primary');
-  } else if (isPosBeyondIdTop(pos, '#report')) {
-    $('.nav a').removeClass('nav-primary')
-    $('#button2').addClass('nav-primary');
-  } else {
-    $('.nav a').removeClass('nav-primary')
-    $('#button1').addClass('nav-primary');
-  }
-
-  if (isPosBeyondIdTop(pos, '#timeline')) {
-    $('#word-collection').addClass('show')
-    $('#timeline').addClass('show')
-  }
 })
 
 $('.nav li').on('click', function(event) {

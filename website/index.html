@@ -11,7 +11,9 @@
     </div>
   </div>
   <div class="container">
-    <div class="nav-container">
+     <div class="nav-container">
+      <div class="legend-container hidden">
+      </div>
       <div class="nav-logo">
         <div class="logo-container">
           <a href="#">
@@ -23,68 +25,58 @@
           <div class="nav-time">2016. 01. 05</div>
         </div>
       </div>
-      <div class="nav">
-        <ul>
-          <li><a href="#" id="button1" class="nav-primary">媒體用詞雲</a></li>
-          <li><a href="#" id="button2">媒體分析報告</a></li>
-          <li><a href="#" id="button3">討論與分享</a></li>
-        </ul>
-      </div>
-      <div class="nav-about"><a><i class="fa fa-arrow-right" aria-hidden="true"></i>ABOUT</a></div>
-    </div>
+    </div> 
     <div class="page-container">
-      <div class="legend-container hidden">
-      </div>
-      <div class="menu">
-        <div class="menu-hamburger">
-        </div>
-      </div>
-      <section id="about">
-        <section class="band">
-          <div class="band-container">
-            <div class="band-inner">
-              <h1>為什麼要做這個專案？</h1><h3>我們是成功大學資訊系的學生，我們相信用心去感動，用數據說故事，這個社會會變得更好。</h3><p>那我們要說什麼故事呢？我們要說的是一個關於新聞媒體的故事。</p><p>不知道大家有沒有曾經遇過這個問題，面對市面上百家爭鳴的媒體，像是蘋果日報、自由時報、東森新聞雲、中國時報、報導者、端傳媒、風傳媒.....，你不知道要看哪個媒體作為你的資訊來源，又或者是通通追蹤了，但是你的臉書卻永遠滑不到底。</p><p>在這個社群媒體的時代，新舊媒體百家爭鳴，資訊爆炸，只要創立一個粉絲專頁，甚至就可以成為一個媒體，自己貼文、報導。新聞媒體為了生存，各自朝向了迥異的方向發展，有些開始朝向大量話題新聞，有些則專注於深入報導，有些則好腥羶色，那你又該如何選擇呢？</p><p>在這個專案中，我們打算做一個媒體閱聽人的燈塔，打開媒體的黑盒子， 視覺化媒體的品牌獨特性，將隨著時間加入更多媒體的資料，願大家能在這裡找到自己的媒礦。</p>            </div>
-          </div>
-          <div class="band-container">
-            <div class="band-inner">
-              <h1>你們是誰？</h1><div class="inf-card-container">  <div class="inf-card">    <div class="des">      <div class="name">developer1</div>      <p class="talking">Lorem ipsum dolor sit amet, consectetur adipisicing elit. In, dolorum!</p>      <div class="links">        <i class="fa fa-github" aria-hidden="true"></i>        <i class="fa fa-facebook-square" aria-hidden="true"></i>      </div>    </div>  </div>  <div class="inf-card">    <div class="des">      <div class="name">developer2</div>      <p class="talking">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veritatis, minus?</p>      <div class="links">        <i class="fa fa-github" aria-hidden="true"></i>        <i class="fa fa-facebook-square" aria-hidden="true"></i>      </div>    </div>  </div>  <div class="inf-card">    <div class="des">      <div class="name">developer3</div>      <p class="talking">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nemo, excepturi.</p>      <div class="links">        <i class="fa fa-github" aria-hidden="true"></i>        <i class="fa fa-facebook-square" aria-hidden="true"></i>      </div>    </div>  </div>  <div class="inf-card">    <div class="des">      <div class="name">李至青 Ching Li</div>      <p class="talking">興趣使然的網頁前端愛好者，希望這個世界能因為自己而有一點點的不一樣。</p>      <div class="links">        <i class="fa fa-github" aria-hidden="true"></i>        <i class="fa fa-facebook-square" aria-hidden="true"></i>      </div>    </div>  </div></div>            </div>
-          </div>
-        </section>
-      </section>
-      <section class="band">
+       <section class="band">
         <div class="band-container top-band">
           <div class="band-inner">
-            <h1 id="num-news"></h1>
-            <h2 id="num-scale">篇新聞</h2> <div class="bar-container"><div id="num-news-bar"></div></div>
+             <div class="bar-container"><div id="num-news-bar"></div></div>            <div class="data-desc">
+              <h1 id="num-news"></h1>
+              <h2 id="num-scale">篇新聞</h2>
+            </div>
           </div>
         </div>
-      </section>
-      <h1 id="cloud" class="big-title"><i class="fa fa-cube" aria-hidden="true"></i>媒體用詞雲</h1>
+      </section> 
+       <section class="band">
+        <div class="band-container">
+          <div class="band-inner">
+            <div><h1>This week Buzzword</h1>
+            <h2>Buzzword</h2></div> <div class="buzzword-container">  <h3 id="buzzword">劉曉波</h3>  <h5><i class="fa fa-arrow-up" aria-hidden="true"></i><span id="buzzword-growth">13%</span></h5></div> <div class="two-column-list">   <div>    <h5>情緒性報導</h5>    <ul id="provocative-list">    </ul>   </div>   <div>     <h5>報導數量</h5>    <ul id="outliner-list">    </ul>  </div>    </div>
+          </div>
+        </div>
+      </section> 
       <section class="band">
         <div class="band-container">
           <div class="band-inner">
-            <h1>媒體用詞雲</h1>
-            <h2>各媒體新聞用詞的文字雲，以位置表達各個媒體的常用詞</h2> <div class="cloud"></div>
+            <div><h1>word analysis</h1>
+            <h2>word analysis</h2></div> <div class="horizontal-lists"></div>
+          </div>
+        </div>
+      </section>
+      <section class="band">
+        <div class="band-container">
+          <div class="band-inner">
+            <div><h1>媒體用詞雲</h1>
+            <h2>各媒體新聞用詞的文字雲，以位置表達各個媒體的常用詞</h2></div> <div class="cloud"></div>
           </div>
         </div>
       </section>
       <section class="band" id="timeline">
         <div class="band-container">
           <div class="band-inner">
-            <h1>詞彙時間軸</h1>
-            <h2>可查看單一詞彙的被報導時間軸</h2> <div class="timeline-container"><div id="timeline-inner"></div></div>
+            <div><h1>詞彙時間軸</h1>
+            <h2>可查看單一詞彙的被報導時間軸</h2></div> <div class="timeline-container show"><div id="timeline-inner"></div></div>
           </div>
         </div>
       </section>
       <section class="band">
         <div class="band-container">
           <div class="band-inner">
-            <h1>詞彙新聞集</h1>
-            <h2>單一詞彙於各家媒體的出現新聞集</h2> <div id="qurey-word"></div><div class="card-container" id="word-collection"><div class="list apple-container"><h3>蘋果日報</h3><div class="cards"></div></div><div class="list udn-container"><h3>聯合報</h3><div class="cards"></div></div><div class="list liberty-container"><h3>自由時報</h3><div class="cards"></div></div><div class="list cna-container"><h3>中央社</h3><div class="cards"></div></div><div class="list ettoday-container"><h3>東森新聞雲</h3><div class="cards"></div></div></div>
+            <div><h1>詞彙新聞集</h1>
+            <h2>單一詞彙於各家媒體的出現新聞集</h2></div> <div id="qurey-word"></div><div class="card-container show" id="word-collection"><div class="list apple-container"><h3>蘋果日報</h3><div class="cards"></div></div><div class="list udn-container"><h3>聯合報</h3><div class="cards"></div></div><div class="list liberty-container"><h3>自由時報</h3><div class="cards"></div></div><div class="list cna-container"><h3>中央社</h3><div class="cards"></div></div><div class="list ettoday-container"><h3>東森新聞雲</h3><div class="cards"></div></div><div class="list china-container"><h3>中國時報</h3><div class="cards"></div></div></div>
           </div>
         </div>
       </section>
-      <h1 id="discussion" class="big-title"><i class="fa fa-cube" aria-hidden="true"></i>討論與分享</h1>
       <section class="band">
         <div class="band-container">
           <div class="band-inner">
@@ -103,7 +95,8 @@
 <script type="text/javascript" src="./dist/js/timeline.js"></script>
 <script type="text/javascript" src="./dist/js/word-collection.js"></script>
 <script type="text/javascript" src="./dist/js/average-words.js"></script>
-<script type="text/javascript" src="./dist/js/title-analysis.js"></script>
+<script type="text/javascript" src="./dist/js/word-analysis.js"></script>
+<script type="text/javascript" src="./dist/js/buzzword.js"></script>
 <script type="text/javascript" src="./dist/js/index.js"></script>
 
 

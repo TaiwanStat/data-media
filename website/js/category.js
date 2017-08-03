@@ -3,8 +3,6 @@ function createCategory(data) {
   // 1. sort data
   // 2. prettifier
 
-  console.log(data);
-
   var width = 880,
     height = 1000,
     padding = 6, // separation between nodes
@@ -19,9 +17,7 @@ function createCategory(data) {
 
   var nodes = []
   var counter;
-  console.log(data)
   var numOfCategory = Object.keys(data).map(function(d) {
-      console.log(d);
       return Object.keys(data[d].category).length;
     })
     // var maxOfCategoryNum = Math.max.apply(null, numOfCategory);

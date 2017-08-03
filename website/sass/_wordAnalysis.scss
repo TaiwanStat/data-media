@@ -1,0 +1,41 @@
+.horizontal-lists {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  align-self: baseline;
+  >div {
+    flex: 0 0 auto;
+    padding: 8px 32px;
+    margin: 32px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16),
+    0 3px 6px rgba(0, 0, 0, 0.23);
+  }
+  &:before {
+    content: '';
+    width: 48px;
+    height: 100%;
+    position: absolute;
+    right: 0;
+    top: 0;
+    background: linear-gradient(to left, #fff, rgba(255, 255, 255, 0));
+  }
+  &:after {
+    content: '';
+    width: 48px;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: linear-gradient(to right, #fff, rgba(255, 255, 255, 0));
+  }
+}
+
+.list {
+  padding: 0 12px;
+ li {
+   padding: 4px;
+   >span:not(:first-child) {
+      margin-left: 8px; 
+   }
+ }
+}
