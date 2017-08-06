@@ -1,0 +1,1 @@
+python3 wiki_seg.py && python3 train_wiki.py && python3 produce_train_data_from_files.py ~/tw-media-data && python3 train_news.py && python3 kmeans.py 550
