@@ -31,7 +31,7 @@ def read_data(directory):
         date_str = re.search(r'_(\d+-\d+-\d+)\.json', json_file).group(1)
         file_date = datetime.datetime.strptime(date_str, '%Y-%m-%d')
 
-        for news in news_data:
+        for news in news_data[:10]:
             # some news may have key error due to json load in strict=False
             try:
                 url, date = news["url"], news['date'][:10].replace('/', '-')
@@ -263,7 +263,8 @@ def get_words_timeline(report):
                 d[m][date] = 1
         for m, media_date_count in d.items():
             for date, count in media_date_count.items():
-                dates.append(date)
+                if date not in dates:
+                    dates.append(date)
                 word[3].append({
                     'website': m,
                     'time': date,
