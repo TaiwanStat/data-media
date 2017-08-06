@@ -12,7 +12,7 @@ import datetime
 from operator import itemgetter
 
 
-medias = ['蘋果日報', '聯合報', '自由時報', '東森新聞雲', '中央通訊社']
+medias = ['蘋果日報', '聯合報', '自由時報', '東森新聞雲', '中央通訊社', '中國時報']
 
 
 def read_json(filename):
@@ -35,9 +35,10 @@ def read_data(directory):
             # some news may have key error due to json load in strict=False
             try:
                 url, date = news["url"], news['date'][:10].replace('/', '-')
+                news_date = datetime.datetime.strptime(date, '%Y-%m-%d')
             except Exception as e:
+                print('error data:'+json_file)
                 continue
-            news_date = datetime.datetime.strptime(date, '%Y-%m-%d')
             if not url:
                 print('news not url: ' + json_file)
                 continue
@@ -167,7 +168,7 @@ def cut_words_and_count(report, datas):
                     'media': news['website'],
                     'title': news['title'],
                     'url': news['url'],
-                    'date': news['date'],
+                    'date': news['date'][:10].replace('/','-'),
                     'isProvocative': is_provocative,
                     'provocativeWords': provocative_words
                     }
@@ -192,10 +193,61 @@ def cut_words_and_count(report, datas):
     print('' + str(time.time() - start_time))
     return report
 
+def get_buzzword(report, prev_words_count):
+    words_count = report['words_count']
+    min_count = words_count[-1][1]
+    report['buzzword'] = {}
+    buzzword = {'word':'','growth':0 }
+    counter = 0
+    for word_data in words_count:
+        word = word_data[0]
+        word_count = word_data[1]
+        has_word = False
+        for word_data2 in prev_words_count:
+            word2 = word_data2[0]
+            word_count2 = word_data2[1]
+            if word == word2:
+                has_word = True
+                word_growth = word_count - word_count2
+                if word_growth > buzzword['growth']:
+                    buzzword['word'] = word
+                    buzzword['growth'] = word_growth
+                break
+        if not has_word:
+            word_growth = word_count - min_count
+            if word_growth > buzzword['growth']:
+                buzzword['word'] = word
+                buzzword['growth'] = word_growth
+        counter += 1
+        print('get buzzword process: ' +'(' + str(counter) + '/' + str(len(words_count)) + ')')
+    
+    buzzword['provocativeRate'] = {}
+    buzzword['isOutline'] = {}
+
+    for word_data in words_count:
+        word = word_data[0]
+        news = word_data[2]
+        timeline = word_data[3]
+        if word == buzzword['word']:
+            for media in medias:
+                news_of_media = [ n for n in news if n['media'] == media]
+                provocative_news = [ n for n in news if n['isProvocative'] and n['media'] == media]
+                if len(news_of_media) != 0:
+                    provocative_rate = len(provocative_news) / len(news_of_media)
+                else:
+                    provocative_rate = 0;
+                buzzword['provocativeRate'][media] = provocative_rate
+                buzzword['provocativeRate'][media] = provocative_rate
+                buzzword['isOutline'][media] = is_outlinear(media, timeline)
+
+    report['buzzword'] = buzzword
+    return report
+
 
 def get_words_timeline(report):
     words_count = report['words_count']
     dates = []
+    counter = 0
 
     for word in words_count:
         d = {}
@@ -217,8 +269,8 @@ def get_words_timeline(report):
                     'time': date,
                     'count': count
                 })
-        for m in media:
-            media_has_date = [d.date for d in word[3] if d['website'] == m]
+        for m in medias:
+            media_has_date = [d['time'] for d in word[3] if d['website'] == m]
             for date in dates:
                 if date not in media_has_date:
                     word[3].append({
@@ -226,6 +278,8 @@ def get_words_timeline(report):
                         'time': date,
                         'count': 0,
                     })
+        counter += 1
+        print('get words timeline process: ' + '(' + str(counter) + '/' + str(len(words_count)) + ')')
 
     return report
 
@@ -246,7 +300,7 @@ def get_clutsr_words(word, cluster_list):
         print('title analysis failed: not found key word in cluster.')
     return cluster_list[index]
 
-def get_title_analysis(report, datas):
+def get_word_analysis_provocative(report, datas):
 
     word_clusters = read_json('cluster.json')
 
@@ -254,58 +308,77 @@ def get_title_analysis(report, datas):
     counter = 0
 
     PROVOCATIVE_REF = '爽'
-    PTT_IDIOM_REF = '鄉民'
-
     PROVOCATIVE_WORDS = get_clutsr_words(PROVOCATIVE_REF, word_clusters)
-    PTT_IDIOM_WORDS = get_clutsr_words(PTT_IDIOM_REF, word_clusters)
 
-    report['title_analysis'] = {}
-    root = report['title_analysis']
+    report['word_analysis'] = {}
+    root = report['word_analysis']
+    root['provocative'] = {}
+    for media in medias:
+        root['provocative'][media] = []
+    
+    words_count = report['words_count']
+    for word_data in words_count:
+        word = word_data[0]
+        word_count = word_data[1]
+        news = word_data[2]
+        for media in medias:
+            provocative_news = [ n for n in news if n['isProvocative'] and n['media']==media]
+            news_of_media = [n for n in news if n['media'] == media]
+            if len(news_of_media) != 0:
+                provocative_rate = len(provocative_news) / len(news_of_media)
+            else:
+                provocative_rate = 0
+            root['provocative'][media].append({'word': word, 'rate': provocative_rate})
+    for media in medias:
+        root['provocative'][media] = sorted(
+            root['provocative'][media], key=lambda d: d['rate'], reverse=True)[:10]
+    return report
+
+def is_outlinear(media, timeline):
+
+    return False
+
+
+def get_word_analysis_outliner(report):
+    report['word_analysis']['outliner'] = {}
+    root = report['word_analysis']['outliner']
+    words_count = report['words_count']
+
     for media in medias:
         root[media] = {}
-        root[media]['provocative'] = []
-        root[media]['ptt_idiom'] = []
-    for news in datas:
-        title = news['title']
-        media = news['website']
-        url = news['url']
-        try:
-            seg_title = jieba.lcut(title, cut_all=False)
-        except Exception as e:
-            print(repr(e))
-            continue
 
-        provocative_set = compare_lists(seg_title, PROVOCATIVE_WORDS)
-        if len(provocative_set) != 0:
-            root[media]['provocative'].append({
-                'media': media,
-                'title': title,
-                'url': url,
-                'word': list(provocative_set)
-            })
-
-        ptt_set = compare_lists(seg_title, PTT_IDIOM_WORDS)
-        if len(ptt_set) != 0:
-            root[media]['ptt_idiom'].append({
-                'media': media,
-                'title': title,
-                'url': url,
-                'word': list(ptt_set)
-            })
-        counter += 1
-        print('title analysis process: '+'('+str(counter)+'/'+str(news_amount)+')')
+    for word_data in words_count:
+        word = word_data[0]
+        news = word_data[2]
+        timeline = word_data[3]
+        for media in medias:
+            media_is_outlinear = is_outlinear(media, timeline)
+            if media_is_outlinear:
+                root[media][word] = {
+                    'timeline' :  timeline,
+                    'news': news
+                }
 
     return report
 
 
 if __name__ == '__main__':
-    directory = sys.argv[1]
+    data_directory = sys.argv[1]
+    prev_report_direcrtory = sys.argv[2]
+
+    with open(prev_report_direcrtory) as infile:
+        prev_report = json.load(infile)
+    prev_words_count = prev_report['words_count']
+    prev_words_count = [ [news[0], news[1]] for news in prev_words_count]
+
     report = {}
-    datas = read_data(directory)
+    datas = read_data(data_directory)
     report = get_media_report(datas)
     report = cut_words_and_count(report, datas)
+    report = get_buzzword(report, prev_words_count)
     report = get_words_timeline(report)
-    report = get_title_analysis(report, datas)
+    report = get_word_analysis_provocative(report, datas)
+    report = get_word_analysis_outliner(report)
 
     with open('../website/report.json', 'w') as outfile:
         json.dump(report, outfile)
