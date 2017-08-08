@@ -110,12 +110,9 @@ function wordCloud(selector) {
         return d.text;
       }).on('click', function (d) {
         // add word collection
-        var offset = $('#timeline').offset();
         var NUM_OF_SHOWED_NEWS = 6
         var nonProvocativeNewses = []
-        $('body,html').animate({
-          scrollTop: offset.top - 25
-        }, 'slow');
+
         createTimeline('#timeline-inner', report.words_count[d.index][3]);
 
         window.wordCollectionClearCards();
