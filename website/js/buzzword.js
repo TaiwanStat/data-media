@@ -3,6 +3,8 @@ function initBuzzword(data) {
   $('#buzzword-growth').html(data['growth'])
   appendBuzzwordProvocativeList(data['provocativeRate'])
   appendBuzzwordOutlinerList(data['isOutline'])
+  var buzzword = d3.selectAll('text').filter(function (d, i) { return d.text === data['word'] })
+  $(buzzword[0]).d3Click()
 }
 
 function appendBuzzwordProvocativeList(provo_data){

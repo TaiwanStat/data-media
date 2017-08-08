@@ -109,59 +109,7 @@ function wordCloud(selector) {
       .text(function (d) {
         return d.text;
       }).on('click', function (d) {
-        // add word collection
-        var NUM_OF_SHOWED_NEWS = 6
-        var nonProvocativeNewses = []
-
-        createTimeline('#timeline-inner', report.words_count[d.index][3]);
-
-        window.wordCollectionClearCards();
-        news = report.words_count[d.index][2];
-        dict = {};
-        for (i in mediaEN) {
-          dict[mediaEN[i]] = {};
-          dict[mediaEN[i]].count = 0;
-          dict[mediaEN[i]].provocativeNum = 0;
-          dict[mediaEN[i]].IsMoreThanFive = false;
-        }
-        for (var i in news) {
-          media = mediaNameTranslate(news[i].media);
-          if (news[i].isProvocative === true)
-            dict[media].provocativeNum++
-            if (dict[media].count < NUM_OF_SHOWED_NEWS && news[i].isProvocative === true) {
-              window.wordCollectionAddNewsCard(media, news[i].title, '', news[i].url, true);
-              dict[media].count++;
-            } else if (dict[media].count < NUM_OF_SHOWED_NEWS && news[i].isProvocative === false) {
-            nonProvocativeNewses.push(news[i])
-          } else if (dict[media].count >= NUM_OF_SHOWED_NEWS) {
-            dict[media].IsMoreThanFive = true;
-            dict[media].count++;
-          }
-        }
-
-        for (var i in nonProvocativeNewses) {
-          var news = nonProvocativeNewses[i]
-          media = mediaNameTranslate(news.media);
-          if (dict[media].count < NUM_OF_SHOWED_NEWS) {
-            window.wordCollectionAddNewsCard(mediaNameTranslate(news.media), news.title, '', news.url, false);
-            dict[media].count++;
-          } else if (dict[media].count >= NUM_OF_SHOWED_NEWS) {
-            dict[media].IsMoreThanFive = true;
-            dict[media].count++;
-          }
-        }
-
-        for (i in mediaEN) {
-          var newsItem = dict[mediaEN[i]]
-          if (newsItem.IsMoreThanFive) {
-            window.wordCollectionAddNewsNum(mediaEN[i], newsItem.count - NUM_OF_SHOWED_NEWS + 1);
-          }
-          if (newsItem.provocativeNum >= 1) {
-            wordCollectionAddProvocativeNum(mediaEN[i], parseFloat(newsItem.provocativeNum * 100 / newsItem.count).toFixed(1))
-          }
-        }
-
-        $('#qurey-word').text(d.text)
+        clickCloud(d)
       });
 
     //Entering and existing words
@@ -225,3 +173,65 @@ function showNewWords(vis, i) {
   });
   vis.update(cloudConfig);
 }
+
+function clickCloud(d){
+  // add word collection
+  var NUM_OF_SHOWED_NEWS = 6
+  var nonProvocativeNewses = []
+
+  createTimeline('#timeline-inner', report.words_count[d.index][3]);
+
+  window.wordCollectionClearCards();
+  news = report.words_count[d.index][2];
+  dict = {};
+  for (i in mediaEN) {
+    dict[mediaEN[i]] = {};
+    dict[mediaEN[i]].count = 0;
+    dict[mediaEN[i]].provocativeNum = 0;
+    dict[mediaEN[i]].IsMoreThanFive = false;
+  }
+  for (var i in news) {
+    media = mediaNameTranslate(news[i].media);
+    if (news[i].isProvocative === true)
+      dict[media].provocativeNum++
+      if (dict[media].count < NUM_OF_SHOWED_NEWS && news[i].isProvocative === true) {
+        window.wordCollectionAddNewsCard(media, news[i].title, '', news[i].url, true);
+        dict[media].count++;
+      } else if (dict[media].count < NUM_OF_SHOWED_NEWS && news[i].isProvocative === false) {
+      nonProvocativeNewses.push(news[i])
+    } else if (dict[media].count >= NUM_OF_SHOWED_NEWS) {
+      dict[media].IsMoreThanFive = true;
+      dict[media].count++;
+    }
+  }
+
+  for (var i in nonProvocativeNewses) {
+    var news = nonProvocativeNewses[i]
+    media = mediaNameTranslate(news.media);
+    if (dict[media].count < NUM_OF_SHOWED_NEWS) {
+      window.wordCollectionAddNewsCard(mediaNameTranslate(news.media), news.title, '', news.url, false);
+      dict[media].count++;
+    } else if (dict[media].count >= NUM_OF_SHOWED_NEWS) {
+      dict[media].IsMoreThanFive = true;
+      dict[media].count++;
+    }
+  }
+
+  for (i in mediaEN) {
+    var newsItem = dict[mediaEN[i]]
+    if (newsItem.IsMoreThanFive) {
+      window.wordCollectionAddNewsNum(mediaEN[i], newsItem.count - NUM_OF_SHOWED_NEWS + 1);
+    }
+    if (newsItem.provocativeNum >= 1) {
+      wordCollectionAddProvocativeNum(mediaEN[i], parseFloat(newsItem.provocativeNum * 100 / newsItem.count).toFixed(1))
+    }
+  }
+  $('#qurey-word').text(d.text)
+}
+
+jQuery.fn.d3Click = function () {
+  this.each(function (i, e) {
+    var evt = new MouseEvent("click");
+    e.dispatchEvent(evt);
+  });
+};
