@@ -10,6 +10,7 @@ import statistics
 import re
 import datetime
 from operator import itemgetter
+import numpy as np
 
 
 medias = ['蘋果日報', '聯合報', '自由時報', '東森新聞雲', '中央通訊社', '中國時報']
@@ -31,7 +32,7 @@ def read_data(directory):
         date_str = re.search(r'_(\d+-\d+-\d+)\.json', json_file).group(1)
         file_date = datetime.datetime.strptime(date_str, '%Y-%m-%d')
 
-        for news in news_data[:10]:
+        for news in news_data:
             # some news may have key error due to json load in strict=False
             try:
                 url, date = news["url"], news['date'][:10].replace('/', '-')
@@ -175,7 +176,7 @@ def cut_words_and_count(report, datas):
                 if tmp not in item[2]:
                     item[2].append(tmp)
             else:
-                words_count.append([word, 1, [], {}])
+                words_count.append([word, 1, [], {}, 0])
                 words_index.append(word)
         counter += 1
         print('cut& count process: '+'('+str(counter)+'/'+str(news_amount)+')')
@@ -199,6 +200,9 @@ def get_buzzword(report, prev_words_count):
     report['buzzword'] = {}
     buzzword = {'word':'','growth':0 }
     counter = 0
+    news_count = {}
+    for m in medias:
+        news_count[m] = report[m]['news_count']
     for word_data in words_count:
         word = word_data[0]
         word_count = word_data[1]
@@ -238,7 +242,7 @@ def get_buzzword(report, prev_words_count):
                     provocative_rate = 0;
                 buzzword['provocativeRate'][media] = provocative_rate
                 buzzword['provocativeRate'][media] = provocative_rate
-                buzzword['isOutline'][media] = is_outlinear(media, timeline)
+                buzzword['isOutline'][media] = is_outlinear(news_count, media, timeline)
 
     report['buzzword'] = buzzword
     return report
@@ -248,6 +252,10 @@ def get_words_timeline(report):
     words_count = report['words_count']
     dates = []
     counter = 0
+
+    news_count = {}
+    for m in medias:
+        news_count[m] = report[m]['news_count']
 
     for word in words_count:
         d = {}
@@ -281,6 +289,11 @@ def get_words_timeline(report):
                     })
         counter += 1
         print('get words timeline process: ' + '(' + str(counter) + '/' + str(len(words_count)) + ')')
+    for word in words_count:
+         timeline = word[3]
+         word[4] = {}
+         for m in medias:
+             word[4] = is_outlinear(news_count, m, timeline)
 
     return report
 
@@ -325,7 +338,7 @@ def get_word_analysis_provocative(report, datas):
         for media in medias:
             provocative_news = [ n for n in news if n['isProvocative'] and n['media']==media]
             news_of_media = [n for n in news if n['media'] == media]
-            if len(news_of_media) != 0:
+            if len(news_of_media) != 0 and len(news_of_media) > 20:
                 provocative_rate = len(provocative_news) / len(news_of_media)
             else:
                 provocative_rate = 0
@@ -335,29 +348,51 @@ def get_word_analysis_provocative(report, datas):
             root['provocative'][media], key=lambda d: d['rate'], reverse=True)[:10]
     return report
 
-def is_outlinear(media, timeline):
 
-    return False
+def is_outlinear(news_count, media, timeline):
+    d = {}
+    for m in medias:
+        d[m] = [i['count'] / news_count[m] for i in timeline if i['website'] == m]
+    d_list = [i for m in d for i in d[m]]
+    for m in medias:
+        d[m] = statistics.median(d[m])
+ 
+    p25 = np.percentile(d_list, 25)
+    p75 = np.percentile(d_list, 75)
+    if d[media] < p25:
+        result = -1
+    elif d[media] > p75:
+        result = 1
+    else:
+        result = 0
+    return result
 
 
 def get_word_analysis_outliner(report):
     report['word_analysis']['outliner'] = {}
     root = report['word_analysis']['outliner']
     words_count = report['words_count']
+    news_count = {}
+    for m in medias:
+        news_count[m] = report[m]['news_count']
+
+    news_num_filter = 300
 
     for media in medias:
         root[media] = {}
 
-    for word_data in words_count:
+    for word_data in words_count[:30]:
         word = word_data[0]
+        count = word_data[1]
         news = word_data[2]
         timeline = word_data[3]
+        if count < news_num_filter:
+            continue
         for media in medias:
-            media_is_outlinear = is_outlinear(media, timeline)
+            media_is_outlinear = is_outlinear(news_count, media, timeline)
             if media_is_outlinear:
                 root[media][word] = {
                     'timeline' :  timeline,
-                    'news': news
                 }
 
     return report
@@ -376,8 +411,8 @@ if __name__ == '__main__':
     datas = read_data(data_directory)
     report = get_media_report(datas)
     report = cut_words_and_count(report, datas)
-    report = get_buzzword(report, prev_words_count)
     report = get_words_timeline(report)
+    report = get_buzzword(report, prev_words_count)
     report = get_word_analysis_provocative(report, datas)
     report = get_word_analysis_outliner(report)
 
