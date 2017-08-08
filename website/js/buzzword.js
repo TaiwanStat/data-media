@@ -20,18 +20,25 @@ function appendBuzzwordProvocativeList(provo_data){
       $('#provocative-list').append(html)
     }
   }
+  
 }
 
 function appendBuzzwordOutlinerList(outliner_data) {
   $('#outliner-list').empty()
   for (var m in media) {
-    if (outliner_data[media[m]] === true) {
-      var html = '<li class="hightlight"><span class="media-name">' + media[m] + '</span><span class="news-num">稀少報導</span></li>'
+    if (outliner_data[media[m]] === 1) {
+      var html = '<li class="hightlight"><span class="media-name">' + media[m] + '</span><span class="news-num">大量報導</span></li>'
       $('#outliner-list').append(html)
     }
   }
   for (var m in media) {
-    if (outliner_data[media[m]] === false) {
+    if (outliner_data[media[m]] === -1) {
+      var html = '<li><span class="media-name">' + media[m] + '</span><span class="news-num">正常報導</span></li>'
+      $('#outliner-list').append(html)
+    }
+  }
+  for (var m in media) {
+    if (outliner_data[media[m]] === 0) {
       var html = '<li><span class="media-name">' + media[m] + '</span><span class="news-num">正常報導</span></li>'
       $('#outliner-list').append(html)
     }

@@ -48,23 +48,17 @@ function wordCloud(selector) {
       })
 
     var isExistOutliers = function (timelineData) {
-
       var result = false
-      var STANDARD = 5
-      var numOfReached = 0
+      for(var i in timelineData){
+        if(timelineData[i] != 0)
+           result = true
+      }
 
-      timelineData.forEach(function(d){
-        if (d.count < STANDARD){
-          result = true
-          numOfReached++
-        }
-      })
-
-      return (numOfReached < 7) && result ? true : false
+      return result
     }
 
     var getColor = function (d) {
-      var isHightlight = isExistOutliers(report.words_count[d.index][3]);
+      var isHightlight = isExistOutliers(report.words_count[d.index][4]);
       var key;
       var word_data = report.words_count[d.index][2]
       var news_amount = word_data.length
