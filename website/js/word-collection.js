@@ -1,5 +1,5 @@
 function ShowWordCollectionInModal(event) {
-  var firedMediaName = $(event.target).text();
+  var firedMediaName = mediaNameTranslate($(event.target).data('media'));
   var qureyWord = $('#qurey-word').text()
   var IndexOfWord;
   if (qureyWord === '')
@@ -19,12 +19,15 @@ function ShowWordCollectionInModal(event) {
     news = report.words_count[IndexOfWord][2];
 
     for (var i = 0; i < news.length; i++) {
+      var news_media = news[i].media
+      if(news_media !== firedMediaName)
+        continue
       var selector = '#pop-content .card-container .list';
       var header = news[i].title;
       var detail = '';
       var link = news[i].url;
       var style = news[i].isProvocative ? 'background-color:#ffc7b3' : ''
-      var content = '<a target="_blank" class="card" style =' + style + ' href="' +
+      var content = '<a target="_blank" class="card" style ="' + style + '" href="' +
         link + '"><h5>' + header + '</h5><div class="detail">' +
         detail + '</div></a>';
       $(selector).append(content);
@@ -57,10 +60,10 @@ function wordCollectionAddNewsCard(media, header, detail, link, isProvocative) {
 function wordCollectionAddNewsNum(media, num) {
   var selector = '#word-collection .' + media + '-container .cards';
   // TODO: rewrite by vue.js
-  var content = '<h5 class="remaining-news-num">與其他 ' +
+  var content = '<h5 class="remaining-news-num" data-media="' + media + '">與其他 ' +
     num + ' 則新聞...</h5>';
   $(selector).append(content);
-  $(selector).find('.remaining-news-num').on('click', window.ShowWordCollectionInModal);
+  $(selector).find('.remaining-news-num').on('click', ShowWordCollectionInModal);
   refreshCards();
 }
 
