@@ -2,22 +2,18 @@ function createTimeline(selector, data) {
 
   var margin = {
     top: 40,
-    right: 100,
-    bottom: 25,
-    left: 50
+    right: 120,
+    bottom: 40,
+    left: 120
   };
 
   var nav_width = 240;
   var width;
   var marginTimeline = 80;
 
-  if ($(window).width() > smallDesktopWidthSize) {
-    width = $(window).width() - (nav_width + 2 * marginTimeline);
-  } else {
-    width = $(window).width() - 2 * marginTimeline;
-  }
+  width = $(window).width() > 1600 ? 1600: $(window).width()
 
-  width = width > 960 ? 960 : width;
+
   $(selector).empty();
   var svg = d3.select(selector).append('svg')
     .attr('width', width)
@@ -129,21 +125,29 @@ function createTimeline(selector, data) {
     .call(xAxis);
 
   // Add the Y Axis
-  g.append('g')
+  var yAxisSvg = g.append('g')
     .attr('class', 'y axis')
-    .style('opacity', .6)
+    .style('opacity', 0)
     .call(yAxis);
 
 
-  g.append('text')
+  var yLabel = g.append('text')
     .attr('x', -40)
     .attr('y', -15)
     .attr('fill', 'black')
     .style('font-size', '12px')
     .style('letter-spacing', '2px')
     .style('font-weight', '300')
-    .style('opacity', .6)
+    .style('opacity', 0)
     .text('報導次數（次）');
+  
+  svg.on('mouseover', function(){
+    yAxisSvg.transition().duration(200).style('opacity', 0.6)
+    yLabel.transition().duration(200).style('opacity', 0.6)
+  }).on('mouseout', function(){
+    yAxisSvg.transition().duration(200).style('opacity', 0)
+    yLabel.transition().duration(200).style('opacity', 0)
+  })
 
   // Because of the design purpose, temporily hide this
   // g.append('text')

@@ -11,6 +11,7 @@ import re
 import datetime
 from operator import itemgetter
 import numpy as np
+from pprint import pprint
 
 
 medias = ['蘋果日報', '聯合報', '自由時報', '東森新聞雲', '中央通訊社', '中國時報']
@@ -32,13 +33,15 @@ def read_data(directory):
         date_str = re.search(r'_(\d+-\d+-\d+)\.json', json_file).group(1)
         file_date = datetime.datetime.strptime(date_str, '%Y-%m-%d')
 
+        # DEBUG_NUM = 0
+
         for news in news_data:
             # some news may have key error due to json load in strict=False
             try:
                 url, date = news["url"], news['date'][:10].replace('/', '-')
                 news_date = datetime.datetime.strptime(date, '%Y-%m-%d')
             except Exception as e:
-                print('error data:'+json_file)
+                print('error data:'+json_file+ ' / ' +str(e))
                 continue
             if not url:
                 print('news not url: ' + json_file)
@@ -49,6 +52,10 @@ def read_data(directory):
             if not (news_date == file_date):
                 print('news not today: ' + json_file)
                 continue
+
+            # DEBUG_NUM += 1
+            # if DEBUG_NUM >= 10:
+            #     break
 
             newses.append(news)
     return newses
@@ -144,8 +151,8 @@ def cut_words_and_count(report, datas):
     counter = 0
 
     for news in seg_data:
-        seg_list = jieba.lcut(news['content'], cut_all=False)
-        words_filtered = [word for word in seg_list if word not in stopwords]
+        seg_list = jieba.lcut('' if news['title'] == None else news['title'], cut_all=False)
+        words_filtered = [word for word in seg_list if word not in stopwords and word.strip()]
         words_filtered = [word for word in words_filtered if len(word) > 1]
         words_filtered = [word for word in words_filtered if not word.isdigit()]
         for word in words_filtered:
@@ -216,12 +223,14 @@ def get_buzzword(report, prev_words_count):
                 if word_growth > buzzword['growth']:
                     buzzword['word'] = word
                     buzzword['growth'] = word_growth
+                    buzzword['news_num'] = word_count2
                 break
         if not has_word:
             word_growth = word_count - min_count
             if word_growth > buzzword['growth']:
                 buzzword['word'] = word
                 buzzword['growth'] = word_growth
+                buzzword['news_num'] = min_count
         counter += 1
         print('get buzzword process: ' +'(' + str(counter) + '/' + str(len(words_count)) + ')')
     
@@ -398,6 +407,26 @@ def get_word_analysis_outliner(report):
     return report
 
 
+def get_data_time(report):
+
+    report['time'] = {}
+
+    timeline = report['words_count'][0][3]
+    begin_date = datetime.datetime.today()
+    end_date = datetime.datetime(2012, 1, 1)
+    for t in timeline:
+        t_date = datetime.datetime.strptime(t['time'], '%Y-%m-%d')
+        if t_date < begin_date:
+            begin_date = t_date
+        if t_date > end_date:
+            end_date = t_date
+    
+    report['time']['begin'] = begin_date.strftime('%Y-%m-%d')
+    report['time']['end'] = end_date.strftime('%Y-%m-%d')
+
+    return report
+
+
 if __name__ == '__main__':
     data_directory = sys.argv[1]
     prev_report_direcrtory = sys.argv[2]
@@ -415,6 +444,7 @@ if __name__ == '__main__':
     report = get_buzzword(report, prev_words_count)
     report = get_word_analysis_provocative(report, datas)
     report = get_word_analysis_outliner(report)
+    report = get_data_time(report)
 
     with open('../website/report.json', 'w') as outfile:
         json.dump(report, outfile)

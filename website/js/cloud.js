@@ -31,7 +31,7 @@ function wordCloud(selector) {
     width = $(window).width() - 2 * marginCloud;
   }
 
-  width = width > 960 ? 960 : width;
+  width = width > 1600 ? 1600 : width;
   //Construct the word cloud's SVG element
   var svg = d3.select(selector).append('svg')
     .attr('width', width)
@@ -163,7 +163,7 @@ function wordCloud(selector) {
 
 function showNewWords(vis, i) {
   max = report.words_count[0][1];
-  scale = max / 70;
+  scale = max / 100;
   cloudConfig = report.words_count.map(function (obj, index) {
     return {
       text: obj[0],
@@ -207,7 +207,7 @@ function clickCloud(d){
 
   for (var i in nonProvocativeNewses) {
     var news = nonProvocativeNewses[i]
-    media = mediaNameTranslate(news.media);
+    var media = mediaNameTranslate(news.media);
     if (dict[media].count < NUM_OF_SHOWED_NEWS) {
       window.wordCollectionAddNewsCard(mediaNameTranslate(news.media), news.title, '', news.url, false);
       dict[media].count++;
@@ -224,6 +224,8 @@ function clickCloud(d){
     }
     if (newsItem.provocativeNum >= 1) {
       wordCollectionAddProvocativeNum(mediaEN[i], parseFloat(newsItem.provocativeNum * 100 / newsItem.count).toFixed(1))
+    } else {
+      wordCollectionAddProvocativeNum(mediaEN[i], 0)
     }
   }
   $('#qurey-word').text(d.text)
