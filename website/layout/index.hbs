@@ -14,6 +14,14 @@
       </div>
     </div>
   </div>
+  <div id="help">
+    <i class="fa fa-question fa-2x" aria-hidden="true"></i>
+    <i class="fa fa-angle-down fa-2x" aria-hidden="true"></i>
+    <div class="content">
+統計本週搜集的所有新聞標題內的用詞，與上週資料做比較，使用次數成長最多者，即為本週的熱詞。 - 情緒性報導 透過分析新聞資料的內文與標題，並以詞語向量化 ( word2vec ) 、群聚 ( cluster ) 的技術，找出與「酸」相近的用詞集，並作為以下定義的「情緒性用詞」。
+而情緒性報導是為，新聞標題中含有情緒性用詞的報導，此處統計各家媒體報導本週熱詞時情緒性報導的比率。 「情緒性用詞」包含 …
+    </div>
+  </div>
   <div class="container">
      <div class="nav-container">
       <div class="legend-container hidden">
@@ -70,7 +78,9 @@
         <div class="band-container">
           <div class="band-inner">
             <div><h1>詞彙新聞集</h1>
-            <h2>單一詞彙於各家媒體的出現新聞集</h2></div> {{> timeline}}{{> wordCollection}}
+            <h2>單一詞彙於各家媒體的出現新聞集</h2></div> 
+            <h2 id="qurey-word"></h2>
+            {{> timeline}}{{> wordCollection}}
           </div>
         </div>
       </section>

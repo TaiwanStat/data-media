@@ -5,6 +5,7 @@ window.refreshCards();
 // $('.page-container').css('display', 'none');
 $('#logo').addClass('loading');
 $('#logo').addClass('small');
+$('#help').hide()
 var IsReportGot = false;
 $("#logo").one('animationiteration webkitAnimationIteration', function() {
   if (IsReportGot) {
@@ -57,6 +58,18 @@ $.getJSON('report.json', function(t) {
 
   initBuzzword(t['buzzword'])
   initWordAnalysis(t['word_analysis'])
+  initDate(t['time'])
+  var buzzword = d3.selectAll('text').filter(function (d, i) { return d.text === t['buzzword']['word'] })
+  $(buzzword[0]).d3Click()
+
+  $('#help').show('slow')
+  $('#help .fa-question').hide()
+  $('#help').on('click', function(){
+    $('#help .content').toggle('slow')
+    $('#help .fa-angle-down').toggle('slow')
+    $('#help .fa-question').toggle('slow')
+  })
+
 });
 
 $('.nav-about').on('click', function() {
@@ -84,10 +97,10 @@ $('.menu').on('click', function() {
   }
 });
 
-$(window).on('scroll', function(event) {
+$('body').on('scroll', function(event) {
   var pos = $(window).scrollTop() + 50;
 
-  if (isPosBeyondIdTop(pos, '.page-container')) {
+  if (isPosBeyondIdTop(pos, '.cloud')) {
     $('.legend-container').removeClass('hidden');
   } else {
     $('.legend-container').addClass('hidden');
@@ -184,4 +197,11 @@ function isPosBeyondIdTop(pos, id) {
 
 function animateToId(id) {
   $('body,html').animate({ scrollTop: $(id).offset().top - 50 }, 'slow');
+}
+
+function initDate(dateData){
+  var begin = dateData.begin.replace('-', '.').slice(5)
+  var end = dateData.end.replace('-', '.').slice(5)
+  var html = begin + '~' + end
+  $('.nav-time').html(html)
 }
