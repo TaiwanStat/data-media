@@ -71,7 +71,7 @@ body {
   position: fixed;
   right: 0;
   bottom: 0;
-  max-width: 360px;
+  max-width: 20rem;
   z-index: 7;
   margin: 36px;
   box-shadow: 0 3px 6px rgba(0, 0, 0, .16),
@@ -88,6 +88,28 @@ body {
   &:hover {
     opacity: 1;
     transform: translate(-4px, -4px);
+  }
+  .content {
+    font-size: 0.8rem;
+    letter-spacing: 0.05rem;
+    line-height: 1.4rem;
+    em {
+      background-color: rgba(0, 255, 0, 0.45);
+    }
+    ul {
+      height: 7rem;
+      overflow-y: scroll;
+      &::-webkit-scrollbar {
+        -webkit-appearance: none;
+        width: 7px;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        border-radius: 4px;
+        background-color: rgba(0, 0, 0, .5);
+        -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, .5);
+      }
+    }
   }
 }
 
