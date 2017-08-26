@@ -1,4 +1,5 @@
 var report;
+var provocative_list = []
 initLengend();
 initWordCollection();
 window.refreshCards();
@@ -97,6 +98,10 @@ $('.menu').on('click', function() {
   }
 });
 
+$.get('../word2vec/dicts/provocative_words.txt', function (data) {
+  provocative_list = data.split('\n')
+})
+
 $('body').on('scroll', function(event) {
   var SHOWDIST = $(window).height() * 0.75;
   var pos = $(window).scrollTop() + SHOWDIST;
@@ -121,48 +126,28 @@ $('body').on('scroll', function(event) {
     $('#help .content').html(content)
   } else if (isPosBeyondIdTop(pos, '#buzzword')) {
     var title = '<h4>本週熱詞</h4>'
+    var list_html = provocative_list.map(function(w){
+      return '<li>' + w + '</li>'
+    }).join(' ')
     var content = title + `統計本週搜集的所有新聞標題內的用詞，與上週資料做比較，<em>使用次數成長最多者</em>，即為本週的熱詞。
 <hr>
 <strong>情緒性報導</strong>
 透過分析新聞資料的內文與標題，並以詞語向量化 ( word2vec ) 、群聚 ( cluster ) 的技術，找出與「酸」相近的用詞集，並作為以下定義的「情緒性用詞」。
-而情緒性報導是為，新聞標題中含有情緒性用詞的報導，此處統計各家媒體報導本週熱詞時情緒性報導的比率。
-
-「情緒性用詞」包含
-<ul>
-<li>酸</li>
-<li>超狂</li>
-<li>神解答</li>
-<li>氣噗噗</li>
-<li>酸</li>
-<li>超狂</li>
-<li>神解答</li>
-<li>氣噗噗</li>
-<li>酸</li>
-<li>超狂</li>
-<li>神解答</li>
-<li>氣噗噗</li>
-<li>酸</li>
-<li>超狂</li>
-<li>神解答</li>
-<li>氣噗噗</li>
-</ul>
-<hr>
-<strong>報導數量</strong>
-統計 6 家媒體對本周熱詞的報導數量，分析其數量。
-    `
+而情緒性報導是為，新聞標題中含有情緒性用詞的報導，此處統計各家媒體報導本週熱詞時情緒性報導的比率。「情緒性用詞」包含<ol>` + list_html + 
+`</ol><hr><strong>報導數量</strong>統計 6 家媒體對本周熱詞的報導數量，分析其數量。`
     $('#help .content').html(content)
   } else {
     var title = ''
     var content = title + `統計6家媒體於官方網站上，一周內所發表之新聞量。
     <hr><strong>資料來源</strong>
-    <ul>
+    <ol>
     <li>蘋果日報</li>
     <li>聯合報</li>
     <li>自由時報</li>
     <li>東森新聞雲</li>
     <li>中央通訊社</li>
     <li>中國時報</li>
-    </ul>
+    </ol>
     `
     $('#help .content').html(content)
   }

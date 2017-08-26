@@ -96,7 +96,7 @@ body {
     em {
       background-color: rgba(0, 255, 0, 0.45);
     }
-    ul {
+    ul, ol {
       height: 7rem;
       overflow-y: scroll;
       &::-webkit-scrollbar {
