@@ -5,11 +5,10 @@ import json
 import sys
 import datetime
 
-ROOTDIR = './word2vec/data/'
+ROOTDIR = './mediaParser/output/'
 
 TO = 'dino8556@gmail.com'
 SENDER = 'minedia.tw@gmail.com'
-PWD
 SUBJECT = 'Minedia\'s data log: ' + datetime.datetime.now().strftime('%Y-%m-%d')
 TEXT = ''
 
