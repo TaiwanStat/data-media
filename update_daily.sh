@@ -10,6 +10,7 @@ scrapy crawl udn -o output/udn_$YESTERDAY.json -t json
 scrapy crawl ettoday -o output/ettoday_$NOW.json -t json
 cd ../
 python3 merge_daily.py
+python3 verify.py
 
 cd mediaParser
 aws s3 cp output/apple_$NOW.json s3://tw-media-data/

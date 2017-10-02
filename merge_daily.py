@@ -8,6 +8,7 @@ rootdir = './mediaParser/output/'
 def read_json(f):
     with open(f, 'r') as file:
         body = file.read()
+        body = body.replace(']\n[', ',')
         body = body.replace('][', ',')
         return json.loads(body)
 
