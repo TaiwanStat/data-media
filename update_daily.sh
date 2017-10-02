@@ -20,4 +20,3 @@ aws s3 cp output/liberty_$NOW.json s3://tw-media-data/
 aws s3 cp output/ettoday_$NOW.json s3://tw-media-data/
 aws s3 cp output/china_$NOW.json s3://tw-media-data/
 
-rm -r output/*
