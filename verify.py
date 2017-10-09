@@ -72,8 +72,8 @@ def send_email():
     server = get_server()
     try:
         server.sendmail(SENDER, [TO], BODY)
-    except:
-        print('error sending mail')
+    except except Exception as e:
+        print('error sending mail:', str(e))
     server.quit()
 
 
