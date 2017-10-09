@@ -65,14 +65,14 @@ def get_mail():
                         'From: %s' % SENDER,
                         'Subject: %s' % SUBJECT,
                         '', TEXT])
-    return BODY
+    return BODY.encode('utf-8')
 
 def send_email():
     BODY = get_mail()
     server = get_server()
     try:
         server.sendmail(SENDER, [TO], BODY)
-    except except Exception as e:
+    except Exception as e:
         print('error sending mail:', str(e))
     server.quit()
 
