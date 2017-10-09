@@ -58,6 +58,7 @@ def get_server():
     return server
 
 def get_mail():
+    global TEXT
     if not TEXT:
         TEXT = 'Congratulations! there is no error today.'
     BODY = '\r\n'.join(['To: %s' % TO,
