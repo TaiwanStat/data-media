@@ -92,28 +92,6 @@ def get_media_report(datas):
         print('median:'+str(median)+'\n')
         report[media]['words_mean'] = mean
         report[media]['words_median'] = median
-        # DEBUG: plot a chart to observe the data
-        # tr1 = Histogram(x=average_words[media], histnorm='percent',
-        #             xbins=dict(start=np.min(average_words[media]), size= 200, end= np.max(average_words[media])),
-        #             marker=dict(color='rgb(0,0,100)'))
-        # title = media+' average words'
-        # layout = dict(
-        #             title=title,
-        #             autosize=True,
-        #             bargap=200,
-        #             height=600,
-        #             width=700,
-        #             hovermode='x',
-        #             xaxis=dict(
-        #                 autorange=True,
-        #                 zeroline=False),
-        #             yaxis=dict(
-        #                 autorange=True,
-        #                 showticklabels=True)
-        #            )
-        # fig1 = Figure(data=Data([tr1]), layout=layout)
-        # UNCOMMENT: output chart in plotly
-        # py.plot(fig1,filename=title)
 
     return report
 
@@ -366,8 +344,8 @@ def is_outlinear(news_count, media, timeline):
     for m in medias:
         d[m] = statistics.median(d[m])
  
-    p25 = np.percentile(d_list, 25)
-    p75 = np.percentile(d_list, 75)
+    p25 = percentile(d_list.sort(), 0.25)
+    p75 = percentile(d_list.sort(), 0.75)
     if d[media] < p25:
         result = -1
     elif d[media] > p75:
@@ -375,6 +353,11 @@ def is_outlinear(news_count, media, timeline):
     else:
         result = 0
     return result
+
+
+def percentile(N, P):
+    n = max(int(round(P * len(N) + 0.5)), 2)
+    return N[n - 2]
 
 
 def get_word_analysis_outliner(report):
