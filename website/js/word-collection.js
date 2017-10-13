@@ -9,6 +9,7 @@ function ShowWordCollectionInModal(event) {
   setTimeout(function() {
     $('#pop-content .card-container').addClass('show');
     $('#pop-content .card-container .list').empty();
+    $('#pop-content .about-container').empty();
 
     for (var i = 0; i < report.words_count.length; i++) {
       if (report.words_count[i][0] === qureyWord) {

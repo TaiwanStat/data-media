@@ -60,6 +60,7 @@ $.getJSON('report.json', function(t) {
   initBuzzword(t['buzzword'])
   initWordAnalysis(t['word_analysis'])
   initDate(t['time'])
+  initAbout()
   var buzzword = d3.selectAll('text').filter(function (d, i) { return d.text === t['buzzword']['word'] })
   $(buzzword[0]).d3Click()
 
