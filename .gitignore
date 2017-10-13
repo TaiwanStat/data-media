@@ -92,3 +92,7 @@ ENV/
 output
 config.json
 tw-media-data
+prev_report.json
+data.json
+data_seg.json
+report.json

@@ -10,7 +10,6 @@ import statistics
 import re
 import datetime
 from operator import itemgetter
-import numpy as np
 from pprint import pprint
 
 
@@ -343,9 +342,9 @@ def is_outlinear(news_count, media, timeline):
     d_list = [i for m in d for i in d[m]]
     for m in medias:
         d[m] = statistics.median(d[m])
- 
-    p25 = percentile(d_list.sort(), 0.25)
-    p75 = percentile(d_list.sort(), 0.75)
+    
+    p25 = percentile(sorted(d_list), 0.25)
+    p75 = percentile(sorted(d_list), 0.75)
     if d[media] < p25:
         result = -1
     elif d[media] > p75:
