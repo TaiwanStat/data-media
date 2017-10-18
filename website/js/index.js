@@ -16,8 +16,13 @@ $("#logo").one('animationiteration webkitAnimationIteration', function() {
     }, 10)
   }
 });
+var now = moment.now();
+var tz = moment.tz(now, 'Asia/Taipei')
+var weekNum = tz.format('W')
+var s3Url = 'https://s3-ap-northeast-1.amazonaws.com/tw-media-data/report/'
+var objectUrl = s3Url + 'week_' + weekNum + '.json'
 
-$.getJSON('report.json', function(t) {
+$.getJSON(objectUrl, function (t) {
   report = t;
   IsReportGot = true;
   var totoalNews = 0;
@@ -99,7 +104,7 @@ $('.menu').on('click', function() {
   }
 });
 
-$.get('../word2vec/dicts/provocative_words.txt', function (data) {
+$.get('src/provocative_words.txt', function (data) {
   provocative_list = data.split('\n')
 })
 

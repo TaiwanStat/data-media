@@ -11,7 +11,7 @@ rm prev_report.json
 mv week*.json prev_report.json
 cd ..
 python3 produceReportByFiles.py ../mediaParser/output/ ./report/prev_report.json ./report/
-aws s3 cp report/week*.json s3://tw-media-data/report/
+aws s3 cp report/week*.json s3://tw-media-data/report/ --acl public-read
 
 cd ../mediaParser
 rm -r output/*
