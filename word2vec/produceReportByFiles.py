@@ -412,6 +412,9 @@ def get_data_time(report):
 if __name__ == '__main__':
     data_directory = sys.argv[1]
     prev_report_direcrtory = sys.argv[2]
+    target_report_folder = sys.argv[3]
+
+    week_num = datetime.datetime.now().strftime('%W')
 
     with open(prev_report_direcrtory) as infile:
         prev_report = json.load(infile)
@@ -428,5 +431,7 @@ if __name__ == '__main__':
     report = get_word_analysis_outliner(report)
     report = get_data_time(report)
 
-    with open('../website/report.json', 'w') as outfile:
+    target_report_filename = target_report_folder + '/week_' + week_num + '.json'
+
+    with open(target_report_filename, 'w') as outfile:
         json.dump(report, outfile)
