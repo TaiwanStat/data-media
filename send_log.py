@@ -8,7 +8,7 @@ import datetime
 TO = 'dino8556@gmail.com'
 SENDER = 'minedia.tw@gmail.com'
 SUBJECT = 'Minedia\'s server log: ' + datetime.datetime.now().strftime('%Y-%m-%d')
-ROOT = '/home/ubuntu'
+ROOT = '/home/ubuntu/'
 
 def get_server():
     SENDER = 'minedia.tw@gmail.com'
@@ -26,12 +26,12 @@ def read_file(f):
         return body
 
 def get_mail():
-    global TEXT
     global ROOT
+    TEXT = ''
     for subdir, dirs, files in os.walk(ROOT):
         for filename in files:
-          filename = ROOT + filename
-          if '.log' in filename:
+            filename = ROOT + filename
+            if '.log' in filename:
                 try:
                     log = read_file(filename)
                     TEXT += '[{0}]\n{1}\n'.format(filename, log)
