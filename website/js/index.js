@@ -1,32 +1,41 @@
+$('.page-container').hide()
+
 var report;
 var provocative_list = []
 initLengend();
 initWordCollection();
 window.refreshCards();
-// $('.page-container').css('display', 'none');
 $('#logo').addClass('loading');
 $('#logo').addClass('small');
 $('#help').hide()
+
+
 var IsReportGot = false;
-$("#logo").one('animationiteration webkitAnimationIteration', function() {
-  if (IsReportGot) {
-    $("#logo").removeClass('loading');
-    setTimeout(function() {
-      $('#logo').removeClass('small');
-    }, 10)
-  }
-});
+
 var now = moment.now();
 var tz = moment.tz(now, 'Asia/Taipei')
 var weekNum = tz.format('W')
+
 var s3Url = 'https://s3-ap-northeast-1.amazonaws.com/tw-media-data/report/'
 var objectUrl = s3Url + 'week_' + weekNum + '.json'
+objectUrl = 'week_42.json'
 
 $.getJSON(objectUrl, function (t) {
   report = t;
   IsReportGot = true;
   var totoalNews = 0;
   var DELAY = 100;
+
+  $('.loader').fadeOut('slow')
+  $('.page-container').show()
+
+  $("#logo").one('animationiteration webkitAnimationIteration', function () {
+    console.log('report loaded')
+    $("#logo").removeClass('loading');
+    setTimeout(function () {
+      $('#logo').removeClass('small');
+    }, 10)
+  });
 
   for (var i in media) {
     totoalNews += report[media[i]].news_count;
@@ -44,11 +53,11 @@ $.getJSON(objectUrl, function (t) {
     window.createNewsBarChart('#num-news-bar', barData);
   }, DELAY);
 
-  var categoryData = {}
-  media.forEach(function(d) {
-    categoryData[d] = report[d]
-  })
-  window.createCategory(categoryData);
+  // var categoryData = {}
+  // media.forEach(function(d) {
+  //   categoryData[d] = report[d]
+  // })
+  // window.createCategory(categoryData);
 
   var myWordCloud = wordCloud('div.cloud');
   window.showNewWords(myWordCloud);
@@ -66,7 +75,7 @@ $.getJSON(objectUrl, function (t) {
   initWordAnalysis(t['word_analysis'])
   initDate(t['time'])
   initAbout()
-  var buzzword = d3.selectAll('text').filter(function (d, i) { return d.text === t['buzzword']['word'] })
+  var buzzword = d3.selectAll('text').filter(function (d, i) { return d.text === t['words_count'][0][0] })
   $(buzzword[0]).d3Click()
 
   $('#help').show('slow')
@@ -104,7 +113,7 @@ $('.menu').on('click', function() {
   }
 });
 
-$.get('src/provocative_words.txt', function (data) {
+$.get('dist/provocative_words.txt', function (data) {
   provocative_list = data.split('\n')
 })
 
@@ -130,7 +139,7 @@ $('body').on('scroll', function(event) {
     var content = title + `<hr><strong>情緒性報導排行</strong>統計 6 家媒體本週情緒性報導比率的前五名，例如：「台灣  50%」，代表這家媒體所有標題含有「台灣」的報導，標題有 50% 含有情緒性用詞。</p>
 <hr><strong>少量報導主題</strong>分析同一詞語在 6 家媒體中，如果這家媒體對於這個詞語的關注度較低，即為少量報導主題。</p>`
     $('#help .content').html(content)
-  } else if (isPosBeyondIdTop(pos, '#buzzword')) {
+  } else if (isPosBeyondIdTop(pos, '.buzzwords')) {
     var title = '<h4>本週熱詞</h4>'
     var list_html = provocative_list.map(function(w){
       return '<li>' + w + '</li>'
@@ -252,8 +261,8 @@ function animateToId(id) {
 }
 
 function initDate(dateData){
-  var begin = dateData.begin.replace('-', '.').slice(5)
-  var end = dateData.end.replace('-', '.').slice(5)
-  var html = begin + '~' + end
+  var begin = dateData.begin.replace('-', '/').slice(5)
+  var end = dateData.end.replace('-', '/').slice(5)
+  var html = begin + ' ~ ' + end
   $('.nav-time').html(html)
 }

@@ -64,6 +64,27 @@ body {
     margin-left: 80px;
 }
 
+.loader {
+    display: flex;
+    justify-content: center;
+    font-size: 1.2rem;
+    font-weight: 600;
+    letter-spacing: 0.2rem;
+    animation: loading-text 2s infinite;
+}
+
+@keyframes loading-text {
+    0% {
+        opacity: 0.3;
+    }
+    50% {
+        opacity: 0.7;
+    }
+    100% {
+        opacity: 0.3;
+    }
+}
+
 #help {
     position: fixed;
     right: 0;
@@ -201,11 +222,11 @@ body {
     transition: visibility 0s, top 0.5s;
     background-color: #E3E3E3;
     visibility: hidden;
+    display: flex;
+    justify-content: center;
     &.show {
-        display: flex;
         visibility: visible;
         top: 0;
-        justify-content: center;
         & #pop-content {
             opacity: 1;
             top: 0;
@@ -338,6 +359,7 @@ body {
         margin: 0;
         padding: 0 0 10px;
         display: inline-block;
+        z-index: 1;
     }
     & h1 {
         font-size: 32px;
@@ -351,6 +373,7 @@ body {
         right: 0;
         margin-bottom: 120px;
         position: relative;
+        width: 100%;
         &.top-band {
             min-height: 100px;
         }
@@ -359,6 +382,7 @@ body {
             flex-direction: column;
             align-items: center;
             padding: 1.5em 0 0 0;
+            width: 100%;
             & #num-news {
                 font-size: 100px;
                 font-weight: 100;
@@ -460,29 +484,6 @@ body {
     padding: 0;
 }
 
-@media screen and (max-width: $break-medium) {
-    .container.is-open {
-        overflow: hidden;
-    }
-    .container.is-open .page-container {
-        -webkit-transform: translateX(240px);
-        -moz-transform: translateX(240px);
-        -ms-transform: translateX(240px);
-        -o-transform: translateX(240px);
-        transform: translateX(240px);
-    }
-    .page-container {
-        margin-left: 0;
-        z-index: 3;
-    }
-    .nav-container {
-        z-index: 2;
-    }
-    .band-container {
-        padding: 0 1.5em;
-    }
-}
-
 .polis-container {
     width: 100%;
     .band-inner {
@@ -519,4 +520,27 @@ body {
     letter-spacing: 0.5px;
     line-height: 2rem;
     background: #f5f5f5;
+}
+
+@media screen and (max-width: $break-medium) {
+    .container.is-open {
+        overflow: hidden;
+    }
+    .container.is-open .page-container {
+        -webkit-transform: translateX(240px);
+        -moz-transform: translateX(240px);
+        -ms-transform: translateX(240px);
+        -o-transform: translateX(240px);
+        transform: translateX(240px);
+    }
+    .page-container {
+        margin-left: 0;
+        z-index: 3;
+    }
+    .nav-container {
+        z-index: 2;
+    }
+    .band-container {
+        padding: 0 1.5em;
+    }
 }

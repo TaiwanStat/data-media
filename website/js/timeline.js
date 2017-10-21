@@ -1,26 +1,24 @@
 function createTimeline(selector, data) {
 
   var margin = {
-    top: 40,
-    right: 120,
-    bottom: 40,
-    left: 120
+    top: 30,
+    right: 100,
+    bottom: 32,
+    left: 60
   };
 
-  var nav_width = 240;
-  var width;
-  var marginTimeline = 80;
+  var width = $('.timeline-container').width()
+  var height = $(window).height() / 5
 
-  width = $(window).width() > 1600 ? 1600: $(window).width()
-
+  height = height < 140 ? 140 : height
 
   $(selector).empty();
   var svg = d3.select(selector).append('svg')
     .attr('width', width)
-    .attr('height', 200);
+    .attr('height', height);
 
-  var width = +svg.attr('width') - margin.left - margin.right,
-    height = +svg.attr('height') - margin.top - margin.bottom;
+  width = +svg.attr('width') - margin.left - margin.right,
+  height = +svg.attr('height') - margin.top - margin.bottom;
 
   var g = svg.append('g').attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
@@ -35,7 +33,12 @@ function createTimeline(selector, data) {
     .orient('bottom').ticks(7);
 
   var yAxis = d3.svg.axis().scale(y)
-    .orient('left').ticks(5);
+    .orient('left').ticks(3);
+
+  if( width < 980){
+    xAxis.ticks(2)
+    yAxis.ticks(2)
+  }
 
   var parseTime = d3.time.format("%Y-%m-%d").parse;
   var parseTime_slash = d3.time.format("%Y/%m/%d").parse;
@@ -45,7 +48,6 @@ function createTimeline(selector, data) {
     if (!(formated_date instanceof Date))
       formated_date = parseTime(i.time);
     if (!(formated_date instanceof Date)){
-      console.log(i,formated_date)
       formated_date = parseTime_slash(i.time);
     }
       
@@ -53,7 +55,6 @@ function createTimeline(selector, data) {
     return i;
   })
 
-  console.log(data)
   data.sort(sortByDateAscending);
   // Define the line
   var line = d3.svg.line()
@@ -102,7 +103,6 @@ function createTimeline(selector, data) {
           return mediaColor[d.key];
         })
         .transition(1000);
-      console.log(d)
       if(d.values[i].time.getTime() == x.domain()[1].getTime()){
         lastIndex =+ i;
       }

@@ -17,7 +17,7 @@ function ShowWordCollectionInModal(event) {
         break;
       }
     }
-    news = report.words_count[IndexOfWord][2];
+    var news = report.words_count[IndexOfWord][2];
 
     for (var i = 0; i < news.length; i++) {
       var news_media = news[i].media
@@ -51,7 +51,7 @@ function refreshCards() {
 function wordCollectionAddNewsCard(media, header, detail, link, isProvocative) {
   var selector = '#word-collection .' + media + '-container .cards';
   var style = isProvocative ? 'background-color:#ffc7b3' : ''
-  var content = '<a target="_blank" class="card" style =' + style + ' href="' +
+  var content = '<a target="_blank" class="card" style="' + style + '" href="' +
     link + '"><h5>' + header + '</h5><div class="detail">' +
     detail + '</div></a>';
   $(selector).append(content);
@@ -69,7 +69,6 @@ function wordCollectionAddNewsNum(media, num) {
 }
 
 function wordCollectionAddProvocativeNum(media, num) {
-  console.log(num)
   $('#word-collection .' + media + '-container .provative-num').remove()
   var style = num > 10 ? 'color:coral' : 'opacity:0.6' 
   var selector = '#word-collection .' + media + '-container h3';

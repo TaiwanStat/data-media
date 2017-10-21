@@ -1,14 +1,13 @@
 function createNewsBarChart(selector, data) {
 
   var margin = {
-    top: 40,
-    right: 40,
-    bottom: 40,
-    left: 60
+    top: 20,
+    right: 20,
+    bottom: 80,
+    left: 20
   };
-  var bandWidth = $('.band').width() > 1200 ? 1200 : $('.band-inner').width();
+  var bandWidth = $('.band').width() > 768 ? 768 : $('.band-inner').width();
   var barWidth = bandWidth- margin.left - margin.right;
-  // var barHeight = $('.bar-container').height();
   var barHeight = 200 - margin.top - margin.bottom;
 
   var barSvg = d3.select(selector).append('svg')
@@ -62,6 +61,15 @@ function createNewsBarChart(selector, data) {
       return mediaColor[d.title];
     })
 
+  var xAxisTickTransform = ''
+  var tipSize = ''
+  var textAnchor = 'middle'
+  if (barWidth < 600) {
+    xAxisTickTransform += 'rotate(45)'
+    tipSize = '0.7rem'
+    textAnchor = 'start'
+  }
+
   bars.append('text').text(function(d) {
       return d.newsCount + '篇';
     })
@@ -72,12 +80,19 @@ function createNewsBarChart(selector, data) {
       return y(d.newsCount) - 8;
     })
     .attr('text-anchor', 'middle')
-    .attr('class', 'bartip');
+    .attr('class', 'bartip')
+    .attr('font-size', tipSize);
+
+
 
   barSvg.append('g')
     .attr('class', 'x axis')
-    .attr('transform', 'translate(0,' + (barHeight + tickPad)  + ')')
-    .call(xAxis);
+    .attr('transform', 'translate(0,' + (barHeight + tickPad) + ')')
+    .call(xAxis)
+    .selectAll('text')
+    .style("text-anchor", textAnchor)
+    .attr('transform', xAxisTickTransform)
+    .attr('font-size', tipSize);;
 
 
   bar.transition()

@@ -9,7 +9,7 @@ import time
 import statistics
 import re
 import datetime
-from operator import itemgetter
+from operator import itemgetter, attrgetter
 from pprint import pprint
 
 
@@ -179,12 +179,16 @@ def cut_words_and_count(report, datas):
     return report
 
 def get_buzzword(report, prev_words_count):
+    MAX_NUM = 10
+
     words_count = report['words_count']
     min_count = words_count[-1][1]
     report['buzzword'] = {}
-    buzzword = {'word':'','growth':0 }
+    buzzwords = []
+    min_growth = 0
     counter = 0
     news_count = {}
+
     for m in medias:
         news_count[m] = report[m]['news_count']
     for word_data in words_count:
@@ -197,28 +201,42 @@ def get_buzzword(report, prev_words_count):
             if word == word2:
                 has_word = True
                 word_growth = word_count - word_count2
-                if word_growth > buzzword['growth']:
-                    buzzword['word'] = word
-                    buzzword['growth'] = word_growth
-                    buzzword['news_num'] = word_count2
+                if word_growth > min_growth:
+                    buzzwords.insert(0, {
+                        'word': word,
+                        'growth': word_growth,
+                        'news_num': word_count,
+                        'provocativeRate': {},
+                        'isOutline': {}
+                    })
+                    if len(buzzwords) >= MAX_NUM:
+                        buzzwords = sorted(buzzwords, key=lambda b: b['growth'], reverse=True)[:10]
+                        min_growth = buzzwords[0]['growth']
                 break
         if not has_word:
             word_growth = word_count - min_count
-            if word_growth > buzzword['growth']:
-                buzzword['word'] = word
-                buzzword['growth'] = word_growth
-                buzzword['news_num'] = min_count
+            if word_growth > min_growth:
+                buzzwords.insert(0, {
+                    'word': word,
+                    'growth': word_growth,
+                    'news_num': word_count,
+                    'provocativeRate': {},
+                    'isOutline': {}
+                })
+                if len(buzzwords) >= MAX_NUM:
+                    buzzwords = sorted(buzzwords, key=lambda b: b['growth'], reverse=True)[:10]
+                    min_growth = buzzwords[0]['growth']
         counter += 1
         print('get buzzword process: ' +'(' + str(counter) + '/' + str(len(words_count)) + ')')
     
-    buzzword['provocativeRate'] = {}
-    buzzword['isOutline'] = {}
 
     for word_data in words_count:
         word = word_data[0]
         news = word_data[2]
         timeline = word_data[3]
-        if word == buzzword['word']:
+        words = [b['word'] for b in buzzwords]
+        index = words.index(word) if word in words else -1
+        if index != -1:
             for media in medias:
                 news_of_media = [ n for n in news if n['media'] == media]
                 provocative_news = [ n for n in news if n['isProvocative'] and n['media'] == media]
@@ -226,11 +244,11 @@ def get_buzzword(report, prev_words_count):
                     provocative_rate = len(provocative_news) / len(news_of_media)
                 else:
                     provocative_rate = 0;
-                buzzword['provocativeRate'][media] = provocative_rate
-                buzzword['provocativeRate'][media] = provocative_rate
-                buzzword['isOutline'][media] = is_outlinear(news_count, media, timeline)
+                buzzwords[index]['provocativeRate'][media] = provocative_rate
+                buzzwords[index]['provocativeRate'][media] = provocative_rate
+                buzzwords[index]['isOutline'][media] = is_outlinear(news_count, media, timeline)
 
-    report['buzzword'] = buzzword
+    report['buzzword'] = buzzwords
     return report
 
 
@@ -338,7 +356,7 @@ def get_word_analysis_provocative(report, datas):
 def is_outlinear(news_count, media, timeline):
     d = {}
     for m in medias:
-        d[m] = [i['count'] / news_count[m] for i in timeline if i['website'] == m]
+        d[m] = [i['count'] / news_count[m] if news_count[m] != 0 else -1 for i in timeline if i['website'] == m]
     d_list = [i for m in d for i in d[m]]
     for m in medias:
         d[m] = statistics.median(d[m])

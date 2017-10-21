@@ -4,6 +4,11 @@ var uglify = require('gulp-uglify');
 var plumber = require('gulp-plumber');
 var minifyCSS = require('gulp-minify-css');
 
+var gulp = require('gulp');
+var babel = require('gulp-babel');
+
+var gzip = require('gulp-gzip');
+
 var imagemin = require('gulp-imagemin');
 var concat = require('gulp-concat');
 var rename = require('gulp-rename');
@@ -29,11 +34,12 @@ gulp.task('sass',function(){
 
 gulp.task('js', function(){
 	return gulp.src(['./js/**/*.js'])
+		.pipe(babel({
+			presets: ['env']
+		}))
 		.pipe(plumber())	
-		// .pipe(uglify())
-		.pipe(rename(function(path){
-			logPath(path , "yellow");
-    }))
+		.pipe(uglify())
+		.pipe(concat('all.js'))
 		.pipe(gulp.dest('dist/js'))
 })
 
@@ -42,7 +48,7 @@ gulp.task('watch',function(){
   gulp.watch(['./js/**/*.js'], ['js']);
 })
 
-gulp.task('default',['sass','js','watch']);
+gulp.task('default', ['sass', 'js', 'watch','image']);
 
 
 /*

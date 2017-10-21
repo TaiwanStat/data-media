@@ -1,5 +1,5 @@
 <!doctype html><html><head>
-  <title>媒礦 Minedia</title><meta name="description" content="視覺化新聞媒體的品牌獨特性，打開媒體的黑盒子，做閱聽人的燈塔。"><meta name="robots" content="index, nofollow"><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta property="og:type" content="website"><meta property="og:title" content="媒礦 Minedia"><meta property="og:description" content="視覺化新聞媒體的品牌獨特性，打開媒體的黑盒子，做閱聽人的燈塔。"><!-- TODO: fill with absolute path --><!-- <meta property="og:image" content="" /> --><!-- <meta property="og:url" content=""> --><meta property="og:image" content=""><link rel="stylesheet" href="./dist/css/index.css"><link rel="stylesheet" href="./src/normalize.css"><script src="./src/d3.v3.min.js"></script><script src="./src/d3.layout.cloud.js"></script><script src="./src/jquery.min.js"></script><script src="https://use.fontawesome.com/e9c11f428f.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.1/moment.min.js" integrity="sha256-zG8v+NWiZxmjNi+CvUYnZwKtHzFtdO8cAKUIdB8+U9I=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.13/moment-timezone-with-data.min.js" integrity="sha256-Mbm+oB/+8ujzEer9u83ZRKEhlPohbY9USJ4VpxiNR9w=" crossorigin="anonymous"></script></head>
+  <title>媒礦 Minedia</title><meta name="description" content="視覺化新聞媒體的品牌獨特性，打開媒體的黑盒子，做閱聽人的燈塔。"><meta name="robots" content="index, nofollow"><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta property="og:type" content="website"><meta property="og:title" content="媒礦 Minedia"><meta property="og:description" content="視覺化新聞媒體的品牌獨特性，打開媒體的黑盒子，做閱聽人的燈塔。"><!-- TODO: fill with absolute path --><!-- <meta property="og:image" content="" /> --><!-- <meta property="og:url" content=""> --><meta property="og:image" content=""><link rel="stylesheet" href="./dist/css/index.css"><link rel="stylesheet" href="./src/normalize.css"></head>
 
 <body>
   <div id="modal-container">
@@ -24,7 +24,7 @@
       <div class="nav-logo">
         <div class="logo-container">
           <a href="#">
-            <img id="logo" src="./src/img/logo.png" alt="logo">
+            <img id="logo" src="./dist/img/logo.png" alt="logo">
           </a>
           <a href="#">
             <h1 class="logo-des">Minedia</h1>
@@ -33,6 +33,7 @@
         </div>
       </div>
     </div> 
+    <div class="loader">載入中</div>
     <div class="page-container">
        <section class="band">
         <div class="band-container top-band">
@@ -48,7 +49,7 @@
         <div class="band-container">
           <div class="band-inner">
             <div><h1>本週熱詞</h1>
-            <h2>Buzzword</h2></div> <div class="buzzword-container">  <h3 id="buzzword">劉曉波</h3>  <h5><i class="fa fa-arrow-up" aria-hidden="true"></i><span id="buzzword-growth">13%</span></h5></div> <div class="two-column-list">   <div>    <h5>情緒性報導</h5>    <ul id="provocative-list">    </ul>   </div>   <div>     <h5>報導數量</h5>    <ul id="outliner-list">    </ul>  </div>    </div>
+            <h2>Buzzword</h2></div> <div class="buzzwords">  <div class="outer"></div></div>
           </div>
         </div>
       </section> 
@@ -63,18 +64,15 @@
       <section class="band">
         <div class="band-container">
           <div class="band-inner">
-            <div><h1>媒體用詞雲</h1>
-            <h2>各媒體新聞用詞的文字雲，以位置表達各個媒體的常用詞</h2></div> <div class="cloud"></div>
-          </div>
-        </div>
-      </section>
-      <section class="band">
-        <div class="band-container">
-          <div class="band-inner">
-            <div><h1>詞彙新聞集</h1>
-            <h2>單一詞彙於各家媒體的出現新聞集</h2></div> 
-            <h2 id="qurey-word"></h2>
-            <div class="timeline-container show"><div id="timeline-inner"></div></div><div class="card-container show" id="word-collection"><div class="list apple-container"><h3>蘋果日報</h3><div class="cards"></div></div><div class="list udn-container"><h3>聯合報</h3><div class="cards"></div></div><div class="list liberty-container"><h3>自由時報</h3><div class="cards"></div></div><div class="list cna-container"><h3>中央社</h3><div class="cards"></div></div><div class="list ettoday-container"><h3>東森新聞雲</h3><div class="cards"></div></div><div class="list china-container"><h3>中國時報</h3><div class="cards"></div></div></div>
+            <div><h1>媒體用詞雲</h1><h2 id="qurey-word"></h2>
+            <h2>各媒體新聞用詞的文字雲，以位置表達各個媒體的常用詞</h2></div> 
+            <div class="advance-section-container">
+              <div class="cloud-timeline-container">
+                <div class="cloud"></div> <div class="timeline-container show"><div id="timeline-inner"></div></div>
+              </div>
+              <div class="wordCollection-container">
+                 <div class="card-container show" id="word-collection"><div class="list apple-container"><h3>蘋果日報</h3><div class="cards"></div></div><div class="list udn-container"><h3>聯合報</h3><div class="cards"></div></div><div class="list liberty-container"><h3>自由時報</h3><div class="cards"></div></div><div class="list cna-container"><h3>中央社</h3><div class="cards"></div></div><div class="list ettoday-container"><h3>東森新聞雲</h3><div class="cards"></div></div><div class="list china-container"><h3>中國時報</h3><div class="cards"></div></div></div>              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -96,17 +94,13 @@
     </div>
   </div>
 
-<script type="text/javascript" src="./dist/js/parameter.js"></script>
-<script type="text/javascript" src="./dist/js/category.js"></script>
-<script type="text/javascript" src="./dist/js/cloud.js"></script>
-<script type="text/javascript" src="./dist/js/news-bar.js"></script>
-<script type="text/javascript" src="./dist/js/timeline.js"></script>
-<script type="text/javascript" src="./dist/js/word-collection.js"></script>
-<script type="text/javascript" src="./dist/js/average-words.js"></script>
-<script type="text/javascript" src="./dist/js/word-analysis.js"></script>
-<script type="text/javascript" src="./dist/js/buzzword.js"></script>
-<script type="text/javascript" src="./dist/js/about.js"></script>
-<script type="text/javascript" src="./dist/js/index.js"></script>
-<script async="true" src="https://pol.is/embed.js"></script>
+<script src="./src/d3.v3.min.js"></script>
+<script src="./src/d3.layout.cloud.js"></script>
+<script src="./src/jquery.min.js"></script>
+<script src="https://use.fontawesome.com/e9c11f428f.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.1/moment.min.js" integrity="sha256-zG8v+NWiZxmjNi+CvUYnZwKtHzFtdO8cAKUIdB8+U9I=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.13/moment-timezone-with-data.min.js" integrity="sha256-Mbm+oB/+8ujzEer9u83ZRKEhlPohbY9USJ4VpxiNR9w=" crossorigin="anonymous"></script>
+<script type="text/javascript" src="./dist/js/all.js"></script>
+<script defer="true" async="true" src="https://pol.is/embed.js"></script>
 
 </body></html>
