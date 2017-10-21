@@ -47,39 +47,11 @@ def verify_data_format():
                         TEXT += '\n\n'
                         continue
 
-def get_server():
-    SENDER = 'minedia.tw@gmail.com'
-    PWD = 'keepgoing'
-
-    server = smtplib.SMTP('smtp.gmail.com', 587)
-    server.ehlo()
-    server.starttls()
-    server.login(SENDER, PWD)
-    return server
-
-def get_mail():
+def main():
     global TEXT
     if not TEXT:
         TEXT = 'Congratulations! there is no error today.'
-    BODY = '\r\n'.join(['To: %s' % TO,
-                        'From: %s' % SENDER,
-                        'Subject: %s' % SUBJECT,
-                        '', TEXT])
-    return BODY.encode('utf-8')
-
-def send_email():
-    BODY = get_mail()
-    server = get_server()
-    try:
-        server.sendmail(SENDER, [TO], BODY)
-    except Exception as e:
-        print('error sending mail:', str(e))
-    server.quit()
-
-
-def main():
     verify_data_format()
-    send_email()
     print(TEXT)
 
 
