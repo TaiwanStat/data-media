@@ -185,7 +185,7 @@ def get_buzzword(report, prev_words_count):
     min_count = words_count[-1][1]
     report['buzzword'] = {}
     buzzwords = []
-    min_growth = 0
+    min_growth_rate = 0
     counter = 0
     news_count = {}
 
@@ -201,7 +201,7 @@ def get_buzzword(report, prev_words_count):
             if word == word2:
                 has_word = True
                 word_growth = word_count - word_count2
-                if word_growth > min_growth:
+                if (word_growth/word_count) > min_growth_rate:
                     buzzwords.insert(0, {
                         'word': word,
                         'growth': word_growth,
@@ -210,12 +210,12 @@ def get_buzzword(report, prev_words_count):
                         'isOutline': {}
                     })
                     if len(buzzwords) >= MAX_NUM:
-                        buzzwords = sorted(buzzwords, key=lambda b: b['growth'], reverse=True)[:10]
-                        min_growth = buzzwords[0]['growth']
+                        buzzwords = sorted(buzzwords, key=lambda b: b['growth']/b['news_num'], reverse=True)[:10]
+                        min_growth_rate = buzzwords[0]['growth']/buzzwords[0]['news_num']
                 break
         if not has_word:
             word_growth = word_count - min_count
-            if word_growth > min_growth:
+            if (word_growth/word_count) > min_growth_rate:
                 buzzwords.insert(0, {
                     'word': word,
                     'growth': word_growth,
@@ -224,8 +224,9 @@ def get_buzzword(report, prev_words_count):
                     'isOutline': {}
                 })
                 if len(buzzwords) >= MAX_NUM:
-                    buzzwords = sorted(buzzwords, key=lambda b: b['growth'], reverse=True)[:10]
-                    min_growth = buzzwords[0]['growth']
+                    buzzwords = sorted(buzzwords, key=lambda b: b['growth']/b['news_num'], reverse=True)[:10]
+                    min_growth_rate = buzzwords[0]['growth'] / \
+                        buzzwords[0]['news_num']
         counter += 1
         print('get buzzword process: ' +'(' + str(counter) + '/' + str(len(words_count)) + ')')
     
@@ -337,6 +338,8 @@ def get_word_analysis_provocative(report, datas):
     words_count = report['words_count']
     for word_data in words_count:
         word = word_data[0]
+        if word in PROVOCATIVE_WORDS:
+            pass
         word_count = word_data[1]
         news = word_data[2]
         for media in medias:

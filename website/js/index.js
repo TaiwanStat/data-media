@@ -13,12 +13,12 @@ $('#help').hide()
 var IsReportGot = false;
 
 var now = moment.now();
-var tz = moment.tz(now, 'Asia/Taipei')
+var tz = moment.tz(now, 'Asia/Taipei').subtract(1, 'days')
 var weekNum = tz.format('W')
+
 
 var s3Url = 'https://s3-ap-northeast-1.amazonaws.com/tw-media-data/report/'
 var objectUrl = s3Url + 'week_' + weekNum + '.json'
-objectUrl = 'week_42.json'
 
 $.getJSON(objectUrl, function (t) {
   report = t;
@@ -79,10 +79,11 @@ $.getJSON(objectUrl, function (t) {
   $(buzzword[0]).d3Click()
 
   $('#help').show('slow')
-  $('#help .fa-question').hide()
+  $('#help .fa-angle-up').hide()
+  $('#help .content').hide()
   $('#help').on('click', function(){
     $('#help .content').toggle('slow')
-    $('#help .fa-angle-down').toggle('slow')
+    $('#help .fa-angle-up').toggle('slow')
     $('#help .fa-question').toggle('slow')
   })
 
