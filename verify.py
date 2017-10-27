@@ -48,10 +48,10 @@ def verify_data_format():
                         continue
 
 def main():
+    verify_data_format()
     global TEXT
     if not TEXT:
         TEXT = 'Congratulations! there is no error today.'
-    verify_data_format()
     print(TEXT)
 
 
