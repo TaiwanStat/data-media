@@ -163,7 +163,6 @@ def cut_words_and_count(report, datas):
                 words_count.append([word, 1, [], {}, 0])
                 words_index.append(word)
         counter += 1
-        print('cut& count process: '+'('+str(counter)+'/'+str(news_amount)+')')
 
     print(log_prefix+str(time.time()-start_time))
     start_time = time.time()
@@ -175,7 +174,6 @@ def cut_words_and_count(report, datas):
     #     for item in words_count:
     #         outfile.write("%s\n" % item[0])
     report['words_count'] = words_count
-    print('' + str(time.time() - start_time))
     return report
 
 def get_buzzword(report, prev_words_count):
@@ -228,7 +226,6 @@ def get_buzzword(report, prev_words_count):
                     min_growth_rate = buzzwords[0]['growth'] / \
                         buzzwords[0]['news_num']
         counter += 1
-        print('get buzzword process: ' +'(' + str(counter) + '/' + str(len(words_count)) + ')')
     
 
     for word_data in words_count:
@@ -293,7 +290,6 @@ def get_words_timeline(report):
                         'count': 0,
                     })
         counter += 1
-        print('get words timeline process: ' + '(' + str(counter) + '/' + str(len(words_count)) + ')')
     for word in words_count:
          timeline = word[3]
          word[4] = {}
