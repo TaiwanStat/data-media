@@ -31,7 +31,7 @@ def verify_data_format():
                     TEXT = ''.join((TEXT, '[error]read json,', filename, str(e)))
                     TEXT += '\n'
                     continue
-
+                TEXT = ''.join((TEXT, filename, ': ', len(data), ' datas\n'))
                 for d in data:
                     miss_keys = [k for k in KEYS if k not in d]
                     if miss_keys:
@@ -42,7 +42,7 @@ def verify_data_format():
                         news_date = datetime.datetime.strptime(
                             date_str, '%Y-%m-%d')
                     except Exception as e:
-                        TEXT=''.join(
+                        TEXT =''.join(
                             (TEXT, '[error]wrong date format,', d['date'], filename, str(e)))
                         TEXT += '\n\n'
                         continue
