@@ -31,7 +31,7 @@ def verify_data_format():
                     TEXT = ''.join((TEXT, '[error]read json,', filename, str(e)))
                     TEXT += '\n'
                     continue
-                TEXT = ''.join((TEXT, filename, ': ', len(data), ' datas\n'))
+                TEXT = ''.join((TEXT, filename, ': ', str(len(data)), ' datas\n'))
                 for d in data:
                     miss_keys = [k for k in KEYS if k not in d]
                     if miss_keys:
