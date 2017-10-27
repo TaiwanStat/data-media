@@ -1,37 +1,37 @@
 .avgWords-container {
-  overflow: auto;
-  padding: 5px;
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
+    overflow-y: auto;
+    padding: 5px;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
 }
 
 .visWords-container {
-  background-color: #efefef;
-  border-bottom: 2px solid #CCC;
-  border-radius: 3px;
-  margin: 8px;
-  padding: 10px;
-  width: 100%;
-  &>h3 {
-    font-weight: bold;
-    font-size: 15px;
-    line-height: 18px;
-    display: inline-block;
-  }
-  &>span {
-    position: relative;
-    left: 10px;
-    font-size: 20px;
-    &.avgWords-scale {
-      font-size: 15px;
-      left: 12px;
-    }
-  }
-  & .visbar {
+    background-color: #efefef;
+    border-bottom: 2px solid #CCC;
     border-radius: 3px;
-    margin-top: 2px;
-    background-color: #d3d3d3;
-    padding: 1px;
-  }
+    margin: 8px;
+    padding: 10px;
+    width: 100%;
+    &>h3 {
+        font-weight: bold;
+        font-size: 15px;
+        line-height: 18px;
+        display: inline-block;
+    }
+    &>span {
+        position: relative;
+        left: 10px;
+        font-size: 20px;
+        &.avgWords-scale {
+            font-size: 15px;
+            left: 12px;
+        }
+    }
+    & .visbar {
+        border-radius: 3px;
+        margin-top: 2px;
+        background-color: #d3d3d3;
+        padding: 1px;
+    }
 }

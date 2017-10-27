@@ -1,8 +1,38 @@
+var media = ['蘋果日報', '聯合報', '自由時報', '東森新聞雲', '中央通訊社', '中國時報'];
+var mediaEN = ['apple', 'udn', 'liberty', 'ettoday', 'cna', 'china'];
+var smallDesktopWidthSize = 980;
+var mediaColor = {
+  '中央通訊社': '#26A69A',
+  '蘋果日報': '#ef5350',
+  '東森新聞雲': '#5C6BC0',
+  '自由時報': '#FFCA28',
+  '聯合報': '#FF7043',
+  '中國時報': '#03A9F4'
+};
+
+function mediaNameTranslate(mediaName) {
+  var dict = {
+    'apple': '蘋果日報',
+    'udn': '聯合報',
+    'liberty': '自由時報',
+    'ettoday': '東森新聞雲',
+    'cna': '中央通訊社',
+    'china': '中國時報',
+    '蘋果日報': 'apple',
+    '聯合報': 'udn',
+    '自由時報': 'liberty',
+    '東森新聞雲': 'ettoday',
+    '中央通訊社': 'cna',
+    '中國時報': 'china'
+  };
+
+  return dict[mediaName];
+}
+
 $('.page-container').hide()
 
 var report;
 var provocative_list = []
-initLengend();
 initWordCollection();
 window.refreshCards();
 $('#logo').addClass('loading');
@@ -149,8 +179,8 @@ $('body').on('scroll', function(event) {
 <hr>
 <strong>情緒性報導</strong>
 透過分析新聞資料的內文與標題，並以詞語向量化 ( word2vec ) 、群聚 ( cluster ) 的技術，找出與「酸」相近的用詞集，並作為以下定義的「情緒性用詞」。
-而情緒性報導是為，新聞標題中含有情緒性用詞的報導，此處統計各家媒體報導本週熱詞時情緒性報導的比率。「情緒性用詞」包含<ol>` + list_html + 
-`</ol><hr><strong>報導數量</strong>統計 6 家媒體對本周熱詞的報導數量，分析其數量。`
+而情緒性報導是為，新聞標題中含有情緒性用詞的報導，此處統計各家媒體報導本週熱詞時情緒性報導的比率。「情緒性用詞」包含<ol>${list_html}
+</ol><hr><strong>報導數量</strong>統計 6 家媒體對本周熱詞的報導數量，分析其數量。`
     $('#help .content').html(content)
   } else {
     var title = ''
@@ -181,14 +211,7 @@ $('.nav li').on('click', function(event) {
   } else if (targetId === 'button3') {
     animateToId('#discussion')
   }
-});
-
-function initLengend() {
-  for (var i in media) {
-    var item = $('<a class="circle ' + mediaEN[i] + '"></a><a>' + media[i] + '</a>');
-    $('.legend-container').append(item);
-  }
-}
+})
 
 function initWordCollection() {
   $('#modal-closer').on('click', function() {

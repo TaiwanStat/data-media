@@ -2,15 +2,15 @@ function createTimeline(selector, data) {
 
   var margin = {
     top: 30,
-    right: 100,
-    bottom: 32,
-    left: 60
+    right: 40,
+    bottom: 60,
+    left: 80
   };
 
   var width = $('.timeline-container').width()
   var height = $(window).height() / 5
 
-  height = height < 140 ? 140 : height
+  height = height < 180 ? 180 : height
 
   $(selector).empty();
   var svg = d3.select(selector).append('svg')
@@ -103,19 +103,7 @@ function createTimeline(selector, data) {
           return mediaColor[d.key];
         })
         .transition(1000);
-      if(d.values[i].time.getTime() == x.domain()[1].getTime()){
-        lastIndex =+ i;
-      }
-      
     }
-    group.append('text')
-      .attr('x', x(d.values[lastIndex].time) + 5)
-      .attr('y', y(d.values[lastIndex].count) + 5)
-      .attr('fill', mediaColor[d.key])
-      .style('font-size', '12px')
-      .style('letter-spacing', '2px')
-      .style('font-weight', '300')
-      .text(d.key);
   });
 
   g.append('g')
@@ -140,6 +128,36 @@ function createTimeline(selector, data) {
     .style('font-weight', '300')
     .style('opacity', 0)
     .text('報導次數（次）');
+
+  console.log('meida,', media);
+  
+  var tips = g.append('g')
+    .attr('class', 'tips')
+    .attr("transform",
+    "translate(20," +
+    (height + margin.top + 20) + ")")
+    .style("text-anchor", "middle")
+    .selectAll('g.tip').data(media).enter()
+    .append('g')
+    .attr('class', 'tip')
+    .attr('transform', function (d, i) {
+      var spacing = 8;
+      var legend_width = (width / media.length + spacing)
+      legend_width = (legend_width > 120 || legend_width < 80) ? 120 : legend_width
+      var horz = (width / media.length + spacing) * i
+      return 'translate(' + horz + ',0)'
+    })
+  
+  tips.append('circle')
+    .attr('r', '6')
+    .attr('cx', '-12')
+    .attr('cy', '2')
+    .style('fill', (d)=>mediaColor[d])
+  tips.append('text').text((d)=>d).attr('font-size', '12')
+    .attr('dx', "24")
+    .attr('dy', '6')
+    .style('font-weight', '300')
+    .style('fill', (d) => mediaColor[d])
   
   svg.on('mouseover', function(){
     yAxisSvg.transition().duration(200).style('opacity', 0.6)

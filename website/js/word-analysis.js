@@ -15,12 +15,13 @@ function getWordAnalysisProvocativeList(data){
   var ol = $('<ol>')
   var dataLen = data.length > 5 ? 5 : data.length
   for (var i = 0; i < dataLen; i++) {
-    hasData = true
-    if(data[i].rate !== 0)
-      ol.append('<li><span>' + data[i].word + '</span><span>' + (data[i].rate*100).toFixed(1) + '%</span></li>')
+    if(data[i].rate !== 0){
+      hasData = true
+      ol.append('<li><span>' + data[i].word + '</span><span>' + (data[i].rate * 100).toFixed(1) + '%</span></li>')
+    }
   }
   if(!hasData){
-    html.append('<h5>無資料</h5>')
+    html.append('<h5 class="not-found">沒有找到情緒報導</h5>')
   } else {
     html.append(ol)
   }
@@ -40,7 +41,7 @@ function getWordAnalysisOutlinerList(data){
       break
   }
   if (!hasData) {
-    html.append('<h5>無資料</h5>')
+    html.append('<h5 class="not-found">沒有找到少量報導主題</h5>')
   } else {
     html.append(ol)
   }
