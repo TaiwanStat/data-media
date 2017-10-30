@@ -322,8 +322,10 @@ def get_word_analysis_provocative(report, datas):
     news_amount = len(datas)
     counter = 0
 
-    PROVOCATIVE_REF = '爽'
-    PROVOCATIVE_WORDS = get_clutsr_words(PROVOCATIVE_REF, word_clusters)
+    PROVOCATIVE_REF = ['酸', '！']
+    PROVOCATIVE_WORDS = []
+    for w in PROVOCATIVE_REF:
+        PROVOCATIVE_WORDS.extend(get_clutsr_words(w, word_clusters))
 
     report['word_analysis'] = {}
     root = report['word_analysis']
