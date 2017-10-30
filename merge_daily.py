@@ -35,7 +35,6 @@ for subdir, dirs, files in os.walk(rootdir):
     for filename in files:
         filename = rootdir + filename
         if 'json' in filename:
-            print(filename)
 
             urls = []
             try:
