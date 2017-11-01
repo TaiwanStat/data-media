@@ -40,7 +40,8 @@
             <img id="logo" src="./dist/img/logo.png" alt="logo">
           </a>
           <a href="#">
-            <h1 class="logo-des">Minedia</h1>
+            <h1 class="logo-cht">媒礦</h1>
+            <h1 class="logo-en">Minedia</h1>
           </a>
           <div class="nav-time"></div>
         </div>
@@ -62,8 +63,8 @@
        <section class="band">
         <div class="band-container">
           <div class="band-inner">
-            <div><h1>本週熱詞</h1>
-            <h2>Buzzword</h2></div> {{> buzzword}}
+            <div><h1>本週熱詞榜</h1>
+            <h2 class="sub-title">本週有什麼議題是媒體們的寵兒呢？</h2></div> {{> buzzword}}
           </div>
         </div>
       </section> 
@@ -71,15 +72,18 @@
         <div class="band-container">
           <div class="band-inner">
             <div><h1>標題用詞報告</h1>
-            <h2>word analysis</h2></div> {{> word_analysis}}
+            <h2 class="sub-title">每當提及什麼議題，媒體會變得特別激動呢？</h2></div> {{> word_analysis}}
           </div>
         </div>
       </section>
       <section class="band">
         <div class="band-container">
           <div class="band-inner">
-            <div><h1>媒體用詞雲</h1><h2 id="qurey-word"></h2>
-            <h2>各媒體新聞用詞的文字雲，以位置表達各個媒體的常用詞</h2></div> 
+            <div><h1>媒體用詞雲</h1>
+            <h2 class="sub-title">網羅本週使用次數前三百名熱詞，<i class="fa fa-hand-pointer-o" aria-hidden="true"></i>點選文字發現你的媒礦</h2></div> 
+            <div class="qurey-word-container">
+              <h2 id="qurey-word"></h2>
+            </div>
             <div class="advance-section-container">
               <div class="cloud-timeline-container">
                 {{> cloud}} {{> timeline}}
@@ -94,6 +98,12 @@
       <section class="band">
         <div class="band-container polis-container">
           <div class="band-inner">
+            <div>
+              <h1>分享與討論</h1>
+              <h2 class="sub-title">
+                有什麼想法嗎？在這裡為你的立場發聲
+              </h2>
+            </div>
             <div class='polis' data-page_id='page-1' data-site_id='polis_site_id_QKXjXCd0z0A2hkx8l2'>
             </div>
           </div>

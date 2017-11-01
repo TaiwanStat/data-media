@@ -3,8 +3,12 @@ $break-medium: 980px;
     border-radius: 5px;
     border: 1px #333 solid;
     padding: 4px 16px;
-    margin: 0 12px;
+    margin: 24px 0;
+    letter-spacing: 4px;
     box-shadow: 0 0 2px rgba(0, 0, 0, .1), 1px 1px 6px rgba(0, 0, 0, .2), -2px -1px 5px 0px rgba(0, 0, 0, .1) inset;
+    .fa {
+        margin-right: 8px;
+    }
 }
 
 .card-container {

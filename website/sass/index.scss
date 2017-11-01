@@ -330,9 +330,16 @@ body {
     }
     & h1 {
         font-size: 32px;
+        letter-spacing: 0.3rem;
     }
     & h2 {
         padding: 0px 10px;
+        &.sub-title {
+            opacity: 0.8;
+            font-weight: 100;
+            font-size: 1.2rem;
+            letter-spacing: 0.1rem;
+        }
     }
     & .band-container {
         overflow: hidden;
@@ -350,6 +357,14 @@ body {
             align-items: center;
             padding: 1.5em 0 0 0;
             width: 100%;
+            >div:first-child {
+                display: flex;
+                flex-direction: column;
+                h1,
+                h2 {
+                    text-align: center;
+                }
+            }
             & #num-news {
                 font-size: 100px;
                 font-weight: 100;
@@ -401,34 +416,40 @@ body {
     & .nav-logo {
         & .logo-container {
             text-align: center;
-            & .logo-des {
+            .logo-cht {
+                font-size: 1.7rem;
+                margin: 1.5rem 0 0 0;
+                letter-spacing: 10px;
+                transform: translate(2.5px, 0);
+            }
+            .logo-en {
                 font-size: 16px;
                 margin-top: 6px;
-                letter-spacing: 5px;
+                letter-spacing: 1.5px;
                 font-weight: 700;
             }
-            & #logo {
-                width: 100px;
-                transform: rotate(0deg) scale(1);
-                transition: 1s;
-                &.small {
-                    transform: rotate(0deg) scale(0.8);
-                }
-                &.loading {
-                    animation: loading 2s infinite backwards;
-                    @keyframes loading {
-                        0% {
-                            transform: rotate(0deg) scale(0.8);
-                            filter: grayscale(0%);
-                        }
-                        50% {
-                            transform: rotate(360deg) scale(0.8);
-                            filter: grayscale(95%);
-                        }
-                        100% {
-                            transform: rotate(720deg) scale(0.8);
-                            filter: grayscale(0%);
-                        }
+        }
+        & #logo {
+            width: 100px;
+            transform: rotate(0deg) scale(1);
+            transition: 1s;
+            &.small {
+                transform: rotate(0deg) scale(0.8);
+            }
+            &.loading {
+                animation: loading 2s infinite backwards;
+                @keyframes loading {
+                    0% {
+                        transform: rotate(0deg) scale(0.8);
+                        filter: grayscale(0%);
+                    }
+                    50% {
+                        transform: rotate(360deg) scale(0.8);
+                        filter: grayscale(95%);
+                    }
+                    100% {
+                        transform: rotate(720deg) scale(0.8);
+                        filter: grayscale(0%);
                     }
                 }
             }
@@ -452,9 +473,13 @@ body {
 }
 
 .polis-container {
-    width: 100%;
-    .band-inner {
-        align-items: unset !important;
+    max-width: 80%;
+    padding: 0 12px;
+    .polis {
+        width: 100%;
+    }
+    .band-inner>div:first-child {
+        margin-bottom: 36px;
     }
 }
 

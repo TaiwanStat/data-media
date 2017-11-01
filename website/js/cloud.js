@@ -223,6 +223,8 @@ function clickCloud(d){
     }
   }
   $('#qurey-word').text(d.text)
+  $('#qurey-word').prepend('<i class="fa fa-bullseye" aria- hidden="true" ></i>')
+   
 }
 
 jQuery.fn.d3Click = function () {
