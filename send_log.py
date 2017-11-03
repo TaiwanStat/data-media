@@ -28,10 +28,13 @@ def read_file(f):
 def get_mail():
     global ROOT
     TEXT = ''
+    weekday = datetime.datetime.now().weekday()
     for subdir, dirs, files in os.walk(ROOT):
         for filename in files:
             filename = ROOT + filename
             if '.log' in filename:
+                if 'week' in filename and weekday != 0:
+                    continue
                 try:
                     log = read_file(filename)
                     TEXT += '[{0}]\n{1}\n'.format(filename, log)
