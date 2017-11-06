@@ -14,8 +14,7 @@ from pprint import pprint
 
 
 medias = ['蘋果日報', '聯合報', '自由時報', '東森新聞雲', '中央通訊社', '中國時報']
-RANK_NUM = 200
-MAX_NEWS_PER_WORD = 50
+RANK_NUM = 100
 
 def read_json(filename):
     with open(filename) as data_file:
@@ -24,6 +23,11 @@ def read_json(filename):
 def read_data(directory):
     folder_dir = glob.glob("{}/*.json".format(directory))
     newses = []
+    error_log = {}
+    error_log['data_error'] = []
+    error_log['empty_url'] = []
+    error_log['empty_date'] = []
+    error_log['not_exact_date'] = {}
     for json_file in folder_dir:
         try:
             news_data = read_json(json_file)
@@ -34,6 +38,7 @@ def read_data(directory):
         file_date = datetime.datetime.strptime(date_str, '%Y-%m-%d')
 
         # DEBUG_NUM = 0
+        
 
         for news in news_data:
             # some news may have key error due to json load in strict=False
@@ -41,23 +46,26 @@ def read_data(directory):
                 url, date = news["url"], news['date'][:10].replace('/', '-')
                 news_date = datetime.datetime.strptime(date, '%Y-%m-%d')
             except Exception as e:
-                print('error data:'+json_file+ ' / ' +str(e))
+                error_log['data_error'].append(json_file+ ' / ' +str(e))
                 continue
             if not url:
-                print('news not url: ' + json_file)
+                error_log['empty_url'].append(json_file)
                 continue
             if not date:
-                print('news not date: ' + json_file)
+                error_log['empty_date'].append(json_file)
                 continue
             if not (news_date == file_date):
-                print('news not today: ' + json_file)
+                if json_file in error_log['not_exact_date']:
+                    error_log['not_exact_date'][json_file] += 1
+                else:
+                    error_log['not_exact_date'][json_file] = 1
                 continue
 
             # DEBUG_NUM += 1
             # if DEBUG_NUM >= 10:
             #     break
-
             newses.append(news)
+    pprint(error_log)
     return newses
 
 
@@ -401,9 +409,12 @@ def get_word_analysis_outliner(report):
             continue
         for media in medias:
             media_is_outlinear = is_outlinear(news_count, media, timeline)
-            if media_is_outlinear:
+            print(word)
+
+            if media_is_outlinear != 0:
                 root[media][word] = {
                     'timeline' :  timeline,
+                    'trend': media_is_outlinear
                 }
 
     return report
@@ -428,7 +439,6 @@ def get_data_time(report):
 
     return report
 
-
 if __name__ == '__main__':
     data_directory = sys.argv[1]
     prev_report_direcrtory = sys.argv[2]
@@ -450,9 +460,6 @@ if __name__ == '__main__':
     report = get_word_analysis_provocative(report, datas)
     report = get_word_analysis_outliner(report)
     report = get_data_time(report)
-
-    for word in report['words_count']:
-        word[2] = word[2][:MAX_NEWS_PER_WORD]
 
     target_report_filename = target_report_folder + '/week_' + week_num + '.json'
 
