@@ -14,7 +14,8 @@ from pprint import pprint
 
 
 medias = ['蘋果日報', '聯合報', '自由時報', '東森新聞雲', '中央通訊社', '中國時報']
-
+RANK_NUM = 200
+MAX_NEWS_PER_WORD = 50
 
 def read_json(filename):
     with open(filename) as data_file:
@@ -160,7 +161,7 @@ def cut_words_and_count(report, datas):
                 if tmp not in item[2]:
                     item[2].append(tmp)
             else:
-                words_count.append([word, 1, [], {}, 0])
+                words_count.append([word, 0, [], {}, 0])
                 words_index.append(word)
         counter += 1
 
@@ -168,7 +169,7 @@ def cut_words_and_count(report, datas):
     start_time = time.time()
 
     words_count = sorted(words_count, key=itemgetter(1), reverse=True)
-    words_count = words_count[:300]
+    words_count = words_count[:RANK_NUM]
 
     # with open('stop_words_toadd.txt', 'w') as outfile:
     #     for item in words_count:
@@ -386,7 +387,7 @@ def get_word_analysis_outliner(report):
     for m in medias:
         news_count[m] = report[m]['news_count']
 
-    news_num_filter = 300
+    news_num_filter = RANK_NUM
 
     for media in medias:
         root[media] = {}
@@ -449,6 +450,9 @@ if __name__ == '__main__':
     report = get_word_analysis_provocative(report, datas)
     report = get_word_analysis_outliner(report)
     report = get_data_time(report)
+
+    for word in report['words_count']:
+        word[2] = word[2][:MAX_NEWS_PER_WORD]
 
     target_report_filename = target_report_folder + '/week_' + week_num + '.json'
 
