@@ -33,7 +33,7 @@ def get_mail():
         for filename in files:
             filename = ROOT + filename
             if '.log' in filename:
-                if 'week' in filename and weekday != 0:
+                if 'week' in filename and weekday != 1:
                     continue
                 try:
                     log = read_file(filename)
