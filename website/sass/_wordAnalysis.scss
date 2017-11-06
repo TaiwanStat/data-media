@@ -1,16 +1,5 @@
 .horizontal-lists {
-    display: flex;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    align-self: baseline;
     width: 100%;
-    >div {
-        flex: 0 0 auto;
-        padding: 8px 32px;
-        margin: 32px;
-        border-radius: 10px;
-        box-shadow: 0 0 2px rgba(0, 0, 0, .1), 1px 1px 6px rgba(0, 0, 0, .2), -2px -1px 5px 0px rgba(0, 0, 0, .1) inset;
-    }
     &:before {
         content: '';
         z-index: 0;
@@ -31,6 +20,20 @@
         top: 0;
         background: linear-gradient(to right, #fff, rgba(255, 255, 255, 0));
     }
+    .outer {
+        display: flex;
+        padding: 48px 0;
+        width: 100%;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        >div {
+            flex: 0 0 auto;
+            padding: 8px 32px;
+            margin: 32px;
+            border-radius: 10px;
+            box-shadow: 0 0 2px rgba(0, 0, 0, .1), 1px 1px 6px rgba(0, 0, 0, .2), -2px -1px 5px 0px rgba(0, 0, 0, .1) inset;
+        }
+    }
 }
 
 .list {
@@ -40,6 +43,9 @@
         >span:not(:first-child) {
             margin-left: 8px;
         }
+    }
+    h5 {
+        font-weight: 400;
     }
     h5.not-found {
         opacity: 0.6;

@@ -1,3 +1,6 @@
+const icon = '<i class="fa fa-info-circle" aria-hidden="true"></i>'
+const info = `<h5>${icon} 本週因蘋果日報網站更新，部分資料有所缺漏</h5>`
+
 var media = ['蘋果日報', '聯合報', '自由時報', '東森新聞雲', '中央通訊社', '中國時報'];
 var mediaEN = ['apple', 'udn', 'liberty', 'ettoday', 'cna', 'china'];
 var smallDesktopWidthSize = 980;
@@ -9,6 +12,23 @@ var mediaColor = {
   '聯合報': '#FF7043',
   '中國時報': '#03A9F4'
 };
+var report;
+var provocative_list = []
+var IsReportGot = false;
+
+var now = moment.now();
+var tz = moment.tz(now, 'Asia/Taipei').subtract(1, 'days')
+var weekNum = tz.format('W')
+
+var s3Url = 'https://s3-ap-northeast-1.amazonaws.com/tw-media-data/report/'
+var objectUrl = s3Url + 'week_' + weekNum + '.json'
+
+$('.page-container').hide()
+window.refreshCards();
+$('#logo').addClass('loading');
+$('#logo').addClass('small');
+$('.loader').append(info)
+$('#help').hide()
 
 function mediaNameTranslate(mediaName) {
   var dict = {
@@ -28,96 +48,122 @@ function mediaNameTranslate(mediaName) {
 
   return dict[mediaName];
 }
-
-$('.page-container').hide()
-
-var report;
-var provocative_list = []
-initWordCollection();
-window.refreshCards();
-$('#logo').addClass('loading');
-$('#logo').addClass('small');
-$('#help').hide()
+$(document).ready(function () {
 
 
-var IsReportGot = false;
-
-var now = moment.now();
-var tz = moment.tz(now, 'Asia/Taipei').subtract(1, 'days')
-var weekNum = tz.format('W')
+  initWordCollection();
 
 
-var s3Url = 'https://s3-ap-northeast-1.amazonaws.com/tw-media-data/report/'
-var objectUrl = s3Url + 'week_' + weekNum + '.json'
+  $.getJSON(objectUrl, function (t) {
+    report = t;
+    IsReportGot = true;
+    var totoalNews = 0;
+    var DELAY = 100;
 
-$.getJSON(objectUrl, function (t) {
-  report = t;
-  IsReportGot = true;
-  var totoalNews = 0;
-  var DELAY = 100;
+    $('.loader').fadeOut('slow')
+    $('#info').fadeOut('slow')
+    $('.page-container').show()
 
-  $('.loader').fadeOut('slow')
-  $('.page-container').show()
-
-  $("#logo").one('animationiteration webkitAnimationIteration', function () {
-    console.log('report loaded')
-    $("#logo").removeClass('loading');
-    setTimeout(function () {
-      $('#logo').removeClass('small');
-    }, 10)
-  });
-
-  for (var i in media) {
-    totoalNews += report[media[i]].news_count;
-  }
-
-  $('#num-news').text(totoalNews);
-  var barData = [];
-  for (var item in media) {
-    barData.push({
-      title: media[item],
-      newsCount: report[media[item]].news_count
+    $("#logo").one('animationiteration webkitAnimationIteration', function () {
+      console.log('report loaded')
+      $("#logo").removeClass('loading');
+      setTimeout(function () {
+        $('#logo').removeClass('small');
+      }, 10)
     });
+    $('.buzzwords .outer').on('scroll', function(){
+      if ($('.buzzwords .outer').scrollLeft() > 360 ){
+        $('#tip').hide()
+        $('.buzzwords .outer').off('scroll')
+      }
+    })
+
+    for (var i in media) {
+      totoalNews += report[media[i]].news_count;
+    }
+
+    $('#num-news').text(totoalNews);
+    var barData = [];
+    for (var item in media) {
+      barData.push({
+        title: media[item],
+        newsCount: report[media[item]].news_count
+      });
+    }
+    setTimeout(function () {
+      window.createNewsBarChart('#num-news-bar', barData);
+    }, DELAY);
+
+    // var categoryData = {}
+    // media.forEach(function(d) {
+    //   categoryData[d] = report[d]
+    // })
+    // window.createCategory(categoryData);
+
+    var myWordCloud = wordCloud('div.cloud');
+    window.showNewWords(myWordCloud);
+    for (var item in mediaEN) {
+      window.addVisWord(mediaEN[item], report[media[item]].words_median);
+    }
+
+    $('.page-container').css('display', '');
+    $('.page-container').addClass('show-page')
+    setTimeout(function () {
+      $('.page-container').removeClass('show-page')
+    }, 1000);
+
+    initBuzzword(t['buzzword'])
+    initWordAnalysis(t['word_analysis'])
+    initDate(t['time'])
+    initAbout()
+    var buzzword = d3.selectAll('.cloud text')
+    var renderedWord = buzzword[0].map((d)=>{
+      return d.innerHTML
+    })
+    var wordData = t['words_count'].map((d)=>d[0])
+    console.log(123, renderedWord)
+    console.log(123, buzzword)
+    var HotestRenderedWordIndex = -1
+    for (var i = 0; i < wordData.length;i++){
+      HotestRenderedWordIndex = renderedWord.findIndex((d) => {
+        return d == wordData[i]
+      })
+      if (HotestRenderedWordIndex != -1){
+        break
+      }
+    }
+    $(buzzword[0][HotestRenderedWordIndex]).d3Click()
+
+    $('#help').show('slow')
+    $('#help .fa-angle-up').hide()
+    $('#help .content').hide()
+    $('#help').on('click', function () {
+      $('#help .content').toggle('slow')
+      $('#help .fa-angle-up').toggle('slow')
+      $('#help .fa-question').toggle('slow')
+    })
+
+  });
+  if ($(window).width() > 980){
+    $('.band.footer').before(`<section class="band">
+        <div class="band-container polis-container">
+          <div class="band-inner">
+            <div>
+              <h1>分享與討論</h1>
+              <h2 class="sub-title">
+                有什麼想法嗎？在這裡為你的立場發聲
+              </h2>
+            </div>
+            <div class='polis' data-page_id='page-1' data-site_id='polis_site_id_QKXjXCd0z0A2hkx8l2'>
+            </div>
+          </div>
+        </div>
+      </section>
+    `)
+    $('body').append("<script async='true' src='https://pol.is/embed.js'></script>")
   }
-  setTimeout(function() {
-    window.createNewsBarChart('#num-news-bar', barData);
-  }, DELAY);
 
-  // var categoryData = {}
-  // media.forEach(function(d) {
-  //   categoryData[d] = report[d]
-  // })
-  // window.createCategory(categoryData);
-
-  var myWordCloud = wordCloud('div.cloud');
-  window.showNewWords(myWordCloud);
-  for (var item in mediaEN) {
-    window.addVisWord(mediaEN[item], report[media[item]].words_median);
-  }
-
-  $('.page-container').css('display', '');
-  $('.page-container').addClass('show-page')
-  setTimeout(function() {
-    $('.page-container').removeClass('show-page')
-  }, 1000);
-
-  initBuzzword(t['buzzword'])
-  initWordAnalysis(t['word_analysis'])
-  initDate(t['time'])
-  initAbout()
-  var buzzword = d3.selectAll('text').filter(function (d, i) { return d.text === t['words_count'][0][0] })
-  $(buzzword[0]).d3Click()
-
-  $('#help').show('slow')
-  $('#help .fa-angle-up').hide()
-  $('#help .content').hide()
-  $('#help').on('click', function(){
-    $('#help .content').toggle('slow')
-    $('#help .fa-angle-up').toggle('slow')
-    $('#help .fa-question').toggle('slow')
-  })
-
-});
+})
 
 $('.nav-about').on('click', function() {
   if ($('.page-container').hasClass('show-about')) {

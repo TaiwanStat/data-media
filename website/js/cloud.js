@@ -90,12 +90,11 @@ function wordCloud(selector) {
     //Entering words
     cloud.enter()
       .append('text')
-      .style('font-family', 'Impact')
       .style('fill', function (d, i) {
         return (getColor(d))
       })
       .style('font-weight', function (d) {
-        return (d.size > 21 ? 600 : 100)
+        return (d.size > 50 ? 600 : 100)
       })
       .attr('text-anchor', 'middle')
       .attr('font-size', 1)
@@ -140,11 +139,10 @@ function wordCloud(selector) {
       d3.layout.cloud()
         .size([width, height])
         .words(words)
-        .padding(3)
+        .padding(4)
         .rotate(function () {
-          return Math.random() * 90 - 45;
+          return Math.random() * 45 - 22.5;
         })
-        .font('Impact')
         .fontSize(function (d) {
           return d.size;
         })

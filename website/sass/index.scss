@@ -3,7 +3,6 @@
 @import "averageWords";
 @import "wordAnalysis";
 @import "buzzword";
-@import url(https://fonts.googleapis.com/css?family=Open+Sans:700,300,600,800,400);
 $default_font_color: rgba(0, 0, 0, 0.75);
 $break-medium: 980px;
 $nav-width: 240px;
@@ -21,7 +20,6 @@ body {
     height: 100%;
     width: 100%;
     background: 'white';
-    font-family: 'Open Sans', sans-serif;
     box-sizing: border-box;
     overflow-x: hidden;
     min-height: 100%;
@@ -34,6 +32,7 @@ body {
 * {
     color: $default_font_color;
     -webkit-overflow-scrolling: touch;
+    font-family: source-han-sans-traditional, sans-serif;
 }
 
 .apple {
@@ -68,10 +67,16 @@ body {
 .loader {
     display: flex;
     justify-content: center;
+    flex-direction: column;
+    align-items: center;
     font-size: 1.2rem;
     font-weight: 600;
     letter-spacing: 0.2rem;
     animation: loading-text 2s infinite;
+    h5 {
+        color: red;
+        font-weight: 300;
+    }
 }
 
 @keyframes loading-text {
@@ -357,6 +362,7 @@ body {
             align-items: center;
             padding: 1.5em 0 0 0;
             width: 100%;
+            position: relative;
             >div:first-child {
                 display: flex;
                 flex-direction: column;
@@ -389,6 +395,55 @@ body {
                 display: flex;
                 justify-content: center;
                 align-items: baseline;
+            }
+            #tip {
+                position: absolute;
+                top: 50%;
+                left: 48px;
+                opacity: 0.3;
+                z-index: 0;
+                em {
+                    font-weight: bolder;
+                    font-size: 1.1rem;
+                    letter-spacing: 0.02rem;
+                    margin-left: 6px;
+                    margin-right: 4px;
+                }
+                .mouse-icon {
+                    width: 20px;
+                    height: 30px;
+                    border: 2px solid #333;
+                    border-radius: 10px;
+                    display: inline-block;
+                    vertical-align: middle;
+                    margin-left: 0px;
+                    margin-right: 8px;
+                    margin-bottom: 4px;
+                    position: relative;
+                    box-shadow: 0 0 2px rgba(0, 0, 0, .1), 1px 1px 6px rgba(0, 0, 0, .2), -2px -1px 5px 0 rgba(0, 0, 0, .1) inset;
+                }
+                .scroll-btn {
+                    position: absolute;
+                    height: 8px;
+                    width: 4px;
+                    border-radius: 2px;
+                    background-color: #333;
+                    top: 20%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    animation: scrolling 0.8s infinite;
+                }
+                @keyframes scrolling {
+                    0% {
+                        transform: translate(-50%, -25%);
+                    }
+                    50% {
+                        transform: translate(-50%, 0%);
+                    }
+                    100% {
+                        transform: translate(-50%, -25%);
+                    }
+                }
             }
         }
     }
@@ -498,6 +553,7 @@ body {
         font-weight: 700;
         border-bottom: 2px solid #EFEFEF;
         transition: 0.2s;
+        position: relative;
         &:hover {
             cursor: pointer;
             color: #BBBB00;
@@ -515,6 +571,12 @@ body {
 }
 
 @media screen and (max-width: $break-medium) {
+    #tip {
+        display: none;
+    }
+    .data-desc {
+        flex-direction: column;
+    }
     .container.is-open {
         overflow: hidden;
     }
@@ -546,5 +608,8 @@ body {
         .content ol {
             height: initial;
         }
+    }
+    #modal-container.show #pop-content .card {
+        min-width: initial;
     }
 }

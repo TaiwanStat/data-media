@@ -52,7 +52,6 @@ $break-medium: 980px;
             box-shadow: 0 0 2px rgba(0, 0, 0, .1), 1px 1px 6px rgba(0, 0, 0, .2), -2px -1px 5px 0 rgba(0, 0, 0, .1) inset;
             & h5,
             & .detail {
-                font-weight: 500;
                 margin: 2px;
                 transition: 1s;
                 transition-delay: .2s;
@@ -117,6 +116,11 @@ $break-medium: 980px;
 
 .wordCollection-container {
     width: 30%;
+    h3 {
+        text-align: center;
+        letter-spacing: 0.1rem;
+        display: none;
+    }
 }
 
 .advance-section-container {
@@ -131,5 +135,10 @@ $break-medium: 980px;
     .cloud-timeline-container,
     .wordCollection-container {
         width: 100%;
+    }
+    .wordCollection-container {
+        h3 {
+            display: block;
+        }
     }
 }

@@ -4,9 +4,9 @@ function initWordAnalysis(data) {
     html.append('<h3>'+ media[m] + '</h3>')
     html.append(getWordAnalysisProvocativeList(data['provocative'][media[m]]))
     html.append(getWordAnalysisOutlinerList(data['outliner'][media[m]]))
-    $('.horizontal-lists').append(html)
+    $('.horizontal-lists .outer').append(html)
   }
-  $('.horizontal-lists').append('<div style="visibility: hidden"><h5>placeholder</h5><div>')
+  $('.horizontal-lists .outer').append('<div style="visibility: hidden"><h5>placeholder</h5><div>')
 }
 
 function getWordAnalysisProvocativeList(data){

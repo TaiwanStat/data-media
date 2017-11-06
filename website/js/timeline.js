@@ -1,18 +1,25 @@
 function createTimeline(selector, data) {
 
   var margin = {
-    top: 30,
+    top: 40,
     right: 40,
-    bottom: 60,
+    bottom: 80,
     left: 80
   };
 
   var width = $('.timeline-container').width()
   var height = $(window).height() / 5
+  height = height < 200 ? 200 : height
 
-  height = height < 180 ? 180 : height
+  if( width < 480) {
+    margin.left = 24
+    margin.right = 24
+    margin.bottom = 80
+    height = 180
+  }
 
   $(selector).empty();
+  $(selector).append('<h3>報導次數時間軸</h3>');
   var svg = d3.select(selector).append('svg')
     .attr('width', width)
     .attr('height', height);
@@ -30,7 +37,7 @@ function createTimeline(selector, data) {
 
   // Define the axes
   var xAxis = d3.svg.axis().scale(x)
-    .orient('bottom').ticks(7);
+    .orient('bottom').ticks(7).tickFormat(d3.time.format("%m/%d"));
 
   var yAxis = d3.svg.axis().scale(y)
     .orient('left').ticks(3);
@@ -64,7 +71,8 @@ function createTimeline(selector, data) {
     })
     .y(function(d) {
       return y(d.count);
-    });
+    })
+    
 
 
   x.domain(d3.extent(data, function(d) {
@@ -89,10 +97,10 @@ function createTimeline(selector, data) {
       .attr('d', line(d.values))
       .attr('stroke', function() {
         return mediaColor[d.key];
-      });
+      })
+      .attr('class', 'timeline-line');
     for (var i in d.values) {
       group.append('circle')
-        .attr('r', 5)
         .attr('cx', function() {
           return x(d.values[i].time);
         })
@@ -102,22 +110,15 @@ function createTimeline(selector, data) {
         .attr('fill', function() {
           return mediaColor[d.key];
         })
+        .attr('class', 'timeline-dot')
         .transition(1000);
     }
   });
-
   g.append('g')
     .attr('class', 'x axis')
     .attr('transform', 'translate(0,' + height + ')')
     .style('opacity', .6)
     .call(xAxis);
-
-  // Add the Y Axis
-  var yAxisSvg = g.append('g')
-    .attr('class', 'y axis')
-    .style('opacity', 0)
-    .call(yAxis);
-
 
   var yLabel = g.append('text')
     .attr('x', -40)
@@ -128,14 +129,12 @@ function createTimeline(selector, data) {
     .style('font-weight', '300')
     .style('opacity', 0)
     .text('報導次數（次）');
-
-  console.log('meida,', media);
   
   var tips = g.append('g')
     .attr('class', 'tips')
     .attr("transform",
     "translate(20," +
-    (height + margin.top + 20) + ")")
+    (height + margin.top) + ")")
     .style("text-anchor", "middle")
     .selectAll('g.tip').data(media).enter()
     .append('g')
@@ -145,7 +144,13 @@ function createTimeline(selector, data) {
       var legend_width = (width / media.length + spacing)
       legend_width = (legend_width > 120 || legend_width < 80) ? 120 : legend_width
       var horz = (width / media.length + spacing) * i
-      return 'translate(' + horz + ',0)'
+      var vert = 0
+      if( width < 480) {
+        horz = (width / 3 + spacing) * (i%4)
+        vert = Math.floor(i/3) * 16
+      }
+      
+      return `translate(${horz},${vert})`
     })
   
   tips.append('circle')
@@ -159,13 +164,23 @@ function createTimeline(selector, data) {
     .style('font-weight', '300')
     .style('fill', (d) => mediaColor[d])
   
-  svg.on('mouseover', function(){
-    yAxisSvg.transition().duration(200).style('opacity', 0.6)
-    yLabel.transition().duration(200).style('opacity', 0.6)
-  }).on('mouseout', function(){
-    yAxisSvg.transition().duration(200).style('opacity', 0)
-    yLabel.transition().duration(200).style('opacity', 0)
-  })
+  if (width >= 480) {
+
+    var yAxisSvg = g.append('g')
+      .attr('class', 'y axis')
+      .style('opacity', 0)
+      .call(yAxis);
+
+    svg.on('mouseover', function () {
+      yAxisSvg.transition().duration(200).style('opacity', 0.6)
+      yLabel.transition().duration(200).style('opacity', 0.6)
+    }).on('mouseout', function () {
+      yAxisSvg.transition().duration(200).style('opacity', 0)
+      yLabel.transition().duration(200).style('opacity', 0)
+    })
+
+  }
+
 
   // Because of the design purpose, temporily hide this
   // g.append('text')
