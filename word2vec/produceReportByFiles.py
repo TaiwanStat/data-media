@@ -440,15 +440,14 @@ def get_data_time(report):
 
 if __name__ == '__main__':
     data_directory = sys.argv[1]
-    prev_report_direcrtory = sys.argv[2]
+    prev_detail_direcrtory = sys.argv[2]
     target_report_folder = sys.argv[3]
 
     week_num = datetime.datetime.now().strftime('%W')
 
-    with open(prev_report_direcrtory) as infile:
-        prev_report = json.load(infile)
-    prev_words_count = prev_report['words_count']
-    prev_words_count = [ [news[0], news[1]] for news in prev_words_count]
+    with open(prev_detail_direcrtory) as infile:
+        prev_detail = json.load(infile)
+    prev_words_count = [ [news[0], news[1]] for news in prev_detail]
 
     report = {}
     datas = read_data(data_directory)
