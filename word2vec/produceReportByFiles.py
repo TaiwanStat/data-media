@@ -409,7 +409,6 @@ def get_word_analysis_outliner(report):
             continue
         for media in medias:
             media_is_outlinear = is_outlinear(news_count, media, timeline)
-            print(word)
 
             if media_is_outlinear != 0:
                 root[media][word] = {
@@ -462,6 +461,12 @@ if __name__ == '__main__':
     report = get_data_time(report)
 
     target_report_filename = target_report_folder + '/week_' + week_num + '.json'
+    detail_filename = target_report_folder + '/detail_' + week_num + '.json'
+
+    detail = report['words_count']
+    report['words_count'] = []
 
     with open(target_report_filename, 'w') as outfile:
         json.dump(report, outfile)
+    with open(detail_filename, 'w') as outfile:
+        json.dump(detail, outfile)
