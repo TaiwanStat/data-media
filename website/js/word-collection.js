@@ -1,10 +1,9 @@
 function ShowWordCollectionInModal(event) {
   var firedMediaName = mediaNameTranslate($(event.target).data('media'));
-  var qureyWord = $('#qurey-word').text()
+  var qureyWord = $('.qurey-word')[0].innerText
   var IndexOfWord;
   if (qureyWord === '')
     return;
-
   $('#modal-container').addClass('show');
   setTimeout(function() {
     $('#pop-content .card-container').addClass('show');

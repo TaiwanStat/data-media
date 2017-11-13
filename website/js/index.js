@@ -1,5 +1,20 @@
-const icon = '<i class="fa fa-info-circle" aria-hidden="true"></i>'
-const info = `<h5>${icon} 本週因蘋果日報網站更新，部分資料有所缺漏</h5>`
+$.fn.extend({
+  animateCss: function (animationName, callback) {
+    var animationEnd = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
+    this.addClass('animated ' + animationName).one(animationEnd, function () {
+      $(this).removeClass('animated ' + animationName);
+      if (callback) {
+        callback();
+      }
+    });
+    return this;
+  }
+});
+
+// const icon = '<i class="fa fa-info-circle" aria-hidden="true"></i>'
+// const info = `<h5>${icon} 本週因蘋果日報網站更新，部分資料有所缺漏</h5>`
+const info = ''
+let qureyWordTop
 
 var media = ['蘋果日報', '聯合報', '自由時報', '東森新聞雲', '中央通訊社', '中國時報'];
 var mediaEN = ['apple', 'udn', 'liberty', 'ettoday', 'cna', 'china'];
@@ -15,20 +30,27 @@ var mediaColor = {
 var report;
 var provocative_list = []
 var IsReportGot = false;
+let IsDetailGot = false
 
 var now = moment.now();
 var tz = moment.tz(now, 'Asia/Taipei').subtract(1, 'days')
 var weekNum = tz.format('W')
 
 var s3Url = 'https://s3-ap-northeast-1.amazonaws.com/tw-media-data/report/'
-var objectUrl = s3Url + 'week_' + weekNum + '.json'
+// var reportUrl = s3Url + 'week_' + weekNum + '.json'
+// var detailUrl = s3Url + 'detail_' + weekNum + '.json'
+
+var reportUrl = 'week_46.json'
+var detailUrl = 'detail_46.json'
+
+
+let section = -1
 
 $('.page-container').hide()
 window.refreshCards();
-$('#logo').addClass('loading');
-$('#logo').addClass('small');
 $('.loader').append(info)
 $('#help').hide()
+$('.advance-section-container').hide()
 
 function mediaNameTranslate(mediaName) {
   var dict = {
@@ -48,13 +70,28 @@ function mediaNameTranslate(mediaName) {
 
   return dict[mediaName];
 }
+
+const scrollTip =
+`<div id="tip">
+  使用
+  <em>shift</em>+
+  <span class="mouse-icon">
+    <span class="scroll-btn"></span>
+  </span>水平捲動
+</div>`
+
 $(document).ready(function () {
 
-
+  const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0
   initWordCollection();
+  $('#logo').addClass('loading');
+  $('#logo').addClass('small');
 
+  if(!isMac){
+    $('#before-tip').after(scrollTip)
+  }
 
-  $.getJSON(objectUrl, function (t) {
+  $.getJSON(reportUrl, function (t) {
     report = t;
     IsReportGot = true;
     var totoalNews = 0;
@@ -94,17 +131,7 @@ $(document).ready(function () {
       window.createNewsBarChart('#num-news-bar', barData);
     }, DELAY);
 
-    // var categoryData = {}
-    // media.forEach(function(d) {
-    //   categoryData[d] = report[d]
-    // })
-    // window.createCategory(categoryData);
 
-    var myWordCloud = wordCloud('div.cloud');
-    window.showNewWords(myWordCloud);
-    for (var item in mediaEN) {
-      window.addVisWord(mediaEN[item], report[media[item]].words_median);
-    }
 
     $('.page-container').css('display', '');
     $('.page-container').addClass('show-page')
@@ -116,23 +143,6 @@ $(document).ready(function () {
     initWordAnalysis(t['word_analysis'])
     initDate(t['time'])
     initAbout()
-    var buzzword = d3.selectAll('.cloud text')
-    var renderedWord = buzzword[0].map((d)=>{
-      return d.innerHTML
-    })
-    var wordData = t['words_count'].map((d)=>d[0])
-    console.log(123, renderedWord)
-    console.log(123, buzzword)
-    var HotestRenderedWordIndex = -1
-    for (var i = 0; i < wordData.length;i++){
-      HotestRenderedWordIndex = renderedWord.findIndex((d) => {
-        return d == wordData[i]
-      })
-      if (HotestRenderedWordIndex != -1){
-        break
-      }
-    }
-    $(buzzword[0][HotestRenderedWordIndex]).d3Click()
 
     $('#help').show('slow')
     $('#help .fa-angle-up').hide()
@@ -142,7 +152,7 @@ $(document).ready(function () {
       $('#help .fa-angle-up').toggle('slow')
       $('#help .fa-question').toggle('slow')
     })
-
+    qureyWordTop = $('.qurey-word-container-mob .qurey-word').offset().top
   });
   if ($(window).width() > 980){
     $('.band.footer').before(`<section class="band">
@@ -162,7 +172,30 @@ $(document).ready(function () {
     `)
     $('body').append("<script async='true' src='https://pol.is/embed.js'></script>")
   }
+  $.getJSON(detailUrl,function(t){
+    $('.advance-section-container').show()
+    $('.cloud-loader').hide()
+    report.words_count = t
+    var myWordCloud = wordCloud('div.cloud');
+    showNewWords(myWordCloud);
 
+    var buzzword = d3.selectAll('.cloud text')
+    var renderedWord = buzzword[0].map((d) => {
+      return d.innerHTML
+    })
+    var wordData = t.map((d) => d[0])
+    var HotestRenderedWordIndex = -1
+
+    for (var i = 0; i < wordData.length; i++) {
+      HotestRenderedWordIndex = renderedWord.findIndex((d) => {
+        return d == wordData[i]
+      })
+      if (HotestRenderedWordIndex != -1) {
+        break
+      }
+    }
+    $(buzzword[0][HotestRenderedWordIndex]).d3Click()
+  })
 })
 
 $('.nav-about').on('click', function() {
@@ -193,45 +226,44 @@ $('.menu').on('click', function() {
 $.get('dist/provocative_words.txt', function (data) {
   provocative_list = data.split('\n')
 })
+const SHOWDIST = $(window).height() * 0.75;
+const pos = $(window).scrollTop() + SHOWDIST;
+const updateAnimation = 'rotateIn'
 
 $('body').on('scroll', function(event) {
-  var SHOWDIST = $(window).height() * 0.75;
-  var pos = $(window).scrollTop() + SHOWDIST;
-  if (isPosBeyondIdTop(pos, '.cloud')) {
-    $('.legend-container').removeClass('hidden');
-  } else {
-    $('.legend-container').addClass('hidden');
-  }
 
-  if (isPosBeyondIdTop(pos, '#word-collection')) {
-    var title = '<h4>詞彙新聞集</h4>'
-    var content = title + '點擊用詞雲中的詞語，可以在詞彙新聞集中查看 6 家媒體報導此詞語的時間軸，與各自的新聞，其中<em>上色者為情緒性報導</em>。'
-    $('#help .content').html(content)
-  } else if (isPosBeyondIdTop(pos, '.cloud')){
+  if (isPosBeyondIdTop(pos, '.cloud') && section != 3){
     var title = '<h4>媒體用詞雲</h4>'
     var content = title + `統計 6 家媒體本週新聞標題內的用詞，在標題內<em>出現次數越多者字體越大</em>。`
+    content = content + '<h4>詞彙新聞集</h4>'
+    content = content + '點擊用詞雲中的詞語，可以在詞彙新聞集中查看 6 家媒體報導此詞語的時間軸，與各自的新聞，其中<em>上色者為情緒性報導</em>。'
+    section = 3
     $('#help .content').html(content)
-  } else if (isPosBeyondIdTop(pos, '.horizontal-lists')) {
-    var title = '<h4>標題用詞報告</h4>'
-    var content = title + `<hr><strong>情緒性報導排行</strong>統計 6 家媒體本週情緒性報導比率的前五名，例如：「台灣  50%」，代表這家媒體所有標題含有「台灣」的報導，標題有 50% 含有情緒性用詞。</p>
-<hr><strong>少量報導主題</strong>分析同一詞語在 6 家媒體中，如果這家媒體對於這個詞語的關注度較低，即為少量報導主題。</p>`
+    $('#help').animateCss(updateAnimation)
+  } else if (isPosBeyondIdTop(pos, '.horizontal-lists') && !isPosBeyondIdTop(pos, '.cloud')  && section != 2) {
+    var title = ''
+    var content = title + `<h4>情緒性報導排行</h4>統計 6 家媒體本週情緒性報導比率的前五名，例如：「台灣  50%」，代表這家媒體所有標題含有「台灣」的報導，標題有 50% 含有情緒性用詞。</p>
+<h4>少量報導主題</h4>分析同一詞語在 6 家媒體中，如果這家媒體對於這個詞語的關注度較低，即為少量報導主題。</p>`
+    section = 2
     $('#help .content').html(content)
-  } else if (isPosBeyondIdTop(pos, '.buzzwords')) {
+    $('#help').animateCss(updateAnimation)
+  } else if (isPosBeyondIdTop(pos, '.buzzwords') && !isPosBeyondIdTop(pos, '.horizontal-lists') && section != 1) {
     var title = '<h4>本週熱詞</h4>'
     var list_html = provocative_list.map(function(w){
-      return '<li>' + w + '</li>'
+      return w.trim().length === 0 ? '' : '<li>' + w + '</li>'
     }).join(' ')
     var content = title + `統計本週搜集的所有新聞標題內的用詞，與上週資料做比較，<em>使用次數成長最多者</em>，即為本週的熱詞。
-<hr>
-<strong>情緒性報導</strong>
+<h4>情緒性報導</h4>
 透過分析新聞資料的內文與標題，並以詞語向量化 ( word2vec ) 、群聚 ( cluster ) 的技術，找出與「酸」相近的用詞集，並作為以下定義的「情緒性用詞」。
 而情緒性報導是為，新聞標題中含有情緒性用詞的報導，此處統計各家媒體報導本週熱詞時情緒性報導的比率。「情緒性用詞」包含<ol>${list_html}
-</ol><hr><strong>報導數量</strong>統計 6 家媒體對本周熱詞的報導數量，分析其數量。`
+</ol><h4>報導數量</h4>統計 6 家媒體對本周熱詞的報導數量，分析其數量。`
+    section = 1
     $('#help .content').html(content)
-  } else {
+    $('#help').animateCss(updateAnimation)
+  } else if (!isPosBeyondIdTop(pos, '.buzzwords') && section != 0){
     var title = ''
     var content = title + `統計6家媒體於官方網站上，一周內所發表之新聞量。
-    <hr><strong>資料來源</strong>
+    <h4>資料來源</h4>
     <ol>
     <li>蘋果日報</li>
     <li>聯合報</li>
@@ -241,7 +273,10 @@ $('body').on('scroll', function(event) {
     <li>中國時報</li>
     </ol>
     `
+    section = 0
+    
     $('#help .content').html(content)
+    $('#help').animateCss(updateAnimation)
   }
 
 })
@@ -331,8 +366,8 @@ function animateToId(id) {
 }
 
 function initDate(dateData){
-  var begin = dateData.begin.replace('-', '/').slice(5)
-  var end = dateData.end.replace('-', '/').slice(5)
+  var begin = dateData.begin.replace(/-/g, '/').slice(5)
+  var end = dateData.end.replace(/-/g, '/').slice(5)
   var html = begin + ' ~ ' + end
   $('.nav-time').html(html)
 }

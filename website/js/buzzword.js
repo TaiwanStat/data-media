@@ -4,7 +4,7 @@ function initBuzzword(data) {
       <div class="buzzword-title-container">
         <h3 class="buzzword">${(i+1)+'.'+b['word']}</h3>
         <h5>
-          <i class="fa fa-arrow-up" aria-hidden="true"></i>
+          成長<i class="fa fa-arrow-up" aria-hidden="true"></i>
           <span class="buzzword-growth">${(b['growth'] / b['news_num'] * 100).toFixed(1) + '%'}</span>
           </h3>
       </div>
@@ -34,13 +34,13 @@ function appendBuzzwordProvocativeList(index, provo_data){
   var STANDARD = 10
   for (var m in media) {
     if (provo_data[media[m]] > STANDARD) {
-      var html = '<li class="hightlight"><span class="media-name">' + media[m] + '</span><span class="provocative-num">' + (provo_data[media[m]]*100).toFixed(1) + '%</span></li>'
+      var html = `<li class="hightlight"><span class="media-name">${media[m]}</span><span class="provocative-num">${(provo_data[media[m]]*100).toFixed(1)}%</span></li>`
       $(seletor).append(html)
     }
   }
   for (var m in media) {
     if (provo_data[media[m]] <= STANDARD) {
-      var html = '<li><span class="media-name">' + media[m] + '</span><span class="provocative-num">' + (provo_data[media[m]]*100).toFixed(1) + '%</span></li>'
+      var html = `<li><span class="media-name">${media[m]}</span><span class="provocative-num">${(provo_data[media[m]]*100).toFixed(1)}%</span></li>`
       $(seletor).append(html)
     }
   }
@@ -51,19 +51,19 @@ function appendBuzzwordOutlinerList(index, outliner_data) {
   $(seletor).empty()
   for (var m in media) {
     if (outliner_data[media[m]] === 1) {
-      var html = '<li class="hightlight"><span class="media-name">' + media[m] + '</span><span class="news-num">大量報導</span></li>'
+      var html = `<li class="hightlight"><span class="media-name">${media[m]}</span><span class="news-num">大量報導</span></li>`
       $(seletor).append(html)
     }
   }
   for (var m in media) {
     if (outliner_data[media[m]] === -1) {
-      var html = '<li><span class="media-name">' + media[m] + '</span><span class="news-num">正常報導</span></li>'
+      var html = `<li><span class="media-name">${media[m]}</span><span class="news-num">正常報導</span></li>`
       $(seletor).append(html)
     }
   }
   for (var m in media) {
     if (outliner_data[media[m]] === 0) {
-      var html = '<li><span class="media-name">' + media[m] + '</span><span class="news-num">正常報導</span></li>'
+      var html = `<li><span class="media-name">${media[m]}</span><span class="news-num">正常報導</span></li>`
       $(seletor).append(html)
     }
   }

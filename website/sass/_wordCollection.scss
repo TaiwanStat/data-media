@@ -1,11 +1,18 @@
 $break-medium: 980px;
-#qurey-word {
+.qurey-word-container-mob {
+    display: none;
+    text-align: center;
+}
+
+.qurey-word-container {
+    text-align: center;
+}
+.qurey-word {
     border-radius: 5px;
     border: 1px #333 solid;
-    padding: 4px 16px;
-    margin: 24px 0;
+    padding: 4px 16px !important;
+    margin: 24px 0 !important;
     letter-spacing: 4px;
-    box-shadow: 0 0 2px rgba(0, 0, 0, .1), 1px 1px 6px rgba(0, 0, 0, .2), -2px -1px 5px 0px rgba(0, 0, 0, .1) inset;
     .fa {
         margin-right: 8px;
     }
@@ -129,6 +136,12 @@ $break-medium: 980px;
 }
 
 @media screen and (max-width: $break-medium) {
+    .qurey-word-container {
+        display: none;
+    }
+    .qurey-word-container-mob {
+        display: block;
+    }
     .advance-section-container {
         flex-direction: column;
     }

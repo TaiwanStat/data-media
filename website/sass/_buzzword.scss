@@ -28,6 +28,15 @@ $break-medium: 980px;
         width: 100%;
         flex-wrap: nowrap;
         overflow-x: auto;
+        &::-webkit-scrollbar {
+            -webkit-appearance: none;
+            height: 7px;
+        }
+        &::-webkit-scrollbar-thumb {
+            border-radius: 4px;
+            background-color: rgba(0, 0, 0, .5);
+            -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, .5);
+        }
     }
 }
 
@@ -100,6 +109,10 @@ $break-medium: 980px;
         .buzzword-container {
             left: initial;
             transform: initial;
+            margin: 0 12px;
+            &:first-child {
+                margin-left: 24px;
+            }
         }
         .two-column-list ul {
             margin: 0 0 12px 0;

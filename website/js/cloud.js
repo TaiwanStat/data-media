@@ -139,7 +139,7 @@ function wordCloud(selector) {
       d3.layout.cloud()
         .size([width, height])
         .words(words)
-        .padding(4)
+        .padding(6)
         .rotate(function () {
           return Math.random() * 45 - 22.5;
         })
@@ -156,6 +156,9 @@ function wordCloud(selector) {
 function showNewWords(vis, i) {
   var max = report.words_count[0][1];
   var scale = max / 100;
+  if($(window).width() < 980)
+    scale = max / 50;
+  console.log(report.words_count.map((d)=>d))
   var cloudConfig = report.words_count.map(function (obj, index) {
     return {
       text: obj[0],
@@ -170,6 +173,7 @@ function clickCloud(d){
   // add word collection
   var NUM_OF_SHOWED_NEWS = 2
   var nonProvocativeNewses = []
+  const isMobile = $(window).width() < 980
 
   createTimeline('#timeline-inner', report.words_count[d.index][3]);
 
@@ -220,9 +224,14 @@ function clickCloud(d){
       wordCollectionAddProvocativeNum(mediaEN[i], 0)
     }
   }
-  $('#qurey-word').text(d.text)
-  $('#qurey-word').prepend('<i class="fa fa-bullseye" aria- hidden="true" ></i>')
-   
+  
+  if (isMobile && $('.qurey-word').text().length !== 0){
+    $('html, body').animate({
+      scrollTop: qureyWordTop
+    }, 600);
+  }
+  $('.qurey-word').text(d.text)
+  $('.qurey-word').prepend('<i class="fa fa-bullseye" aria- hidden="true" ></i>')
 }
 
 jQuery.fn.d3Click = function () {

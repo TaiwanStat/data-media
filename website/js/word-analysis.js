@@ -29,15 +29,41 @@ function getWordAnalysisProvocativeList(data){
 }
 
 function getWordAnalysisOutlinerList(data){
+  return $.merge(getOverOutlinerList(data), getUnderOutlinerList(data))
+}
+
+function getOverOutlinerList(data){
+  var html = $('<div>').addClass('outliner list').append('<h5>大量報導主題</h5>')
+  var hasData = false
+  var ol = $('<ol>')
+  var count = 0
+  data = Object.keys(data).filter(d=>data[d].trend==1)
+  for (var i in data) {
+    hasData = true
+    ol.append('<li><span>' + data[i] + '</span><span>大量報導</span></li>')
+    count++
+    if (count >= 10)
+      break
+  }
+  if (!hasData) {
+    html.append('<h5 class="not-found">沒有找到大量報導主題</h5>')
+  } else {
+    html.append(ol)
+  }
+  return html
+}
+
+function getUnderOutlinerList(data) {
   var html = $('<div>').addClass('outliner list').append('<h5>少量報導主題</h5>')
   var hasData = false
   var ol = $('<ol>')
   var count = 0
+  data = Object.keys(data).filter(d => data[d].trend == -1)
   for (var i in data) {
     hasData = true
-    ol.append('<li><span>' + i + '</span><span>少量報導</span></li>')
+    ol.append('<li><span>' + data[i] + '</span><span>少量報導</span></li>')
     count++
-    if(count >= 10)
+    if (count >= 10)
       break
   }
   if (!hasData) {

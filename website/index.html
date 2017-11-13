@@ -1,5 +1,5 @@
 <!doctype html><html><head>
-  <title>媒礦 Minedia</title><!-- Global site tag (gtag.js) - Google Analytics --><script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-109130043-1"></script><script>  window.dataLayer = window.dataLayer || [];  function gtag() { dataLayer.push(arguments); }  gtag('js', new Date());  gtag('config', 'UA-109130043-1');</script><meta name="description" content="視覺化新聞媒體的品牌獨特性，打開媒體的黑盒子，做閱聽人的燈塔。"><meta name="robots" content="index, nofollow"><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta property="og:type" content="website"><meta property="og:title" content="媒礦 Minedia"><meta property="og:description" content="視覺化新聞媒體的品牌獨特性，打開媒體的黑盒子，做閱聽人的燈塔。"><link rel="apple-touch-icon" sizes="180x180" href="dist/img/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="dist/img/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="dist/img/favicon-16x16.png"><link rel="manifest" href="/manifest.json"><link rel="mask-icon" href="dist/img/safari-pinned-tab.svg" color="#5bbad5"><meta property="og:image" content="https://ching56.github.io/data-media-web/dist/img/og-image.png"><meta name="apple-mobile-web-app-title" content="Minedia"><meta name="application-name" content="Minedia"><meta name="theme-color" content="#ffffff"><link rel="stylesheet" href="./dist/css/index.css"><link rel="stylesheet" href="./src/normalize.css"></head>
+  <title>媒礦 Minedia</title><!-- Global site tag (gtag.js) - Google Analytics --><script async="" src="//www.googletagmanager.com/gtag/js?id=UA-109130043-1"></script><script>  window.dataLayer = window.dataLayer || [];  function gtag() { dataLayer.push(arguments); }  gtag('js', new Date());  gtag('config', 'UA-109130043-1');</script><meta name="description" content="視覺化新聞媒體的品牌獨特性，打開媒體的黑盒子，做閱聽人的燈塔。"><meta name="robots" content="index, nofollow"><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta property="og:type" content="website"><meta property="og:title" content="媒礦 Minedia"><meta property="og:description" content="視覺化新聞媒體的品牌獨特性，打開媒體的黑盒子，做閱聽人的燈塔。"><link rel="apple-touch-icon" sizes="180x180" href="dist/img/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="dist/img/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="dist/img/favicon-16x16.png"><link rel="manifest" href="/manifest.json"><link rel="mask-icon" href="dist/img/safari-pinned-tab.svg" color="#5bbad5"><meta property="og:image" content="//minedia.info/dist/img/og-image.png"><meta name="apple-mobile-web-app-title" content="Minedia"><meta name="application-name" content="Minedia"><meta name="theme-color" content="#ffffff"><link rel="stylesheet" href="./dist/css/index.css"><link rel="stylesheet" href="./src/normalize.css"></head>
 
 <body>
   <div id="modal-container">
@@ -16,8 +16,7 @@
     <i class="fa fa-angle-up fa-2x" aria-hidden="true"></i>
     <div class="content">
        統計6家媒體於官方網站上，一周內所發表之新聞量。
-      <hr>
-      <strong>資料來源</strong>
+      <h4>資料來源</h4>
       <ol>
         <li>蘋果日報</li>
         <li>聯合報</li>
@@ -32,18 +31,21 @@
      <div class="nav-container">
       <div class="nav-logo">
         <div class="logo-container">
-          <a href="#">
+          <div>
             <img id="logo" src="./dist/img/logo.png" alt="logo">
-          </a>
-          <a href="#">
+          </div>
+          <div>
             <h1 class="logo-cht">媒礦</h1>
             <h1 class="logo-en">Minedia</h1>
-          </a>
+          </div>
           <div class="nav-time"></div>
         </div>
       </div>
     </div> 
-    <div class="loader">為您載入本週報告中...</div>
+    <div class="loader">
+      為您載入本週報告中...
+      <h5 class="mob-waring"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> 建議在 Wi-Fi 環境下瀏覽媒礦以節省您的流量</h5>
+    </div>
     <div class="page-container">
        <section class="band">
         <div class="band-container top-band">
@@ -58,15 +60,8 @@
        <section class="band">
         <div class="band-container">
           <div class="band-inner">
-            <div><h1>本週熱詞榜</h1>
-            <h2 class="sub-title">本週有什麼議題是媒體們的寵兒呢？</h2></div>
-            <div id="tip">
-              使用
-              <em>shift</em>+
-              <span class="mouse-icon">
-                <span class="scroll-btn"></span>
-              </span>水平捲動
-            </div>
+            <div><h1>本週熱詞成長榜</h1>
+            <h2 id="before-tip" class="sub-title">本週有什麼議題是媒體們的寵兒呢？</h2></div>
               <div class="buzzwords">  <div class="outer"></div></div>          </div>
         </div>
       </section> 
@@ -82,14 +77,20 @@
         <div class="band-container">
           <div class="band-inner">
             <div><h1>媒體用詞雲</h1>
-            <h2 class="sub-title">網羅本週使用次數前三百名熱詞，<i class="fa fa-hand-pointer-o" aria-hidden="true"></i>點選文字發現你的媒礦</h2></div> 
+            <h2 class="sub-title">網羅本週前一百新聞標題熱門詞彙，<i class="fa fa-hand-pointer-o" aria-hidden="true"></i>點選文字發現你的媒礦</h2></div> 
             <div class="qurey-word-container">
-              <h2 id="qurey-word"></h2>
+              <h2 class="qurey-word"></h2>
+            </div>
+            <div class="cloud-loader">
+              <i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
+              <span class="sr-only">Loading...</span>
             </div>
             <div class="advance-section-container">
               <div class="cloud-timeline-container">
-                <div class="cloud"></div> <div class="timeline-container show"><div id="timeline-inner"></div></div>
-              </div>
+                <div class="cloud"></div>                <div class="qurey-word-container-mob">
+                  <h2 class="qurey-word"></h2>
+                </div>
+                <div class="timeline-container show"><div id="timeline-inner"></div></div>              </div>
               <div class="wordCollection-container">
                  <h3>相關報導</h3><div class="card-container show" id="word-collection"><div class="list apple-container"><h3>蘋果日報</h3><div class="cards"></div></div><div class="list udn-container"><h3>聯合報</h3><div class="cards"></div></div><div class="list liberty-container"><h3>自由時報</h3><div class="cards"></div></div><div class="list cna-container"><h3>中央社</h3><div class="cards"></div></div><div class="list ettoday-container"><h3>東森新聞雲</h3><div class="cards"></div></div><div class="list china-container"><h3>中國時報</h3><div class="cards"></div></div></div>              </div>
             </div>
@@ -106,14 +107,14 @@
     </div>
   </div>
 
+<script async="" src="//use.fontawesome.com/e9c11f428f.js"></script>
 <script src="./src/d3.v3.min.js"></script>
 <script src="./src/d3.layout.cloud.js"></script>
 <script src="./src/jquery.min.js"></script>
-<script src="https://use.fontawesome.com/e9c11f428f.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.1/moment.min.js" integrity="sha256-zG8v+NWiZxmjNi+CvUYnZwKtHzFtdO8cAKUIdB8+U9I=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.13/moment-timezone-with-data.min.js" integrity="sha256-Mbm+oB/+8ujzEer9u83ZRKEhlPohbY9USJ4VpxiNR9w=" crossorigin="anonymous"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.1/moment.min.js" integrity="sha256-zG8v+NWiZxmjNi+CvUYnZwKtHzFtdO8cAKUIdB8+U9I=" crossorigin="anonymous"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.13/moment-timezone-with-data.min.js" integrity="sha256-Mbm+oB/+8ujzEer9u83ZRKEhlPohbY9USJ4VpxiNR9w=" crossorigin="anonymous"></script>
 <script type="text/javascript" src="./dist/js/all.js"></script>
-<script src="https://use.typekit.net/goh2zgh.js"></script>
+<script src="//use.typekit.net/goh2zgh.js"></script>
 <script>try{Typekit.load({ async: true });}catch(e){}</script>
 
 </body></html>

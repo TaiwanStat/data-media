@@ -17,7 +17,6 @@ html,
 body {
     margin: 0;
     padding: 0;
-    height: 100%;
     width: 100%;
     background: 'white';
     box-sizing: border-box;
@@ -76,7 +75,14 @@ body {
     h5 {
         color: red;
         font-weight: 300;
+        &:first-child {
+            margin-top: 36px;
+        }
     }
+}
+
+.mob-waring {
+    display: none;
 }
 
 @keyframes loading-text {
@@ -89,6 +95,28 @@ body {
     100% {
         opacity: 0.2;
     }
+}
+
+@keyframes rotateIn {
+    from {
+        transform-origin: center;
+        transform: rotate3d(0, 0, 1, -200deg);
+        opacity: 0;
+    }
+    to {
+        transform-origin: center;
+        transform: none;
+        opacity: 1;
+    }
+}
+
+.rotateIn {
+    animation-name: rotateIn;
+}
+
+.animated {
+    animation-duration: 1s;
+    animation-fill-mode: both;
 }
 
 #help {
@@ -108,11 +136,9 @@ body {
     line-height: 36px;
     min-width: 36px;
     text-align: center;
+    box-shadow: 0 0 2px rgba(0, 0, 0, .1), 1px 1px 6px rgba(0, 0, 0, .2), -2px -1px 5px 0 rgba(0, 0, 0, .1) inset;
     .fa-question {
         vertical-align: middle;
-    }
-    .fa {
-        opacity: 0.2;
     }
     &:hover {
         opacity: 1;
@@ -492,7 +518,7 @@ body {
                 transform: rotate(0deg) scale(0.8);
             }
             &.loading {
-                animation: loading 2s infinite backwards;
+                animation: loading 2s infinite both;
                 @keyframes loading {
                     0% {
                         transform: rotate(0deg) scale(0.8);
@@ -522,8 +548,7 @@ body {
     margin-top: 12px;
     font-size: 15px;
     letter-spacing: 1px;
-    font-weight: 700;
-    opacity: .4;
+    font-weight: 900;
     padding: 0;
 }
 
@@ -536,6 +561,10 @@ body {
     .band-inner>div:first-child {
         margin-bottom: 36px;
     }
+}
+
+.cloud-loader {
+    margin: 64px;
 }
 
 .footer {
@@ -568,6 +597,10 @@ body {
     letter-spacing: 0.5px;
     line-height: 2rem;
     background: #f5f5f5;
+    .fa-facebook-square {
+        font-size: 3rem;
+        text-decoration: none;
+    }
 }
 
 @media screen and (max-width: $break-medium) {
@@ -611,5 +644,14 @@ body {
     }
     #modal-container.show #pop-content .card {
         min-width: initial;
+    }
+    .mob-waring {
+        display: block;
+    }
+    .loader h5 {
+        max-width: 80%;
+        margin: 4px 0;
+        font-size: 0.6rem;
+        letter-spacing: 0.1rem;
     }
 }
