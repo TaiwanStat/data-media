@@ -145,13 +145,7 @@ def cut_words_and_count(report, datas):
             if word in words_index:
                 is_provocative = False 
                 provocative_words = []
-                try:
-                    seg_title = jieba.lcut(news['title'], cut_all=False)
-                except Exception as e:
-                    print(repr(e))
-                    continue
-
-                provocative_set = compare_lists(seg_title, PROVOCATIVE_WORDS)
+                provocative_set = compare_lists(words_filtered, PROVOCATIVE_WORDS)
                 if len(provocative_set) != 0:
                     is_provocative = True
                     provocative_words = list(provocative_set)
