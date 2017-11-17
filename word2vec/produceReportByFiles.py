@@ -112,8 +112,7 @@ def cut_words_and_count(report, datas):
 
     word_clusters = read_json('cluster.json')
 
-    PROVOCATIVE_REF = '爽'
-    PROVOCATIVE_WORDS = get_clutsr_words(PROVOCATIVE_REF, word_clusters)
+    PROVOCATIVE_WORDS = get_provocative_words()
 
     start_time = time.time()
     stopwords = set()
@@ -318,18 +317,21 @@ def get_clutsr_words(word, cluster_list):
         print('title analysis failed: not found key word in cluster.')
     return cluster_list[index]
 
-def get_word_analysis_provocative(report, datas):
 
-    word_clusters = read_json('cluster.json')
+def get_provocative_words():
+    w = []
+    with open('dicts/provocative_words.txt', 'r') as f:
+        for line in f:
+            w.append(line.strip('\n'))
+    return w
+
+def get_word_analysis_provocative(report, datas):
 
     news_amount = len(datas)
     counter = 0
 
-    PROVOCATIVE_REF = ['酸', '！']
-    PROVOCATIVE_WORDS = []
-    for w in PROVOCATIVE_REF:
-        PROVOCATIVE_WORDS.extend(get_clutsr_words(w, word_clusters))
-
+    PROVOCATIVE_WORDS = get_provocative_words()
+    print(PROVOCATIVE_WORDS)
     report['word_analysis'] = {}
     root = report['word_analysis']
     root['provocative'] = {}
