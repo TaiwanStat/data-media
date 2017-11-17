@@ -1,7 +1,15 @@
 <!doctype html><html><head>
-  <title>媒礦 Minedia</title><!-- Global site tag (gtag.js) - Google Analytics --><script async="" src="//www.googletagmanager.com/gtag/js?id=UA-109130043-1"></script><script>  window.dataLayer = window.dataLayer || [];  function gtag() { dataLayer.push(arguments); }  gtag('js', new Date());  gtag('config', 'UA-109130043-1');</script><meta name="description" content="視覺化新聞媒體的品牌獨特性，打開媒體的黑盒子，做閱聽人的燈塔。"><meta name="robots" content="index, nofollow"><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta property="og:type" content="website"><meta property="og:title" content="媒礦 Minedia"><meta property="og:description" content="視覺化新聞媒體的品牌獨特性，打開媒體的黑盒子，做閱聽人的燈塔。"><link rel="apple-touch-icon" sizes="180x180" href="dist/img/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="dist/img/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="dist/img/favicon-16x16.png"><link rel="manifest" href="/manifest.json"><link rel="mask-icon" href="dist/img/safari-pinned-tab.svg" color="#5bbad5"><meta property="og:image" content="//minedia.info/dist/img/og-image.png"><meta name="apple-mobile-web-app-title" content="Minedia"><meta name="application-name" content="Minedia"><meta name="theme-color" content="#ffffff"><link rel="stylesheet" href="./dist/css/index.css"><link rel="stylesheet" href="./src/normalize.css"></head>
+  <title>媒礦 Minedia</title><!-- Global site tag (gtag.js) - Google Analytics --><script async="" src="//www.googletagmanager.com/gtag/js?id=UA-109130043-1"></script><script>  window.dataLayer = window.dataLayer || [];  function gtag() { dataLayer.push(arguments); }  gtag('js', new Date());  gtag('config', 'UA-109130043-1');</script><meta name="description" content="視覺化新聞媒體的品牌獨特性，打開媒體的黑盒子，做閱聽人的燈塔。"><meta name="robots" content="index, nofollow"><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta property="og:type" content="website"><meta property="og:title" content="媒礦 Minedia"><meta property="og:url" content="https://minedia.info"><meta property="og:description" content="視覺化新聞媒體的品牌獨特性，打開媒體的黑盒子，做閱聽人的燈塔。"><link rel="apple-touch-icon" sizes="180x180" href="dist/img/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="dist/img/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="dist/img/favicon-16x16.png"><link rel="manifest" href="/manifest.json"><link rel="mask-icon" href="dist/img/safari-pinned-tab.svg" color="#5bbad5"><meta property="og:image" content="//minedia.info/dist/img/og-image.png"><meta name="apple-mobile-web-app-title" content="Minedia"><meta name="application-name" content="Minedia"><meta name="theme-color" content="#ffffff"><link rel="stylesheet" href="./dist/css/index.css"><link rel="stylesheet" href="./src/normalize.css"><script async="" src="//use.typekit.net/goh2zgh.js"></script><script>try { Typekit.load({ async: true }); } catch (e) { }</script></head>
 
 <body>
+  <div id="fb-root"></div>
+  <script>(function (d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = 'https://connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v2.11&appId=1611729818866005';
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
   <div id="modal-container">
     <div id="pop-content">
       <div id="modal-closer" class="close"></div>
@@ -14,14 +22,15 @@
   <div id="help">
     <i class="fa fa-question fa-2x" aria-hidden="true"></i>
     <i class="fa fa-angle-up fa-2x" aria-hidden="true"></i>
+    <div class="hover-tip"></div>
     <div class="content">
        統計6家媒體於官方網站上，一周內所發表之新聞量。
       <h4>資料來源</h4>
       <ol>
-        <li>蘋果日報</li>
+        <li>蘋果日報(含即時新聞)</li>
+        <li>自由時報(含即時新聞)</li>
+        <li>東森新聞雲(含即時新聞)</li>
         <li>聯合報</li>
-        <li>自由時報</li>
-        <li>東森新聞雲</li>
         <li>中央通訊社</li>
         <li>中國時報</li>
       </ol>
@@ -51,8 +60,9 @@
         <div class="band-container top-band">
           <div class="band-inner">
              <div class="bar-container"><div id="num-news-bar"></div></div>            <div class="data-desc">
+              <span class="num-scale">本週共分析</span>
               <h1 id="num-news"></h1>
-              <h2 id="num-scale">篇新聞</h2>
+              <span class="num-scale">篇新聞</span>
             </div>
           </div>
         </div>
@@ -76,14 +86,15 @@
       <section class="band">
         <div class="band-container">
           <div class="band-inner">
-            <div><h1>媒體用詞雲</h1>
+            <div><h1>用詞文字雲</h1>
             <h2 class="sub-title">網羅本週前一百新聞標題熱門詞彙，<i class="fa fa-hand-pointer-o" aria-hidden="true"></i>點選文字發現你的媒礦</h2></div> 
             <div class="qurey-word-container">
               <h2 class="qurey-word"></h2>
             </div>
             <div class="cloud-loader">
-              <i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
+              <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
               <span class="sr-only">Loading...</span>
+              <h3>正在為您載入用詞雲中...</h3>
             </div>
             <div class="advance-section-container">
               <div class="cloud-timeline-container">
@@ -100,7 +111,8 @@
       <section class="band footer">
         <div class="band-container">
           <div class="band-inner">
-            <div class="about-icon">about us</div>
+            <div class="about-icon">about</div>
+            <div class="fb-like" data-href="https://minedia.info" data-layout="standard" data-action="like" data-size="small" data-show-faces="true" data-colorscheme="dark" data-width="225" data-share="true" data-ref=""></div>
           </div>
         </div>
       </section>
@@ -114,7 +126,5 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.1/moment.min.js" integrity="sha256-zG8v+NWiZxmjNi+CvUYnZwKtHzFtdO8cAKUIdB8+U9I=" crossorigin="anonymous"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.13/moment-timezone-with-data.min.js" integrity="sha256-Mbm+oB/+8ujzEer9u83ZRKEhlPohbY9USJ4VpxiNR9w=" crossorigin="anonymous"></script>
 <script type="text/javascript" src="./dist/js/all.js"></script>
-<script src="//use.typekit.net/goh2zgh.js"></script>
-<script>try{Typekit.load({ async: true });}catch(e){}</script>
 
 </body></html>

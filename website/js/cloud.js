@@ -41,18 +41,7 @@ function wordCloud(selector) {
         return d.text;
       })
 
-    var isExistOutliers = function (timelineData) {
-      var result = false
-      for(var i in timelineData){
-        if(timelineData[i] != 0)
-           result = true
-      }
-
-      return result
-    }
-
-    var getColor = function (d) {
-      var isHightlight = isExistOutliers(report.words_count[d.index][4]);
+    var getAttr = function (d) {
       var key;
       var word_data = report.words_count[d.index][2]
       var news_amount = word_data.length
@@ -72,29 +61,34 @@ function wordCloud(selector) {
       var isProvocative = false;
       for (var media in dict) {
         var provocativeRatio = dict[media].provocativeNum / dict[media].count
-        if (provocativeRatio > 0.1 && dict[media].count > 20)
+        if (provocativeRatio > 0.05)
           isProvocative = true
       }
-      var color;
-      if ( isProvocative && isHightlight){
-        color = 'purple'
-      } else if (isProvocative){
+      var color
+      var weight
+      if (isProvocative){
         color = 'red'
-      } else if (isHightlight){
-        color = 'blue'
+        weight = 300
+        if (news_amount > 150) {
+          weight = 400
+        }
+      } else if(news_amount > 150) {
+        color = 'rgba(0,0,0,.75)'
+        weight = 400
       } else {
         color = 'lightgrey'
+        weight = 100
       }
-      return color
+      return {color, weight}
     }
     //Entering words
     cloud.enter()
       .append('text')
       .style('fill', function (d, i) {
-        return (getColor(d))
+        return getAttr(d).color
       })
       .style('font-weight', function (d) {
-        return (d.size > 50 ? 600 : 100)
+        return getAttr(d).weight
       })
       .attr('text-anchor', 'middle')
       .attr('font-size', 1)
@@ -231,7 +225,8 @@ function clickCloud(d){
     }, 600);
   }
   $('.qurey-word').text(d.text)
-  $('.qurey-word').prepend('<i class="fa fa-bullseye" aria- hidden="true" ></i>')
+  $('.qurey-word').prepend('<i class="fa fa-bullseye" aria- hidden="true" ></i>目前選定：')
+  $('.timeline-container, .wordCollection-container').fadeOut().fadeIn()
 }
 
 jQuery.fn.d3Click = function () {

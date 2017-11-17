@@ -146,7 +146,7 @@ function createTimeline(selector, data) {
       var horz = (width / media.length + spacing) * i
       var vert = 0
       if( width < 480) {
-        horz = (width / 3 + spacing) * (i%4)
+        horz = (width / 3 + spacing) * (i%3)
         vert = Math.floor(i/3) * 16
       }
       
@@ -158,9 +158,11 @@ function createTimeline(selector, data) {
     .attr('cx', '-12')
     .attr('cy', '2')
     .style('fill', (d)=>mediaColor[d])
-  tips.append('text').text((d)=>d).attr('font-size', '12')
-    .attr('dx', "24")
+
+  tips.append('text').text((d)=>d)
+    .attr('font-size', '12')
     .attr('dy', '6')
+    .attr('text-anchor', 'start')
     .style('font-weight', '300')
     .style('fill', (d) => mediaColor[d])
   

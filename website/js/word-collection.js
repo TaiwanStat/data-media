@@ -1,6 +1,6 @@
 function ShowWordCollectionInModal(event) {
   var firedMediaName = mediaNameTranslate($(event.target).data('media'));
-  var qureyWord = $('.qurey-word')[0].innerText
+  var qureyWord = $('.qurey-word')[0].innerText.split('目前選定：')[1]
   var IndexOfWord;
   if (qureyWord === '')
     return;
@@ -69,7 +69,7 @@ function wordCollectionAddNewsNum(media, num) {
 
 function wordCollectionAddProvocativeNum(media, num) {
   $('#word-collection .' + media + '-container .provative-num').remove()
-  var style = num > 10 ? 'color:coral' : 'opacity:0.6' 
+  var style = num > 5 ? 'color:coral' : 'opacity:0.6' 
   var selector = '#word-collection .' + media + '-container h3';
   var content = '<h5 class="provative-num" style=' + style + '> ' + num + ' % 標題含情緒字眼</h5>';
   $(selector).after(content);

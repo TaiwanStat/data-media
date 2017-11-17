@@ -69,6 +69,11 @@ $break-medium: 980px;
     font-size: 1.5em;
     letter-spacing: 3px;
     font-weight: 600;
+    span {
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-right: 4px;
+    }
 }
 
 .two-column-list {

@@ -58,6 +58,14 @@ body {
     background-color: $china-color
 }
 
+.fa.hide-icon {
+    display: none;
+}
+
+.hide-hover {
+    display: none !important;
+}
+
 .big-title {
     position: relative;
     margin-left: 80px;
@@ -144,7 +152,8 @@ body {
         opacity: 1;
         transform: translate(-4px, -4px);
     }
-    .content {
+    .content,
+    .hover-tip {
         text-align: left;
         font-size: 0.8rem;
         letter-spacing: 0.05rem;
@@ -166,6 +175,17 @@ body {
                 -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, .5);
             }
         }
+    }
+}
+
+.help-i {
+    opacity: 0.3;
+    transition: 0.4s;
+    padding-left: 4px;
+    &:hover {
+        color: #fdf74d;
+        opacity: 1;
+        transform: scale(1.2);
     }
 }
 
@@ -367,7 +387,7 @@ body {
         padding: 0px 10px;
         &.sub-title {
             opacity: 0.8;
-            font-weight: 100;
+            font-weight: 300;
             font-size: 1.2rem;
             letter-spacing: 0.1rem;
         }
@@ -379,6 +399,9 @@ body {
         margin-bottom: 120px;
         position: relative;
         width: 100%;
+        &:last-child {
+            margin-bottom: 64px;
+        }
         &.top-band {
             min-height: 100px;
         }
@@ -399,12 +422,12 @@ body {
             }
             & #num-news {
                 font-size: 100px;
-                font-weight: 100;
+                font-weight: 300;
             }
-            & #num-scale {
-                font-weight: 500;
+            & .num-scale {
+                font-weight: 300;
                 font-size: 20px;
-                margin-right: 50px;
+                margin: 24px;
             }
             .bar-container {
                 display: flex;
@@ -421,6 +444,7 @@ body {
                 display: flex;
                 justify-content: center;
                 align-items: baseline;
+                margin-bottom: 64px;
             }
             #tip {
                 position: absolute;
@@ -565,6 +589,12 @@ body {
 
 .cloud-loader {
     margin: 64px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    i {
+        margin: 24px;
+    }
 }
 
 .footer {
@@ -579,6 +609,7 @@ body {
         justify-content: center;
         align-items: center;
         padding: 12px;
+        margin-bottom: 40px;
         font-weight: 700;
         border-bottom: 2px solid #EFEFEF;
         transition: 0.2s;
@@ -604,6 +635,15 @@ body {
 }
 
 @media screen and (max-width: $break-medium) {
+    .help-i {
+        display: none !important;
+    }
+    .data-desc {
+        margin: 48px;
+    }
+    .num-scale {
+        margin: 0px !important;
+    }
     #tip {
         display: none;
     }
