@@ -331,7 +331,6 @@ def get_word_analysis_provocative(report, datas):
     counter = 0
 
     PROVOCATIVE_WORDS = get_provocative_words()
-    print(PROVOCATIVE_WORDS)
     report['word_analysis'] = {}
     root = report['word_analysis']
     root['provocative'] = {}
@@ -348,7 +347,7 @@ def get_word_analysis_provocative(report, datas):
         for media in medias:
             provocative_news = [ n for n in news if n['isProvocative'] and n['media']==media]
             news_of_media = [n for n in news if n['media'] == media]
-            if len(news_of_media) != 0 and len(news_of_media) > 20:
+            if len(news_of_media) != 0:
                 provocative_rate = len(provocative_news) / len(news_of_media)
             else:
                 provocative_rate = 0
