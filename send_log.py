@@ -10,9 +10,14 @@ SENDER = 'minedia.tw@gmail.com'
 SUBJECT = 'Minedia\'s server log: ' + datetime.datetime.now().strftime('%Y-%m-%d')
 ROOT = '/home/ubuntu/'
 
+
+def read_json(filename):
+    with open(filename) as data_file:
+        return json.load(data_file)
+
 def get_server():
     SENDER = 'minedia.tw@gmail.com'
-    PWD = 'keepgoing'
+    PWD = read_json('config.json')['mail_password']
 
     server = smtplib.SMTP('smtp.gmail.com', 587)
     server.ehlo()
