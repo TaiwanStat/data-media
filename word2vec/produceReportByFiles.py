@@ -206,7 +206,7 @@ def get_buzzword(report, prev_words_count):
                         'word': word,
                         'growth': word_growth,
                         'news_num': word_count,
-                        'provocativeRate': {},
+                        'provocative': {},
                         'isOutline': {}
                     })
                     if len(buzzwords) >= MAX_NUM:
@@ -220,7 +220,7 @@ def get_buzzword(report, prev_words_count):
                     'word': word,
                     'growth': word_growth,
                     'news_num': word_count,
-                    'provocativeRate': {},
+                    'provocative': {},
                     'isOutline': {}
                 })
                 if len(buzzwords) >= MAX_NUM:
@@ -244,8 +244,10 @@ def get_buzzword(report, prev_words_count):
                     provocative_rate = len(provocative_news) / len(news_of_media)
                 else:
                     provocative_rate = 0;
-                buzzwords[index]['provocativeRate'][media] = provocative_rate
-                buzzwords[index]['provocativeRate'][media] = provocative_rate
+                buzzwords[index]['provocative'][media] = {
+                    'rate': provocative_rate, 
+                    'count': len(provocative_news)
+                    }
                 buzzwords[index]['isOutline'][media] = is_outlinear(news_count, media, timeline)
 
     report['buzzword'] = buzzwords
@@ -351,10 +353,15 @@ def get_word_analysis_provocative(report, datas):
                 provocative_rate = len(provocative_news) / len(news_of_media)
             else:
                 provocative_rate = 0
-            root['provocative'][media].append({'word': word, 'rate': provocative_rate})
+            word_item = {
+                'word': word, 
+                'rate': provocative_rate,
+                'count': len(provocative_news)
+            }
+            root['provocative'][media].append(word_item)
     for media in medias:
         root['provocative'][media] = sorted(
-            root['provocative'][media], key=lambda d: d['rate'], reverse=True)[:10]
+            root['provocative'][media], key=lambda d: d['count'], reverse=True)[:10]
     return report
 
 
