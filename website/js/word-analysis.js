@@ -39,14 +39,20 @@ function initWordAnalysis(data) {
 }
 
 function getWordAnalysisProvocativeList(data){
-  var html = $('<div>').addClass('provocative list').append('<h5>情緒報導排行<i class="fa fa-question-circle help-i" data-type="provocative" aria-hidden="true"></h5>')
+  const title = `<h5>
+                  情緒報導排行
+                  <i class="fa fa-question-circle help-i" data-type="provocative" aria-hidden="true"></i>
+                  <div class="provo-ana-scale">報導篇數｜佔該主題比例</div>
+                  </h5>`
+  var html = $('<div>').addClass('provocative list').append(title)
   var hasData = false
   var ol = $('<ol>')
   var dataLen = data.length > 5 ? 5 : data.length
   for (var i = 0; i < dataLen; i++) {
-    if(data[i].rate !== 0){
+    if(data[i].count !== 0){
       hasData = true
-      ol.append('<li><span>' + data[i].word + '</span><span>' + (data[i].rate * 100).toFixed(1) + '%</span></li>')
+      const list_item = `<li><span>${data[i].word}</span><span>${data[i].count}篇｜${(data[i].rate*100).toFixed(1)}%</span></li>`
+      ol.append(list_item)
     }
   }
   if(!hasData){

@@ -13,6 +13,7 @@ function initBuzzword(data) {
           <h5>
           情緒性報導
           <i class="fa fa-question-circle help-i" data-type="provocative" aria-hidden="true"></i>
+          <div class="provo-ana-scale">報導篇數｜佔該主題比例</div>
           </h5>
           <ul class="provocative-list">
           </ul>
@@ -28,7 +29,7 @@ function initBuzzword(data) {
       </div>
     </div>`
     $('.buzzwords .outer').append(html)
-    appendBuzzwordProvocativeList(i, b['provocativeRate'])
+    appendBuzzwordProvocativeList(i, b['provocative'])
     appendBuzzwordOutlinerList(i, b['isOutline'])
   })
   $('.buzzwords .outer').append('<div class="buzzword-container"><h5>placeholder</h5></div>')
@@ -67,14 +68,14 @@ function appendBuzzwordProvocativeList(index, provo_data){
   $(seletor).empty()
   var STANDARD = 0.05
   for (var m in media) {
-    if (provo_data[media[m]] > STANDARD) {
-      var html = `<li class="hightlight"><span class="media-name">${media[m]}</span><span class="provocative-num">${(provo_data[media[m]]*100).toFixed(1)}%</span></li>`
+    if (provo_data[media[m]].rate > STANDARD) {
+      var html = `<li class="hightlight"><span class="media-name">${media[m]}</span><span class="provocative-num">${provo_data[media[m]].count} 篇｜${(provo_data[media[m]].rate*100).toFixed(1)}%</span></li>`
       $(seletor).append(html)
     }
   }
   for (var m in media) {
-    if (provo_data[media[m]] <= STANDARD) {
-      var html = `<li><span class="media-name">${media[m]}</span><span class="provocative-num">${(provo_data[media[m]]*100).toFixed(1)}%</span></li>`
+    if (provo_data[media[m]].rate <= STANDARD) {
+      var html = `<li><span class="media-name">${media[m]}</span><span class="provocative-num">${provo_data[media[m]].count} 篇｜${(provo_data[media[m]].rate * 100).toFixed(1)}%</span></li>`
       $(seletor).append(html)
     }
   }

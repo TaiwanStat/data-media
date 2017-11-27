@@ -399,9 +399,6 @@ body {
         margin-bottom: 120px;
         position: relative;
         width: 100%;
-        &:last-child {
-            margin-bottom: 64px;
-        }
         &.top-band {
             min-height: 100px;
         }
@@ -598,6 +595,9 @@ body {
 }
 
 .footer {
+    .band-container{
+        margin-bottom: 64px;
+    }
     .band-inner {
         display: flex;
         justify-content: center;

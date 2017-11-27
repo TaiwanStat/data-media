@@ -39,8 +39,6 @@ var weekNum = tz.format('W')
 var s3Url = 'https://s3-ap-northeast-1.amazonaws.com/tw-media-data/report/'
 var reportUrl = s3Url + 'week_' + weekNum + '.json'
 var detailUrl = s3Url + 'detail_' + weekNum + '.json'
-reportUrl= 'week_46.json'
-detailUrl = 'detail_46.json'
 let section = -1
 
 $('.page-container').hide()
