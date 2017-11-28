@@ -17,7 +17,7 @@ def read_json(filename):
 
 def get_server():
     SENDER = 'minedia.tw@gmail.com'
-    PWD = read_json('config.json')['mail_password']
+    PWD = read_json('/home/ubuntu/data-media/config.json')['mail_password']
 
     server = smtplib.SMTP('smtp.gmail.com', 587)
     server.ehlo()
