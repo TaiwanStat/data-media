@@ -89,10 +89,20 @@ ENV/
 .ropeproject
 .DS_Store
 *.swp
+
+# etc
 output
 config.json
 tw-media-data
 prev_report.json
 data.json
 data_seg.json
-report.json
+detail_*.json
+week_*.json
+proj-數據媒體
+*.pem
+data_media.sh
+data-media.pptx
+website/
+*.bin
+*.npy
