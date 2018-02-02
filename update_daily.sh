@@ -10,7 +10,7 @@ scrapy crawl udn -o output/udn_$NOW.json -t json
 scrapy crawl ettoday -o output/ettoday_$NOW.json -t json
 scrapy crawl cts -o output/cts_$YESTERDAY.json -t json
 cd ../
-python3 merge_daily.py
+python3 merge_dup_news.py
 python3 verify.py | grep $NOW
 
 cd mediaParser

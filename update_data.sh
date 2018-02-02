@@ -16,5 +16,7 @@ scrapy crawl pts -o output/pts_$NOW.json -t json
 scrapy crawl libertyRealtime -o output/liberty_$NOW.json -t json
 scrapy crawl appleRealtime -o output/apple_$NOW.json -t json
 
+python3 merge_dup_news.py
+
 cd ../
 echo $(date +"%Y-%m-%d %H")
