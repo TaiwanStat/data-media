@@ -12,13 +12,16 @@ import datetime
 from operator import itemgetter, attrgetter
 from pprint import pprint
 
-
-medias = ['蘋果日報', '聯合報', '自由時報', '東森新聞雲', '中央通訊社', '中國時報', '華視']
+medias = [
+    '蘋果日報', '聯合報', '自由時報', '東森新聞雲', '中央通訊社', '中國時報', '華視', '三立新聞', '公視', 'tvbs'
+]
 RANK_NUM = 100
+
 
 def read_json(filename):
     with open(filename) as data_file:
         return json.load(data_file, strict=False)
+
 
 def read_data(directory):
     folder_dir = glob.glob("{}/*.json".format(directory))
@@ -32,13 +35,12 @@ def read_data(directory):
         try:
             news_data = read_json(json_file)
         except:
-            print('Cannot load file: '+json_file)
+            print('Cannot load file: ' + json_file)
             continue
         date_str = re.search(r'_(\d+-\d+-\d+)\.json', json_file).group(1)
         file_date = datetime.datetime.strptime(date_str, '%Y-%m-%d')
 
         # DEBUG_NUM = 0
-        
 
         for news in news_data:
             # some news may have key error due to json load in strict=False
@@ -46,7 +48,7 @@ def read_data(directory):
                 url, date = news["url"], news['date'][:10].replace('/', '-')
                 news_date = datetime.datetime.strptime(date, '%Y-%m-%d')
             except Exception as e:
-                error_log['data_error'].append(json_file+ ' / ' +str(e))
+                error_log['data_error'].append(json_file + ' / ' + str(e))
                 continue
             if not url:
                 error_log['empty_url'].append(json_file)
@@ -59,6 +61,8 @@ def read_data(directory):
                     error_log['not_exact_date'][json_file] += 1
                 else:
                     error_log['not_exact_date'][json_file] = 1
+                continue
+            if news['website'] not in medias:
                 continue
 
             # DEBUG_NUM += 1
@@ -96,8 +100,8 @@ def get_media_report(datas):
         mean = statistics.mean(average_words[media])
         median = statistics.median(average_words[media])
         print(media + ':')
-        print('mean:'+str(mean))
-        print('median:'+str(median)+'\n')
+        print('mean:' + str(mean))
+        print('median:' + str(median) + '\n')
         report[media]['words_mean'] = mean
         report[media]['words_median'] = median
 
@@ -136,15 +140,22 @@ def cut_words_and_count(report, datas):
     counter = 0
 
     for news in seg_data:
-        seg_list = jieba.lcut('' if news['title'] == None else news['title'], cut_all=False)
-        words_filtered = [word for word in seg_list if word not in stopwords and word.strip()]
+        seg_list = jieba.lcut(
+            '' if news['title'] == None else news['title'], cut_all=False)
+        words_filtered = [
+            word for word in seg_list
+            if word not in stopwords and word.strip()
+        ]
         words_filtered = [word for word in words_filtered if len(word) > 1]
-        words_filtered = [word for word in words_filtered if not word.isdigit()]
+        words_filtered = [
+            word for word in words_filtered if not word.isdigit()
+        ]
         for word in words_filtered:
             if word in words_index:
-                is_provocative = False 
+                is_provocative = False
                 provocative_words = []
-                provocative_set = compare_lists(words_filtered, PROVOCATIVE_WORDS)
+                provocative_set = compare_lists(words_filtered,
+                                                PROVOCATIVE_WORDS)
                 if len(provocative_set) != 0:
                     is_provocative = True
                     provocative_words = list(provocative_set)
@@ -155,10 +166,10 @@ def cut_words_and_count(report, datas):
                     'media': news['website'],
                     'title': news['title'],
                     'url': news['url'],
-                    'date': news['date'][:10].replace('/','-'),
+                    'date': news['date'][:10].replace('/', '-'),
                     'isProvocative': is_provocative,
                     'provocativeWords': provocative_words
-                    }
+                }
                 if tmp not in item[2]:
                     item[2].append(tmp)
             else:
@@ -166,7 +177,7 @@ def cut_words_and_count(report, datas):
                 words_index.append(word)
         counter += 1
 
-    print(log_prefix+str(time.time()-start_time))
+    print(log_prefix + str(time.time() - start_time))
     start_time = time.time()
 
     words_count = sorted(words_count, key=itemgetter(1), reverse=True)
@@ -177,6 +188,7 @@ def cut_words_and_count(report, datas):
     #         outfile.write("%s\n" % item[0])
     report['words_count'] = words_count
     return report
+
 
 def get_buzzword(report, prev_words_count):
     MAX_NUM = 10
@@ -201,34 +213,42 @@ def get_buzzword(report, prev_words_count):
             if word == word2:
                 has_word = True
                 word_growth = word_count - word_count2
-                if (word_growth/word_count) > min_growth_rate:
-                    buzzwords.insert(0, {
+                if (word_growth / word_count) > min_growth_rate:
+                    buzzwords.insert(
+                        0, {
+                            'word': word,
+                            'growth': word_growth,
+                            'news_num': word_count,
+                            'provocative': {},
+                            'isOutline': {}
+                        })
+                    if len(buzzwords) >= MAX_NUM:
+                        buzzwords = sorted(
+                            buzzwords,
+                            key=lambda b: b['growth'] / b['news_num'],
+                            reverse=True)[:10]
+                        min_growth_rate = buzzwords[0]['growth'] / buzzwords[
+                            0]['news_num']
+                break
+        if not has_word:
+            word_growth = word_count - min_count
+            if (word_growth / word_count) > min_growth_rate:
+                buzzwords.insert(
+                    0, {
                         'word': word,
                         'growth': word_growth,
                         'news_num': word_count,
                         'provocative': {},
                         'isOutline': {}
                     })
-                    if len(buzzwords) >= MAX_NUM:
-                        buzzwords = sorted(buzzwords, key=lambda b: b['growth']/b['news_num'], reverse=True)[:10]
-                        min_growth_rate = buzzwords[0]['growth']/buzzwords[0]['news_num']
-                break
-        if not has_word:
-            word_growth = word_count - min_count
-            if (word_growth/word_count) > min_growth_rate:
-                buzzwords.insert(0, {
-                    'word': word,
-                    'growth': word_growth,
-                    'news_num': word_count,
-                    'provocative': {},
-                    'isOutline': {}
-                })
                 if len(buzzwords) >= MAX_NUM:
-                    buzzwords = sorted(buzzwords, key=lambda b: b['growth']/b['news_num'], reverse=True)[:10]
+                    buzzwords = sorted(
+                        buzzwords,
+                        key=lambda b: b['growth'] / b['news_num'],
+                        reverse=True)[:10]
                     min_growth_rate = buzzwords[0]['growth'] / \
                         buzzwords[0]['news_num']
         counter += 1
-    
 
     for word_data in words_count:
         word = word_data[0]
@@ -238,17 +258,22 @@ def get_buzzword(report, prev_words_count):
         index = words.index(word) if word in words else -1
         if index != -1:
             for media in medias:
-                news_of_media = [ n for n in news if n['media'] == media]
-                provocative_news = [ n for n in news if n['isProvocative'] and n['media'] == media]
+                news_of_media = [n for n in news if n['media'] == media]
+                provocative_news = [
+                    n for n in news
+                    if n['isProvocative'] and n['media'] == media
+                ]
                 if len(news_of_media) != 0:
-                    provocative_rate = len(provocative_news) / len(news_of_media)
+                    provocative_rate = len(provocative_news) / len(
+                        news_of_media)
                 else:
-                    provocative_rate = 0;
+                    provocative_rate = 0
                 buzzwords[index]['provocative'][media] = {
-                    'rate': provocative_rate, 
+                    'rate': provocative_rate,
                     'count': len(provocative_news)
-                    }
-                buzzwords[index]['isOutline'][media] = is_outlinear(news_count, media, timeline)
+                }
+                buzzwords[index]['isOutline'][media] = is_outlinear(
+                    news_count, media, timeline)
 
     report['buzzword'] = buzzwords
     return report
@@ -279,11 +304,7 @@ def get_words_timeline(report):
             for date, count in media_date_count.items():
                 if date not in dates:
                     dates.append(date)
-                word[3].append({
-                    'website': m,
-                    'time': date,
-                    'count': count
-                })
+                word[3].append({'website': m, 'time': date, 'count': count})
         for m in medias:
             media_has_date = [d['time'] for d in word[3] if d['website'] == m]
             for date in dates:
@@ -295,12 +316,13 @@ def get_words_timeline(report):
                     })
         counter += 1
     for word in words_count:
-         timeline = word[3]
-         word[4] = {}
-         for m in medias:
-             word[4] = is_outlinear(news_count, m, timeline)
+        timeline = word[3]
+        word[4] = {}
+        for m in medias:
+            word[4] = is_outlinear(news_count, m, timeline)
 
     return report
+
 
 def index_of_word_in_nested_list(word, cluster_list):
     for l in cluster_list:
@@ -308,6 +330,7 @@ def index_of_word_in_nested_list(word, cluster_list):
             if word in i and len(word) == len(i):
                 return cluster_list.index(l)
     return -1
+
 
 def compare_lists(list1, list2):
     return set(list1) & set(list2)
@@ -327,6 +350,7 @@ def get_provocative_words():
             w.append(line.strip('\n'))
     return w
 
+
 def get_word_analysis_provocative(report, datas):
 
     news_amount = len(datas)
@@ -338,7 +362,7 @@ def get_word_analysis_provocative(report, datas):
     root['provocative'] = {}
     for media in medias:
         root['provocative'][media] = []
-    
+
     words_count = report['words_count']
     for word_data in words_count:
         word = word_data[0]
@@ -347,32 +371,38 @@ def get_word_analysis_provocative(report, datas):
         word_count = word_data[1]
         news = word_data[2]
         for media in medias:
-            provocative_news = [ n for n in news if n['isProvocative'] and n['media']==media]
+            provocative_news = [
+                n for n in news if n['isProvocative'] and n['media'] == media
+            ]
             news_of_media = [n for n in news if n['media'] == media]
             if len(news_of_media) != 0:
                 provocative_rate = len(provocative_news) / len(news_of_media)
             else:
                 provocative_rate = 0
             word_item = {
-                'word': word, 
+                'word': word,
                 'rate': provocative_rate,
                 'count': len(provocative_news)
             }
             root['provocative'][media].append(word_item)
     for media in medias:
         root['provocative'][media] = sorted(
-            root['provocative'][media], key=lambda d: d['count'], reverse=True)[:10]
+            root['provocative'][media], key=lambda d: d['count'],
+            reverse=True)[:10]
     return report
 
 
 def is_outlinear(news_count, media, timeline):
     d = {}
     for m in medias:
-        d[m] = [i['count'] / news_count[m] if news_count[m] != 0 else -1 for i in timeline if i['website'] == m]
+        d[m] = [
+            i['count'] / news_count[m] if news_count[m] != 0 else -1
+            for i in timeline if i['website'] == m
+        ]
     d_list = [i for m in d for i in d[m]]
     for m in medias:
         d[m] = statistics.median(d[m])
-    
+
     p25 = percentile(sorted(d_list), 0.25)
     p75 = percentile(sorted(d_list), 0.75)
     if d[media] < p25:
@@ -414,7 +444,7 @@ def get_word_analysis_outliner(report):
 
             if media_is_outlinear != 0:
                 root[media][word] = {
-                    'timeline' :  timeline,
+                    'timeline': timeline,
                     'trend': media_is_outlinear
                 }
 
@@ -434,11 +464,12 @@ def get_data_time(report):
             begin_date = t_date
         if t_date > end_date:
             end_date = t_date
-    
+
     report['time']['begin'] = begin_date.strftime('%Y-%m-%d')
     report['time']['end'] = end_date.strftime('%Y-%m-%d')
 
     return report
+
 
 if __name__ == '__main__':
     data_directory = sys.argv[1]
@@ -449,7 +480,7 @@ if __name__ == '__main__':
 
     with open(prev_detail_direcrtory) as infile:
         prev_detail = json.load(infile)
-    prev_words_count = [ [news[0], news[1]] for news in prev_detail]
+    prev_words_count = [[news[0], news[1]] for news in prev_detail]
 
     report = {}
     datas = read_data(data_directory)
