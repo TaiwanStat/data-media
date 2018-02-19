@@ -23,4 +23,5 @@ aws s3 cp output/china_$NOW.json s3://tw-media-data/
 aws s3 cp output/cts_$YESTERDAY.json s3://tw-media-data/
 aws s3 cp output/setn_$NOW.json s3://tw-media-data/
 aws s3 cp output/pts_$NOW.json s3://tw-media-data/
+aws s3 cp output/tvbs_$NOW.json s3://tw-media-data/
 
