@@ -13,7 +13,7 @@ from operator import itemgetter, attrgetter
 from pprint import pprint
 
 medias = [
-    '蘋果日報', '聯合報', '自由時報', '東森新聞雲', '中央通訊社', '中國時報', '華視', '三立新聞', '公視', 'tvbs'
+    '蘋果日報', '聯合報', '自由時報', '東森新聞雲', '中央通訊社', '中國時報', '華視', '公視',
 ]
 RANK_NUM = 100
 
