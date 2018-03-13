@@ -13,7 +13,7 @@ scrapy crawl liberty -o output/liberty_$NOW.json -t json
 scrapy crawl china -o output/china_$NOW.json -t json
 scrapy crawl setn -o output/setn_$YESTERDAY.json -t json -s  DOWNLOAD_DELAY=1
 scrapy crawl pts -o output/pts_$NOW.json -t json
-scrapy crawl tvbs -o output/tvbs_$NOW.json -t json
+# scrapy crawl tvbs -o output/tvbs_$NOW.json -t json
 
 scrapy crawl libertyRealtime -o output/liberty_$NOW.json -t json
 scrapy crawl appleRealtime -o output/apple_$NOW.json -t json
