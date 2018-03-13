@@ -29,6 +29,7 @@ def read_data(directory):
     error_log = {}
     error_log['data_error'] = []
     error_log['empty_url'] = []
+    error_log['empty_content'] = {}
     error_log['empty_date'] = []
     error_log['not_exact_date'] = {}
     for json_file in folder_dir:
@@ -55,6 +56,12 @@ def read_data(directory):
                 continue
             if not date:
                 error_log['empty_date'].append(json_file)
+                continue
+            if not news['content']:
+                if json_file in error_log['empty_content']:
+                    error_log['empty_content'][json_file] += 1
+                else:
+                    error_log['empty_content'][json_file] = 1
                 continue
             if not (news_date == file_date):
                 if json_file in error_log['not_exact_date']:
